@@ -7,6 +7,7 @@ pipeline {
         sh 'mkdir -p storage/framework/cache'
         sh 'mkdir -p storage/framework/sessions'
         sh 'mkdir -p storage/framework/testing'
+        sh 'mkdir -p storage/framework/views'
       }
     }
 
