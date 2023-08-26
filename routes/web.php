@@ -23,6 +23,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
 Route::get('/logout', function () {
   Session::flush();
   Auth::logout();
