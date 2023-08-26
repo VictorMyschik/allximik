@@ -5,9 +5,13 @@ namespace App\Models;
 use App\Models\Lego\Fields\ActiveFieldTrait;
 use App\Models\Lego\Fields\CreatedFieldTrait;
 use App\Models\ORM\ORM;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class Faq extends ORM
 {
+  use AsSource;
+  use Filterable;
   use CreatedFieldTrait;
   use ActiveFieldTrait;
 

@@ -7,7 +7,7 @@
       <ul class="navbar-nav ml-auto">
         @guest
           <li class="nav-item">
-            <a class="nav-link mr-nav-link-color" href="{{ route('faq_page') }}"><span class="">FAQ</span></a>
+            <a class="nav-link mr-nav-link-color" href="{{ route('faq.page') }}"><span class="">FAQ</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link mr-nav-link-color" href="{{ route('login') }}"><span
@@ -24,7 +24,7 @@
           <li class="nav-item dropdown">
             <div class="dropdown-menu dropdown-menu-right mr-nav-link-submenu-background"
                  aria-labelledby="navbarDropdown">
-              <a class="nav-link mr-nav-link-submenu-color" href="{{route('faq_page')}}"><span class="">FAQ</span></a>
+              <a class="nav-link mr-nav-link-submenu-color" href="{{route('faq.page')}}"><span class="">FAQ</span></a>
             </div>
           </li>
           @include('layouts.Elements.logout')
