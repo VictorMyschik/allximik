@@ -61,20 +61,23 @@ class FAQScreen extends Screen
     ];
   }
 
-  public function saveFAQ(Request $request): array
+  public function saveFAQ(Request $request): void
   {
     $data = $request->validate([
       'faq.title' => 'required|string',
-      'faq.text' => 'required|string',
+      'faq.text'  => 'required|string',
     ])['faq'];
 
-    $faq = Faq::updateOrCreate(
+    Faq::updateOrCreate(
       ['id' => (int)$request->get('id')],
       $data
     );
 
     Toast::info('FAQ was saved');
+  }
 
-    return ['faq' => $faq,];
+  public function remove(int $id): void
+  {
+    Faq::loadBy($id)?->delete_mr();
   }
 }

@@ -7,9 +7,10 @@ namespace App\Orchid\Layouts\FAQ;
 use App\Models\Faq;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
-use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
+use Orchid\Support\Color;
 
 class FAQListLayout extends Table
 {
@@ -27,16 +28,18 @@ class FAQListLayout extends Table
         ->render(fn(Faq $faq) => DropDown::make()
           ->icon('bs.three-dots-vertical')
           ->list([
-            Link::make(__('Edit'))
-              ->route('platform.systems.users.edit', $faq->id)
-              ->icon('bs.pencil'),
+            ModalToggle::make('Edit')
+              ->type(Color::PRIMARY())
+              ->icon('pencil')
+              ->modal('faq_modal')
+              ->modalTitle('Edit FAQ id ' . $faq->id)
+              ->method('saveFAQ')
+              ->asyncParameters(['id' => $faq->id]),
 
             Button::make(__('Delete'))
               ->icon('bs.trash3')
               ->confirm(__('Are you sure you want to delete the faq?'))
-              ->method('remove', [
-                'id' => $faq->id,
-              ]),
+              ->method('remove', ['id' => $faq->id]),
           ])),
     ];
   }
