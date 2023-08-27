@@ -4,9 +4,14 @@ namespace App\Models\Reference;
 
 use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class MrMeasure extends ORM
 {
+  use AsSource;
+  use Filterable;
+
   use NameFieldTrait;
 
   protected $table = 'measure';

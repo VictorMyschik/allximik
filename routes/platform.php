@@ -12,6 +12,7 @@ use App\Orchid\Screens\Examples\ExampleScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\FAQScreen;
 use App\Orchid\Screens\PlatformScreen;
+use App\Orchid\Screens\References\ReferenceCountryScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -95,6 +96,6 @@ Route::screen('/cards/examples/cards', ExampleCardsScreen::class)->name('platfor
 
 
 Route::screen('/faq/list', FAQScreen::class)->name('faq.list');
-// Hike
-//Route::screen('/hike/list', HikeScreen::class)->name('hike.list');
+// References
+Route::screen('/reference/country/list', ReferenceCountryScreen::class)->name('reference.country.list');
 

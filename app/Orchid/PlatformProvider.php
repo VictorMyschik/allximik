@@ -36,6 +36,7 @@ class PlatformProvider extends OrchidServiceProvider
     return [
       Menu::make('Get Started')->title('Navigation')->route(config('platform.index')),
       Menu::make('FAQ')->icon('bs.book')->route('faq.list'),
+      Menu::make('Country')->title('References')->icon('bs.book')->route('reference.country.list'),
 
       Menu::make(__('Users'))
         ->icon('bs.people')

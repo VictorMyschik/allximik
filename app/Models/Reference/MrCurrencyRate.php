@@ -5,9 +5,14 @@ namespace App\Models\Reference;
 use App\Models\Lego\Fields\CreatedFieldTrait;
 use App\Models\Lego\Fields\UpdatedNullableFieldTrait;
 use App\Models\ORM\ORM;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class MrCurrencyRate extends ORM
 {
+  use AsSource;
+  use Filterable;
+
   use CreatedFieldTrait;
   use UpdatedNullableFieldTrait;
 

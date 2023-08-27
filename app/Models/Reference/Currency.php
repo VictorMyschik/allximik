@@ -8,9 +8,14 @@ use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class Currency extends ORM
 {
+  use AsSource;
+  use Filterable;
+
   use DescriptionNullableFieldTrait;
   use NameFieldTrait;
 

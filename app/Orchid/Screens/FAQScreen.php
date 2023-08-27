@@ -54,10 +54,10 @@ class FAQScreen extends Screen
     ];
   }
 
-  public function asyncGetFAQ(Faq $faq): array
+  public function asyncGetFAQ(int $id = 0): array
   {
     return [
-      'faq' => $faq,
+      'faq' => Faq::loadBy($id) ?: new Faq()
     ];
   }
 

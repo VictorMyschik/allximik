@@ -12,6 +12,7 @@ class Faq extends ORM
 {
   use AsSource;
   use Filterable;
+
   use CreatedFieldTrait;
   use ActiveFieldTrait;
 

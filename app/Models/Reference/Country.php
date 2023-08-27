@@ -4,17 +4,31 @@ namespace App\Models\Reference;
 
 use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 /**
  * Данные берутся https://www.geonames.org/countries/
  */
 class Country extends ORM
 {
+  use AsSource;
+  use Filterable;
+
   use NameFieldTrait;
 
   public $timestamps = false;
 
   protected $table = 'country';
+
+  protected array $allowedSorts = [
+    'id',
+    'continent',
+    'name',
+    'iso3166alpha2',
+    'iso3166alpha3',
+    'iso3166numeric',
+  ];
 
   protected $fillable = array(
     'name',
@@ -34,7 +48,6 @@ class Country extends ORM
   const CONTINENT_AN = 7;
 
   protected static array $continents = array(
-    self::CONTINENT_UNKNOWN => 'Not select',
     self::CONTINENT_AF      => 'Africa',
     self::CONTINENT_AS      => 'Asia',
     self::CONTINENT_EU      => 'Europe',
