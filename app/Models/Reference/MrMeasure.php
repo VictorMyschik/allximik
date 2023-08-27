@@ -2,39 +2,39 @@
 
 namespace App\Models\Reference;
 
-use App\Models\Lego\Traits\Fields\MrNameFieldTrait;
+use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
 
 class MrMeasure extends ORM
 {
-  use MrNameFieldTrait;
+  use NameFieldTrait;
 
-  protected $table = 'mr_measure';
+  protected $table = 'measure';
   protected $fillable = array(
-    'Code',
-    'TextCode',
-    'Name',
+    'code',
+    'text_code',
+    'name',
   );
 
   //  Цифровой код
   public function getCode(): string
   {
-    return $this->Code;
+    return $this->code;
   }
 
   public function setCode(string $value): void
   {
-    $this->Code = $value;
+    $this->code = $value;
   }
 
   // Текстовый код
   public function getTextCode(): string
   {
-    return $this->TextCode;
+    return $this->text_code;
   }
 
   public function setTextCode(string $value): void
   {
-    $this->TextCode = $value;
+    $this->text_code = $value;
   }
 }

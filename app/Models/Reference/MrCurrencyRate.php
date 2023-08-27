@@ -2,92 +2,52 @@
 
 namespace App\Models\Reference;
 
-use App\Classes\API\APIServiceBase;
-use App\Models\Lego\Traits\Fields\MrWriteDateFieldTrait;
-use App\Models\Lego\Traits\Other\MrDateTimeHelperTrait;
+use App\Models\Lego\Fields\CreatedFieldTrait;
+use App\Models\Lego\Fields\UpdatedNullableFieldTrait;
 use App\Models\ORM\ORM;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class MrCurrencyRate extends ORM
 {
-  use MrDateTimeHelperTrait;
+  use CreatedFieldTrait;
+  use UpdatedNullableFieldTrait;
 
-  protected $table = 'mr_currency_rate';
+  protected $table = 'currency_rate';
   protected $fillable = array(
-    'CurrencyID',
-    'Scale',
-    'Rate',
-    //'WriteDate',
+    'currency_id',
+    'scale',
+    'rate',
   );
 
-  use MrWriteDateFieldTrait;
-
-  public function getCurrency(): MrCurrency
+  public function getCurrency(): Currency
   {
-    return MrCurrency::loadByOrDie($this->CurrencyID);
+    return Currency::loadByOrDie($this->currency_id);
   }
 
   public function setCurrencyID(int $value): void
   {
-    $this->CurrencyID = $value;
+    $this->currency_id = $value;
   }
 
   /**
    * Количество единиц валюты
-   *
-   * @return int
    */
   public function getScale(): int
   {
-    return $this->Scale;
+    return $this->scale;
   }
 
   public function setScale(int $value): void
   {
-    $this->Scale = $value;
+    $this->scale = $value;
   }
 
   public function getRate(): float
   {
-    return $this->Rate;
+    return $this->rate;
   }
 
   public function setRate(float $value): void
   {
-    $this->Rate = $value;
-  }
-
-  /**
-   * Обновление курсов валют
-   */
-  public static function UpdateCurrencyRates(): void
-  {
-    $json_data = APIServiceBase::loadUrlData('https://www.nbrb.by/api/exrates/rates?periodicity=0', false);
-    $data = @json_decode($json_data, true);
-
-    foreach($data as $item) {
-      if(!in_array($item['Cur_Abbreviation'], MrCurrency::$base_currency)) {
-        continue;
-      }
-
-      $currencyId = MrCurrency::where('TextCode', $item['Cur_Abbreviation'])->value('id');
-
-      if(!$currencyId) {
-        $log_text = "Валюта по коду ({$item['Cur_Abbreviation']}) не найдена в справочнике валют";
-        Log::alert($log_text);
-      }
-
-      // Обновление сегодняшних курсов или создание новой записи (если не найдена)
-      DB::table(MrCurrencyRate::getTableName())
-        ->where('Scale', $item['Cur_Scale'])
-        ->where('CurrencyID', $currencyId)
-        ->where('Rate', $item['Cur_OfficialRate'])
-        ->updateOrInsert([
-          'CurrencyID' => $currencyId,
-          'Scale'      => $item['Cur_Scale'],
-          'Rate'       => $item['Cur_OfficialRate'],
-        ]);
-    }
+    $this->rate = $value;
   }
 }

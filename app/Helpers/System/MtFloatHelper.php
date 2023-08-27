@@ -2,7 +2,7 @@
 
 namespace App\Helpers\System;
 
-use App\Models\Reference\MrCurrency;
+use App\Models\Reference\Currency;
 use Exception;
 
 class MtFloatHelper
@@ -47,15 +47,15 @@ class MtFloatHelper
 
   /**
    * @param float $sum
-   * @param MrCurrency|null $currency Валюта, по-умолчанию - бел.руб.
+   * @param Currency|null $currency Валюта, по-умолчанию - бел.руб.
    * @param bool $sum_only не добавлять обозначение валюты
    * @param int|null $rounding принудительное округление (если не задано, используется значение из справочника валют).
    * @return string
    */
-  public static function formatMoney(float $sum, ?MrCurrency $currency = null, bool $sum_only = false, ?int $rounding = null): string
+  public static function formatMoney(float $sum, ?Currency $currency = null, bool $sum_only = false, ?int $rounding = null): string
   {
     if (!$currency) {
-      $currency = MrCurrency::loadByOrDie(MrCurrency::BYN());
+      $currency = Currency::loadByOrDie(Currency::BYN());
     }
 
     $rounding = is_null($rounding) ? $currency->getRounding() : (int)$rounding;

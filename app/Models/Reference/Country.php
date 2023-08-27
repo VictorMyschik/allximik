@@ -2,27 +2,26 @@
 
 namespace App\Models\Reference;
 
-use App\Models\Lego\Traits\Fields\MrNameFieldTrait;
-use App\Models\Lego\Traits\Other\MrSelectListTrait;
+use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
 
 /**
  * Данные берутся https://www.geonames.org/countries/
  */
-class MrCountry extends ORM
+class Country extends ORM
 {
-  use MrNameFieldTrait;
-  use MrSelectListTrait;
+  use NameFieldTrait;
 
-  protected $table = 'mr_country';
-  protected $primaryKey = 'id';
+  public $timestamps = false;
+
+  protected $table = 'country';
 
   protected $fillable = array(
-    'Name',
-    'ISO3166alpha2',
-    'ISO3166alpha3',
-    'ISO3166numeric',
-    'Continent',
+    'name',
+    'iso3166alpha2',
+    'iso3166alpha3',
+    'iso3166numeric',
+    'continent',
   );
 
   const CONTINENT_UNKNOWN = 0;
@@ -67,7 +66,7 @@ class MrCountry extends ORM
 
   public function getContinent(): int
   {
-    return $this->Continent;
+    return $this->continent;
   }
 
   public function getContinentName(): string
@@ -82,37 +81,37 @@ class MrCountry extends ORM
 
   public function setContinent(int $value): void
   {
-    $this->Continent = $value;
+    $this->continent = $value;
   }
 
   public function getISO3166alpha2(): string
   {
-    return $this->ISO3166alpha2;
+    return $this->iso3166alpha2;
   }
 
   public function setISO3166alpha2(string $value): void
   {
-    $this->ISO3166alpha2 = $value;
+    $this->iso3166alpha2 = $value;
   }
 
   public function getISO3166alpha3(): string
   {
-    return $this->ISO3166alpha3;
+    return $this->iso3166alpha3;
   }
 
   public function setISO3166alpha3(string $value): void
   {
-    $this->ISO3166alpha3 = $value;
+    $this->iso3166alpha3 = $value;
   }
 
   public function getISO3166numeric(): string
   {
-    return $this->ISO3166numeric;
+    return $this->iso3166numeric;
   }
 
   public function setISO3166numeric(string $value): void
   {
-    $this->ISO3166numeric = $value;
+    $this->iso3166numeric = $value;
   }
 
   public function getCodeWithName(): string
@@ -123,7 +122,7 @@ class MrCountry extends ORM
     return $r;
   }
 
-  public function GetCodeWithTitleName(): string
+  public function getCodeWithTitleName(): string
   {
     $title = $this->getName();
 

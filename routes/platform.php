@@ -95,4 +95,6 @@ Route::screen('/cards/examples/cards', ExampleCardsScreen::class)->name('platfor
 
 
 Route::screen('/faq/list', FAQScreen::class)->name('faq.list');
+// Hike
+//Route::screen('/hike/list', HikeScreen::class)->name('hike.list');
 
