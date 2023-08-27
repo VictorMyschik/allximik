@@ -24,20 +24,15 @@ class Currency extends ORM
   protected $table = 'currency';
 
   protected array $allowedSorts = [
-    'id',
-    'code',
-    'text_code',
-    'name',
-    'rounding',
-    'description'
+    'rate',
+    'scale',
+    'currency_id',
   ];
 
   protected $fillable = array(
-    'code',
-    'text_code',
-    'name',
-    'rounding',
-    'description'
+    'rate',
+    'scale',
+    'currency_id',
   );
 
   public static array $base_currency = ['USD', 'BYN', 'RUR', 'EUR', 'GEL'];
@@ -141,7 +136,7 @@ class Currency extends ORM
       return $sum;
     }
 
-    $currency_rate = MrCurrencyRate::where('CurrencyID', $currency->id())->orderBy('id', 'desc')->first();
+    $currency_rate = CurrencyRate::where('CurrencyID', $currency->id())->orderBy('id', 'desc')->first();
     if (!$currency_rate) {
       return $sum;
     }
@@ -165,7 +160,7 @@ class Currency extends ORM
     }
 
     if (!isset(self::$currencyRateList[$currencyId])) {
-      $currency_rate = MrCurrencyRate::where('CurrencyID', $currencyId)->orderBy('id', 'desc')->first();
+      $currency_rate = CurrencyRate::where('CurrencyID', $currencyId)->orderBy('id', 'desc')->first();
       self::$currencyRateList[$currencyId] = $currency_rate;
     }
 

@@ -8,7 +8,7 @@ use App\Models\ORM\ORM;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class MrCurrencyRate extends ORM
+class CurrencyRate extends ORM
 {
   use AsSource;
   use Filterable;

@@ -2,7 +2,7 @@
 
 namespace Models\References;
 
-use App\Models\Reference\MrMeasure;
+use App\Models\Reference\Measure;
 use Tests\BaseTest;
 
 class MeasureTest extends BaseTest
@@ -14,7 +14,7 @@ class MeasureTest extends BaseTest
      * 'TextCode',
      * 'Name',
      */
-    $measure = new MrMeasure();
+    $measure = new Measure();
     // Code
     $Code = self::randomString(2);
     $measure->setCode($Code);
@@ -27,7 +27,7 @@ class MeasureTest extends BaseTest
     $measure_id = $measure->save_mr();
 
     /// Asserts
-    $measure = MrMeasure::loadBy($measure_id);
+    $measure = Measure::loadBy($measure_id);
     self::assertNotNull($measure);
 
     self::assertEquals($Code, $measure->getCode());
@@ -47,7 +47,7 @@ class MeasureTest extends BaseTest
     $measure_id = $measure->save_mr();
 
     /// Asserts
-    $measure = MrMeasure::loadBy($measure_id);
+    $measure = Measure::loadBy($measure_id);
     self::assertNotNull($measure);
 
     self::assertEquals($Code, $measure->getCode());
@@ -56,7 +56,7 @@ class MeasureTest extends BaseTest
 
     /// Delete
     $measure->delete_mr();
-    $measure = MrMeasure::loadBy($measure_id);
+    $measure = Measure::loadBy($measure_id);
     self::assertNull($measure);
   }
 }

@@ -7,7 +7,7 @@ use App\Models\ORM\ORM;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class MrMeasure extends ORM
+class Measure extends ORM
 {
   use AsSource;
   use Filterable;
