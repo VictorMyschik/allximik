@@ -137,6 +137,7 @@ class purge extends Command
 
   private array $tableList = [
     'users',
+    'hike_type',
     'country',
     'currency',
     'measure',
