@@ -13,6 +13,7 @@ use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\FAQScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\References\ReferenceCountryScreen;
+use App\Orchid\Screens\References\ReferenceCurrencyScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -98,4 +99,5 @@ Route::screen('/cards/examples/cards', ExampleCardsScreen::class)->name('platfor
 Route::screen('/faq/list', FAQScreen::class)->name('faq.list');
 // References
 Route::screen('/reference/country/list', ReferenceCountryScreen::class)->name('reference.country.list');
+Route::screen('/reference/currency/list', ReferenceCurrencyScreen::class)->name('reference.currency.list');
 

@@ -22,6 +22,16 @@ class Currency extends ORM
   public $timestamps = false;
 
   protected $table = 'currency';
+
+  protected array $allowedSorts = [
+    'id',
+    'code',
+    'text_code',
+    'name',
+    'rounding',
+    'description'
+  ];
+
   protected $fillable = array(
     'code',
     'text_code',

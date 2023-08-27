@@ -48,13 +48,13 @@ class Country extends ORM
   const CONTINENT_AN = 7;
 
   protected static array $continents = array(
-    self::CONTINENT_AF      => 'Africa',
-    self::CONTINENT_AS      => 'Asia',
-    self::CONTINENT_EU      => 'Europe',
-    self::CONTINENT_NA      => 'North America',
-    self::CONTINENT_OC      => 'Oceania',
-    self::CONTINENT_SA      => 'South America',
-    self::CONTINENT_AN      => 'Antarctica',
+    self::CONTINENT_AF => 'Africa',
+    self::CONTINENT_AS => 'Asia',
+    self::CONTINENT_EU => 'Europe',
+    self::CONTINENT_NA => 'North America',
+    self::CONTINENT_OC => 'Oceania',
+    self::CONTINENT_SA => 'South America',
+    self::CONTINENT_AN => 'Antarctica',
   );
 
   protected static array $continent_short = array(
