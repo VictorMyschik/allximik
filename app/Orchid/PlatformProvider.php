@@ -8,7 +8,6 @@ use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
 use Orchid\Platform\OrchidServiceProvider;
 use Orchid\Screen\Actions\Menu;
-use Orchid\Support\Color;
 
 class PlatformProvider extends OrchidServiceProvider
 {
@@ -35,10 +34,17 @@ class PlatformProvider extends OrchidServiceProvider
   {
     return [
       Menu::make('Get Started')->title('Navigation')->route(config('platform.index')),
-      Menu::make('FAQ')->icon('bs.book')->route('faq.list'),
-      Menu::make('Country')->title('References')->icon('bs.book')->route('reference.country.list'),
-      Menu::make('Currency')->icon('bs.book')->route('reference.currency.list'),
-      Menu::make('Currency Rate')->icon('bs.book')->route('reference.currency-rate.list'),
+      // Hike
+      Menu::make('Hike list')->title('Hike')->icon('bs.list')->route('hike.list'),
+      // References
+
+      Menu::make('Country')->title('References')->icon('bs.list')->route('reference.country.list'),
+      Menu::make('Currency')->icon('bs.list')->route('reference.currency.list'),
+      Menu::make('Currency Rate')->icon('bs.list')->route('reference.currency-rate.list'),
+      Menu::make('Hike types')->icon('bs.list')->route('reference.hike-type.list'),
+
+      // FAQ
+      Menu::make('FAQ')->title('Information')->icon('bs.book')->route('faq.list'),
 
       Menu::make(__('Users'))
         ->icon('bs.people')
