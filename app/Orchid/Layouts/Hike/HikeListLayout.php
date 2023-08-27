@@ -7,6 +7,7 @@ namespace App\Orchid\Layouts\Hike;
 use App\Models\Hike;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
@@ -21,7 +22,9 @@ class HikeListLayout extends Table
     return [
       TD::make('id', __('ID'))->sort(),
 
-      TD::make('name', 'Name'),
+      TD::make('name', 'Name')->render(fn(Hike $hike) => Link::make($hike->getName())
+        ->route('hike.details', ['hike' => $hike->id()])
+      ),
 
       TD::make('description', 'Description'),
 

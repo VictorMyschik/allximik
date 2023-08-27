@@ -46,10 +46,6 @@ class ORM extends Model
     return $object;
   }
 
-  // Disable Laravel time fields
-  public $timestamps = false;
-
-
   public function save_mr(bool $flushAffectedCaches = true): ?int
   {
     if(method_exists($this, 'beforeSave')) {

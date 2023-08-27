@@ -31,6 +31,7 @@ class Hike extends ORM
     'status',
     'user_id',
     'country_id',
+    'public',
     'hike_type_id',
     'created_at',
     'updated_at',
@@ -44,10 +45,34 @@ class Hike extends ORM
     'user_id',
     'country_id',
     'hike_type_id',
+    'public',
+    'public_id',
     'created_at',
     'updated_at',
     'deleted_at',
   ];
+
+  const PUBLIC_YES = 1; // публичный
+  const PUBLIC_FOR_ME = 0; // только для меня
+  const PUBLIC_PLATFORM = 2; // только для зарегистрированных пользователей
+
+  public static function getPublicList(): array
+  {
+    return [
+      self::PUBLIC_YES      => 'Публичный',
+      self::PUBLIC_FOR_ME   => 'Только для меня',
+      self::PUBLIC_PLATFORM => 'Только для зарегистрированных пользователей',
+    ];
+  }
+
+  public static function getPublicDescription(): array
+  {
+    return [
+      self::PUBLIC_YES      => 'Все пользователи могут видеть эту походную программу',
+      self::PUBLIC_FOR_ME   => 'Только вы можете видеть эту походную программу',
+      self::PUBLIC_PLATFORM => 'Только зарегистрированные пользователи могут видеть эту походную программу',
+    ];
+  }
 
   const STATUS_DRAFT = -1;
   const STATUS_ACTIVE = 1;
@@ -86,6 +111,21 @@ class Hike extends ORM
     $this->status = $value;
   }
 
+  public function getPublic(): int
+  {
+    return $this->public;
+  }
+
+  public function setPublic(int $value): void
+  {
+    $this->public = $value;
+  }
+
+  public function getPublicName(): string
+  {
+    return self::getPublicList()[$this->getPublic()];
+  }
+
   public function getUser(): User
   {
     return User::findOrFail($this->user_id);
@@ -114,5 +154,15 @@ class Hike extends ORM
   public function setHikeTypeID(int $value): void
   {
     $this->hike_type_id = $value;
+  }
+
+  public function getPublicId(): string
+  {
+    return $this->public_id;
+  }
+
+  public function setPublicId(string $value): void
+  {
+    $this->public_id = $value;
   }
 }

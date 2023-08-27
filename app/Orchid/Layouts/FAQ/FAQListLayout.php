@@ -20,7 +20,9 @@ class FAQListLayout extends Table
   {
     return [
       TD::make('title', __('Title')),
-      TD::make('text', __('Text')),
+      TD::make('text', __('Text'))->render(function (Faq $faq) {
+        return $faq->getText();
+      }),
 
       TD::make(__('Actions'))
         ->align(TD::ALIGN_CENTER)

@@ -18,6 +18,7 @@ class HikeTest extends BaseTest
      * 'user_id',
      * 'country_id',
      * 'hike_type_id',
+     * 'public',
      * */
     $hike = new Hike();
 
@@ -33,6 +34,10 @@ class HikeTest extends BaseTest
     $hike->setCountryID($countryID);
     $hikeTypeID = self::randomIdFromClass(HikeType::class);
     $hike->setHikeTypeID($hikeTypeID);
+    $public = array_rand(Hike::getPublicList());
+    $hike->setPublic($public);
+    $publicId = self::randomString(15);
+    $hike->setPublicId($publicId);
 
     $hikeID = $hike->save_mr();
 
@@ -40,12 +45,14 @@ class HikeTest extends BaseTest
     // Asserts
     $hike = Hike::loadBy($hikeID);
     self::assertNotNull($hike);
-    $this->assertEquals($name, $hike->getName());
-    $this->assertEquals($description, $hike->getDescription());
-    $this->assertEquals($status, $hike->getStatus());
-    $this->assertEquals($userID, $hike->getUser()->id);
-    $this->assertEquals($countryID, $hike->getCountry()->id());
-    $this->assertEquals($hikeTypeID, $hike->getHikeType()->id());
+    self::assertEquals($name, $hike->getName());
+    self::assertEquals($description, $hike->getDescription());
+    self::assertEquals($status, $hike->getStatus());
+    self::assertEquals($userID, $hike->getUser()->id);
+    self::assertEquals($countryID, $hike->getCountry()->id());
+    self::assertEquals($hikeTypeID, $hike->getHikeType()->id());
+    self::assertEquals($public, $hike->getPublic());
+    self::assertEquals($publicId, $hike->getPublicId());
 
 
     // Update
@@ -61,6 +68,10 @@ class HikeTest extends BaseTest
     $hike->setCountryID($countryID);
     $hikeTypeID = self::randomIdFromClass(HikeType::class);
     $hike->setHikeTypeID($hikeTypeID);
+    $public = array_rand(Hike::getPublicList());
+    $hike->setPublic($public);
+    $publicId = self::randomString(15);
+    $hike->setPublicId($publicId);
 
     $hikeID = $hike->save_mr();
 
@@ -68,17 +79,20 @@ class HikeTest extends BaseTest
     // Asserts
     $hike = Hike::loadBy($hikeID);
     self::assertNotNull($hike);
-    $this->assertEquals($name, $hike->getName());
-    $this->assertEquals($description, $hike->getDescription());
-    $this->assertEquals($status, $hike->getStatus());
-    $this->assertEquals($userID, $hike->getUser()->id);
-    $this->assertEquals($countryID, $hike->getCountry()->id());
-    $this->assertEquals($hikeTypeID, $hike->getHikeType()->id());
+    self::assertEquals($name, $hike->getName());
+    self::assertEquals($description, $hike->getDescription());
+    self::assertEquals($status, $hike->getStatus());
+    self::assertEquals($userID, $hike->getUser()->id);
+    self::assertEquals($countryID, $hike->getCountry()->id());
+    self::assertEquals($hikeTypeID, $hike->getHikeType()->id());
+    self::assertEquals($public, $hike->getPublic());
+    self::assertEquals($publicId, $hike->getPublicId());
 
 
     // Set null
     $hike->setDescription(null);
     $hikeID = $hike->save_mr();
+
 
     // Asserts
     $hike = Hike::loadBy($hikeID);

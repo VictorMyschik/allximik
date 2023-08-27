@@ -48,7 +48,11 @@ class HikeEditLayout extends Rows
         ->empty('Select hike type')
         ->options(HikeType::all()->pluck('name', 'id')->toArray()),
 
-
+      Select::make('hike.public')
+        ->title('Public')
+        ->required()
+        ->empty('Select hike public type')
+        ->options(Hike::getPublicList()),
     ];
   }
 }

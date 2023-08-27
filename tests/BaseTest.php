@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Tests\Helpers\RawDataHelper;
 
 class BaseTest extends TestCase
 {
@@ -45,5 +46,12 @@ class BaseTest extends TestCase
   protected static function randomFloat(): float
   {
     return rand(1, 999) . '.' . rand(1, 9) . rand(1, 9);
+  }
+
+  protected static function randomEmail(string $name = null): string
+  {
+    $name = strlen($name) ? $name : RawDataHelper::getName();
+
+    return strtolower($name . rand(1970, 2020) . '@exmpl.com');
   }
 }

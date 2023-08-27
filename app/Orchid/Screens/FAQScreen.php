@@ -9,6 +9,7 @@ use App\Orchid\Layouts\FAQ\FAQEditLayout;
 use App\Orchid\Layouts\FAQ\FAQListLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Layouts\Modal;
 use Orchid\Screen\Screen;
 use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
@@ -50,7 +51,7 @@ class FAQScreen extends Screen
   {
     return [
       FaqListLayout::class,
-      Layout::modal('faq_modal', FAQEditLayout::class)->async('asyncGetFAQ'),
+      Layout::modal('faq_modal', FAQEditLayout::class)->async('asyncGetFAQ')->size(Modal::SIZE_LG),
     ];
   }
 

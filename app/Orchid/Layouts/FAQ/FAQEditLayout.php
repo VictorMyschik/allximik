@@ -3,6 +3,7 @@
 namespace App\Orchid\Layouts\FAQ;
 
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Quill;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Layouts\Rows;
 
@@ -17,10 +18,8 @@ class FAQEditLayout extends Rows
         ->required()
         ->title('Title'),
 
-      TextArea::make('faq.text')
-        ->rows(5)
-        ->required()
-        ->title('Text'),
+      Quill::make('faq.text')
+        ->title('Text')
     ];
   }
 }

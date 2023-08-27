@@ -37,12 +37,13 @@ class PlatformProvider extends OrchidServiceProvider
       // Hike
       Menu::make('Hike list')->title('Hike')->icon('bs.list')->route('hike.list'),
       // References
-
-      Menu::make('Country')->title('References')->icon('bs.list')->route('reference.country.list'),
-      Menu::make('Currency')->icon('bs.list')->route('reference.currency.list'),
-      Menu::make('Currency Rate')->icon('bs.list')->route('reference.currency-rate.list'),
-      Menu::make('Hike types')->icon('bs.list')->route('reference.hike-type.list'),
-
+      Menu::make('References')->icon('grid')->list([
+        Menu::make('Country')->icon('bs.list')->route('reference.country.list'),
+        Menu::make('Currency')->icon('bs.list')->route('reference.currency.list'),
+        Menu::make('Currency Rate')->icon('bs.list')->route('reference.currency-rate.list'),
+        Menu::make('Hike types')->icon('bs.list')->route('reference.hike-type.list'),
+        Menu::make('Emails')->icon('bs.list')->route('reference.email.list'),
+      ]),
       // FAQ
       Menu::make('FAQ')->title('Information')->icon('bs.book')->route('faq.list'),
 

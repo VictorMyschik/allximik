@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Orchid\Screens\Email\EmailScreen;
 use App\Orchid\Screens\Examples\ExampleActionsScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
@@ -10,6 +11,7 @@ use App\Orchid\Screens\Examples\ExampleFieldsScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\FAQScreen;
+use App\Orchid\Screens\Hike\HikeDetailsScreen;
 use App\Orchid\Screens\Hike\HikeListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\References\HikeTypeListScreen;
@@ -106,4 +108,6 @@ Route::screen('/reference/currency-rate/list', ReferenceCurrencyRateScreen::clas
 // Hike
 Route::screen('/hike-type/list', HikeTypeListScreen::class)->name('reference.hike-type.list');
 Route::screen('/hike/list', HikeListScreen::class)->name('hike.list');
+Route::screen('/hike/details/{hike}', HikeDetailsScreen::class)->name('hike.details');
+Route::screen('/emails', EmailScreen::class)->name('reference.email.list');
 

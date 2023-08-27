@@ -15,6 +15,8 @@ return new class extends Migration {
       $table->unsignedBigInteger('user_id');
       $table->unsignedBigInteger('country_id');
       $table->unsignedBigInteger('hike_type_id');
+      $table->string('public_id', 15)->nullable();
+      $table->tinyInteger('public')->default(0);
 
       $table->timestamp('created_at')->useCurrent();
       $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
