@@ -16,6 +16,8 @@ class HikeType extends ORM
   use NameFieldTrait;
   use DescriptionNullableFieldTrait;
 
+  public $timestamps = false;
+
   protected $table = 'hike_type';
 
   protected array $allowedSorts = [

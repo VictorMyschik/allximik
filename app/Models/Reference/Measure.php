@@ -14,6 +14,8 @@ class Measure extends ORM
 
   use NameFieldTrait;
 
+  public $timestamps = false;
+
   protected $table = 'measure';
   protected $fillable = array(
     'code',

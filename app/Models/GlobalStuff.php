@@ -14,6 +14,7 @@ class GlobalStuff extends ORM
   use CreatedFieldTrait;
 
   protected $table = 'global_stuff';
+  public $timestamps = false;
 
   protected $fillable = array(
     'name',

@@ -11,6 +11,8 @@ class GlobalCategoryStuff extends ORM
   use NameFieldTrait;
   use DescriptionNullableFieldTrait;
 
+  public $timestamps = false;
+
   protected $table = 'global_category_stuff';
 
   protected $fillable = array(
