@@ -13,6 +13,7 @@ class EmailService
     $data['subject'] = 'Приглашение в поход';
     $data['hike_type'] = $invite->getHike()->getHikeType()->getName();
     $data['name'] = $invite->getHike()->getName();
+    $data['token'] = $invite->getToken();
 
     $result = Mail::to($invite->getEmail())->send(new HikeInviteEmail($data));
 
