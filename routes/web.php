@@ -25,7 +25,7 @@ Route::match(['get', 'post'], '/faq', [MrFAQController::class, 'faqPage'])->name
 
 Route::match(['get', 'post'], '/test', [MrTestController::class, 'index'])->name('test.page');
 Route::match(['get', 'post'], '/hike/{token}', [MrHikeController::class, 'index'])->name('hike.public.link');
-//Route::match(['get', 'post'], '/hike/email-invite/{token}/{status}', [MrHikeInviteController::class, 'index'])->name('hike.public.link');
+Route::match(['get', 'post'], '/hike/email-invite/{token}/{status}', [MrHikeInviteController::class, 'index'])->name('hike.email.invite.link');
 
 Route::group(['middleware' => ['auth']], function () {
   Route::get('/account', [MrAccountController::class, 'index'])->name('account');

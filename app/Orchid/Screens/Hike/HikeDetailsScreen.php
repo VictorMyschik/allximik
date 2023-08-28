@@ -94,12 +94,9 @@ class HikeDetailsScreen extends Screen
           'Отказ'      => UIHNotActiveListLayout::class,
           'В ожидании' => InviteListLayout::class,
           'Пригласить' => Layout::rows([
-            Input::make('Link')->type('text')->value(route('hike.public.link', ['token' => crc32($hike->id())])),
-
             Group::make([
-
               Link::make('QR code')->icon('qrcode')->target('_blank')->type(Color::INFO())
-                ->href('https://api.qrserver.com/v1/create-qr-code/?data=' . $publicLink . '&amp;size=100x100'),
+                ->href('https://api.qrserver.com/v1/create-qr-code/?data=' . $publicLink . '&amp;size=200x200'),
 
               ModalToggle::make('Email')
                 ->type(Color::INFO())

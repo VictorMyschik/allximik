@@ -22,6 +22,12 @@ class UIH extends ORM
 
   protected $table = 'uih';
 
+  protected $fillable = [
+    'hike_id',
+    'user_id',
+    'status',
+  ];
+
   const STATUS_NEW = 0; // Новый участник
   const STATUS_APPROVED = 1; // Подтверждённый всеми сторонами
   const STATUS_REJECTED = 2; // Отклонённый всеми сторонами

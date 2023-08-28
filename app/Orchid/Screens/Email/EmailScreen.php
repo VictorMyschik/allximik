@@ -32,7 +32,7 @@ class EmailScreen extends Screen
   public function layout(): iterable
   {
     $fakeData['hike_invite'] = [
-      'token'     => '1234567890',
+      'token'     => '8cde1582275a2afe5dd535f7e31108f1',
       'name'      => 'Восхождение на Казбек',
       'hike_type' => 'Горный поход',
     ];

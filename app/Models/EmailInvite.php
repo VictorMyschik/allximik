@@ -22,6 +22,13 @@ class EmailInvite extends ORM
 
   protected $table = 'email_invite';
 
+  protected $fillable = [
+    'hike_id',
+    'email',
+    'token',
+    'status',
+  ];
+
   const STATUS_NEW = 0; // Новый
   const STATUS_SEND = 1; // Отправлен
   const STATUS_ERROR = 2; // Ошибка
