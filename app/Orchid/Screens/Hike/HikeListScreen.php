@@ -70,10 +70,9 @@ class HikeListScreen extends Screen
       'hike.hike_type_id' => 'required|integer',
     ])['hike'];
 
-    Hike::updateOrCreate(
-      ['id' => (int)$request->get('id')],
-      $data
-    );
+    $hike = Hike::loadBy($request->get('id')) ?: new Hike();
+    $hike->fill($data);
+    $hike->save_mr();
 
     Toast::info('Hike was saved');
   }

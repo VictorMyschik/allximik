@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
+use App\Models\Hike;
+use Illuminate\Http\RedirectResponse;
 
 class MrHikeController extends Controller
 {
-  public function index(string $token): View|Application|Factory
+  public function index(string $token): RedirectResponse
   {
-    return view('hike', ['token' => $token]);
+    abort_if(!is_numeric($token), 404);
+
+    $hike = Hike::where('public_id', $token)->firstOrFail();
+
+    return redirect()->route('hike.details', ['hike' => $hike->id()]);
   }
 }

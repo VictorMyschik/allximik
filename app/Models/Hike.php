@@ -33,6 +33,7 @@ class Hike extends ORM
     'country_id',
     'public',
     'hike_type_id',
+    'public_id',
     'created_at',
     'updated_at',
     'deleted_at',
@@ -43,6 +44,7 @@ class Hike extends ORM
     'description',
     'status',
     'user_id',
+    'public_id',
     'country_id',
     'hike_type_id',
     'public',
@@ -87,6 +89,16 @@ class Hike extends ORM
     ];
   }
 
+  #region ORM
+  public function afterSave(): void
+  {
+    if (!$this->getPublicId()) {
+      $this->setPublicId(crc32($this->id()));
+      $this->save_mr();
+    }
+  }
+
+  #endregion
   public function getStatus(): int
   {
     return $this->status;
@@ -95,15 +107,6 @@ class Hike extends ORM
   public function getStatusName(): string
   {
     return self::getStatusList()[$this->getStatus()];
-  }
-
-  public function getStatusColor(): string
-  {
-    return match ($this->getStatus()) {
-      self::STATUS_ACTIVE => 'success',
-      self::STATUS_CLOSED => 'danger',
-      default => 'secondary',
-    };
   }
 
   public function setStatus(int $value): void
@@ -156,12 +159,12 @@ class Hike extends ORM
     $this->hike_type_id = $value;
   }
 
-  public function getPublicId(): string
+  public function getPublicId(): ?string
   {
     return $this->public_id;
   }
 
-  public function setPublicId(string $value): void
+  public function setPublicId(?string $value): void
   {
     $this->public_id = $value;
   }

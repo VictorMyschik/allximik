@@ -75,7 +75,7 @@ class HikeDetailsScreen extends Screen
     $out = [Layout::modal('hike_modal', HikeEditLayout::class)->async('asyncGetHike')];
 
     if ($hike = Hike::loadBy((int)$this->hike?->id())) {
-      $publicLink = route('hike.public.link', ['token' => crc32($hike->id())]);
+      $publicLink = route('hike.public.link', ['token' => $hike->getPublicId()]);
 
       $out[] = Layout::modal('new_invite_email_modal', InviteByEmailEditLayout::class);
 
@@ -85,7 +85,7 @@ class HikeDetailsScreen extends Screen
         Sight::make('Тип похода')->render(fn() => $hike->getHikeType()->getName()),
         Sight::make('Тип публичности')->render(fn() => $hike->getPublicName())->popover(Hike::getPublicDescription()[$hike->getPublic()]),
         Sight::make('Публичная страница')
-          ->render(fn() => "<a target='_blank' href='" . $publicLink . "'>$publicLink</a>"),
+          ->render(fn() => Hike::PUBLIC_FOR_ME !== $hike->getPublic() ? "<a target='_blank' href='" . $publicLink . "'>$publicLink</a>" : 'Публичная страница не доступна'),
       ])->title('Основная информация');
 
       if (Hike::PUBLIC_FOR_ME !== $hike->getPublic()) {
@@ -144,10 +144,9 @@ class HikeDetailsScreen extends Screen
       'hike.public'       => 'required|integer',
     ])['hike'];
 
-    Hike::updateOrCreate(
-      ['id' => (int)$request->get('id')],
-      $data
-    );
+    $hike = Hike::loadBy($request->get('id')) ?: new Hike();
+    $hike->fill($data);
+    $hike->save_mr();
 
     Toast::info('Hike was saved');
   }
