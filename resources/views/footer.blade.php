@@ -1,3 +1,3 @@
 <p class="small m-n">
-    © {{date('Y')}} Good Sam Enterprises, LLC.
+    © {{date('Y')}} Allximik Enterprises, LLC.
 </p>
