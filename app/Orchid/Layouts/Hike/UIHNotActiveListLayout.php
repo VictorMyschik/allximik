@@ -34,14 +34,6 @@ class UIHNotActiveListLayout extends Table
         ->render(fn(UIH $uih) => DropDown::make()
           ->icon('bs.three-dots-vertical')
           ->list([
-            ModalToggle::make('Edit')
-              ->type(Color::PRIMARY())
-              ->icon('pencil')
-              ->modal('uih_modal')
-              ->modalTitle('Edit user in hike id ' . $uih->id)
-              ->method('saveUIH')
-              ->asyncParameters(['id' => $uih->id]),
-
             Button::make(__('Delete'))
               ->icon('bs.trash3')
               ->confirm(__('Are you sure you want to delete the user in hike?'))

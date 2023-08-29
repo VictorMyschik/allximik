@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
-class MrHikeInviteController
+class MrHikeInviteController extends Controller
 {
   public function index(string $token, string $status): RedirectResponse
   {

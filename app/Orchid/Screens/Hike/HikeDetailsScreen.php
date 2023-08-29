@@ -14,12 +14,12 @@ use App\Orchid\Layouts\Hike\UIHActiveListLayout;
 use App\Orchid\Layouts\Hike\UIHNotActiveListLayout;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Group;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Sight;
 use Orchid\Support\Color;
@@ -53,21 +53,41 @@ class HikeDetailsScreen extends Screen
   public function commandBar(): iterable
   {
     $id = (int)$this->hike?->id();
+    $user = Auth::user();
 
-    return [
-      ModalToggle::make('Edit')
-        ->type(Color::BASIC())
-        ->icon('pencil')
-        ->modal('hike_modal')
-        ->modalTitle('Edit hike id')
-        ->method('saveHike')
-        ->asyncParameters(['id' => $id]),
+    if ($this->hike?->getUser()->id === $user) {
+      return [
+        ModalToggle::make('Edit')
+          ->type(Color::BASIC())
+          ->icon('pencil')
+          ->modal('hike_modal')
+          ->modalTitle('Edit hike id')
+          ->method('saveHike')
+          ->asyncParameters(['id' => $id]),
 
-      Button::make(__('Delete'))
-        ->icon('bs.trash3')
-        ->confirm(__('Are you sure you want to delete the hike?'))
-        ->method('remove', ['id' => $id]),
-    ];
+        Button::make(__('Delete'))
+          ->icon('bs.trash3')
+          ->confirm(__('Are you sure you want to delete the hike?'))
+          ->method('remove', ['id' => $id]),
+      ];
+    }
+
+    if ($this->hike) {
+      // Check invite by email
+      $inviteToken = EmailInvite::where('hike_id', $id)->where('email', $user->email)->first()?->getToken();
+
+      if ($inviteToken) {
+        return [
+          Link::make('Подтвердить участие')->icon('check')
+            ->route('hike.email.invite.link', ['token' => $inviteToken, 'status' => 'true']),
+
+          Link::make('Отказаться')->icon('ban')
+            ->route('hike.email.invite.link', ['token' => $inviteToken, 'status' => 'false']),
+        ];
+      }
+    }
+
+    return [];
   }
 
   public function layout(): iterable
@@ -207,5 +227,14 @@ class HikeDetailsScreen extends Screen
     $invite = EmailInvite::loadByOrDie($id);
     EmailService::sendHikeInvite($invite);
     Toast::info('Приглашение отправлено');
+  }
+
+  public function declineUIH(int $id): void
+  {
+    $invite = UIH::loadByOrDie($id);
+    $invite->setStatus(UIH::STATUS_REJECTED);
+    $invite->save_mr();
+
+    Toast::info('Приглашение отклонено');
   }
 }
