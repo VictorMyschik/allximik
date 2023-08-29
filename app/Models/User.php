@@ -14,6 +14,11 @@ class User extends Authenticatable
     return 'users';
   }
 
+  public function id(): int
+  {
+    return $this->id;
+  }
+
   /**
    * The attributes that are mass assignable.
    *
