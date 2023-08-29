@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use Orchid\Filters\Filterable;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Platform\Models\User as Authenticatable;
+use Orchid\Screen\AsSource;
 
 class User extends Authenticatable
 {
+  use AsSource;
+  use Filterable;
+
   public static function getTableName(): string
   {
     return 'users';
@@ -19,11 +24,6 @@ class User extends Authenticatable
     return $this->id;
   }
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array
-   */
   protected $fillable = [
     'name',
     'email',
@@ -31,11 +31,6 @@ class User extends Authenticatable
     'permissions',
   ];
 
-  /**
-   * The attributes excluded from the model's JSON form.
-   *
-   * @var array
-   */
   protected $hidden = [
     'password',
     'remember_token',

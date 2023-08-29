@@ -44,10 +44,12 @@ class PlatformProvider extends OrchidServiceProvider
         Menu::make('Hike types')->icon('bs.list')->route('reference.hike-type.list'),
         Menu::make('Emails')->icon('bs.list')->route('reference.email.list'),
       ]),
+
+      Menu::make('Users')->icon('bs.list')->route('user.info.list'),
       // FAQ
       Menu::make('FAQ')->title('Information')->icon('bs.book')->route('faq.list'),
 
-      Menu::make(__('Users'))
+      Menu::make(__('Users (system)'))
         ->icon('bs.people')
         ->route('platform.systems.users')
         ->permission('platform.systems.users')

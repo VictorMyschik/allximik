@@ -21,6 +21,7 @@ use App\Orchid\Screens\References\ReferenceCurrencyScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
+use App\Orchid\Screens\User\UserInfoScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
@@ -101,6 +102,7 @@ Route::screen('/cards/examples/cards', ExampleCardsScreen::class)->name('platfor
 
 
 Route::screen('/faq/list', FAQScreen::class)->name('faq.list');
+Route::screen('/user-info/list', UserInfoScreen::class)->name('user.info.list');
 // References
 Route::screen('/reference/country/list', ReferenceCountryScreen::class)->name('reference.country.list');
 Route::screen('/reference/currency/list', ReferenceCurrencyScreen::class)->name('reference.currency.list');

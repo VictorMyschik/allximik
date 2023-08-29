@@ -15,6 +15,19 @@ class MrDateTime extends \DateTime
   const FULL_TIME = 'H:i:s';
   const SHORT_TIME = 'H:i';
 
+  const SHORT_DATE_FULL_TIME = 'd.m.Y H:i:s';
+  const SHORT_DATE_SHORT_TIME = 'd.m.Y H:i';
+
+  const AMERICAN_DATE_TIME = 'm/d/Y H:i:s';
+
+  const MYSQL_DATE_TIMEZONE = 'Y-m-d H:i:s.u P';
+
+  const MYSQL_DATE_TIMEZONE_SHORT = 'Y-m-d H:i:s P';
+
+  const MYSQL_DATE_TIMEZONE_SHORT_DATE = 'Y-m-d H:i P';
+
+  const SHORT_TIME_SHORT_DATE = 'H:i d.m.Y';
+
   public function __construct($time = 'now', DateTimeZone $timezone = null)
   {
     if (is_integer($time)) {

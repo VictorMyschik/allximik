@@ -22,6 +22,12 @@ class UIH extends ORM
 
   protected $table = 'uih';
 
+  protected array $allowedSorts = [
+    'hike_id',
+    'user_id',
+    'status',
+  ];
+
   protected $fillable = [
     'hike_id',
     'user_id',

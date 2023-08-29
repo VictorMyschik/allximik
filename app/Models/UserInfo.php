@@ -7,14 +7,25 @@ use App\Models\Lego\Fields\UpdatedNullableFieldTrait;
 use App\Models\Lego\Fields\UserFieldTrait;
 use App\Models\ORM\ORM;
 use Carbon\Carbon;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class UserInfo extends ORM
 {
+  use AsSource;
+  use Filterable;
+
   use UserFieldTrait;
   use CreatedFieldTrait;
   use UpdatedNullableFieldTrait;
 
   protected $table = 'user_info';
+
+  protected array $allowedSorts = [
+    'full_name',
+    'gender',
+    'birthday',
+  ];
 
   protected $fillable = [
     'full_name',
