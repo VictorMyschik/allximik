@@ -21,7 +21,6 @@ class UserInfoListLayout extends Table
       TD::make('gender', 'Gender')->render(fn($gender) => !is_null($gender['gender']) ? UserInfo::getGenderList()[$gender['gender']] : 'unknown')->sort(),
       TD::make('full_name', 'Full name')->sort(),
       TD::make('created_at', 'Created')->render(fn(User $user) => $user->created_at?->format(MrDateTime::SHORT_TIME_SHORT_DATE))->sort(),
-
     ];
   }
 }

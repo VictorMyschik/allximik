@@ -3,10 +3,12 @@
 namespace App\Orchid\Screens\User;
 
 use App\Orchid\Filters\UserInfoFilter;
+use App\Orchid\Layouts\Hike\HikeEditLayout;
 use App\Orchid\Layouts\User\UserInfoListLayout;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Orchid\Screen\Screen;
+use Orchid\Support\Facades\Layout;
 
 class UserInfoScreen extends Screen
 {
@@ -36,12 +38,10 @@ class UserInfoScreen extends Screen
     ];
   }
 
-  /**
-   * @return \Orchid\Screen\Layout[]
-   */
   public function layout(): iterable
   {
     return [
+
       UserInfoFilter::displayFilterCard(),
       UserInfoListLayout::class,
     ];

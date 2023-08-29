@@ -45,7 +45,10 @@ class PlatformProvider extends OrchidServiceProvider
         Menu::make('Emails')->icon('bs.list')->route('reference.email.list'),
       ]),
 
-      Menu::make('Users')->icon('bs.list')->route('user.info.list'),
+      Menu::make('Users')->icon('grid')->list([
+        Menu::make('User list')->icon('bs.list')->route('user.info.list'),
+        Menu::make('User Addresses')->icon('bs.list')->route('user.info.address.list'),
+      ]),
       // FAQ
       Menu::make('FAQ')->title('Information')->icon('bs.book')->route('faq.list'),
 

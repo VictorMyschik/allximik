@@ -26,7 +26,8 @@
     "vladimir-yuldashev/laravel-queue-rabbitmq": "^13.0.1",
     "webklex/laravel-imap": "^5.3",
     "orchid/platform": "^14.8",
-    "orchid/icons": "^2.0"
+    "orchid/icons": "^2.0",
+    "ext-http": "*"
   },
   "require-dev": {
     "fakerphp/faker": "^v1.19.0",
