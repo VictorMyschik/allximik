@@ -6,18 +6,12 @@ namespace App\Orchid\Layouts\User;
 
 use App\Models\Communicate;
 use App\Models\User;
-use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layouts\Rows;
 
 class UserCommunicateEditLayout extends Rows
 {
-  /**
-   * The screen's layout elements.
-   *
-   * @return Field[]
-   */
   public function fields(): array
   {
     return [

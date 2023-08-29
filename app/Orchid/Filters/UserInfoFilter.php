@@ -31,16 +31,18 @@ class UserInfoFilter extends Filter
 
   public static function query()
   {
-    $query = User::filters([self::class])
-      ->leftJoin(UserInfo::getTableName(), 'user_info.user_id', '=', 'users.id');
+    $query = UserInfo::filters([self::class])
+      ->join(User::getTableName(), 'user_info.user_id', '=', 'users.id');
 
     $query->select(
-      'users.id as id',
+      'user_id',
+      'user_info.id as id',
       'name',
       'email',
       'users.created_at',
       'full_name',
-      'gender'
+      'gender',
+      'birthday',
     );
 
     // Final
