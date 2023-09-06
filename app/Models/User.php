@@ -2,17 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Notifications\Notifiable;
 use Orchid\Filters\Filterable;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Platform\Models\User as Authenticatable;
 use Orchid\Screen\AsSource;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
   use AsSource;
   use Filterable;
+  use Notifiable;
+  public function getJWTIdentifier()
+  {
+    return $this->getKey();
+  }
+
+  public function getJWTCustomClaims(): array
+  {
+    return [];
+  }
 
   public static function getTableName(): string
   {

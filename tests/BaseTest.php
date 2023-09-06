@@ -4,14 +4,14 @@ namespace Tests;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Tests\Helpers\CreateModelsTrait;
+use Tests\Helpers\HTTPClientTrait;
 use Tests\Helpers\RawDataHelper;
 
 class BaseTest extends TestCase
 {
-
-  public const TEST_CLIENT_NAME = 'TEST API CLIENT';
-
-  protected ?int $testApiClientID;
+  use CreateModelsTrait;
+  use HTTPClientTrait;
 
   public function setUp(): void
   {
