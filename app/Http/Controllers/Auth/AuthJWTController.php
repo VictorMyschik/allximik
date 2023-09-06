@@ -47,15 +47,12 @@ class AuthJWTController extends Controller
       return response()->json($validator->errors()->toJson(), 400);
     }
 
-    $user = User::create(array_merge(
+    User::create(array_merge(
       $validator->validated(),
       ['password' => bcrypt($request->password)]
     ));
 
-    return response()->json([
-      'message' => 'User successfully registered',
-      'user'    => $user
-    ], 201);
+    return response()->json(['message' => 'User successfully registered'], 201);
   }
 
   public function logout(): JsonResponse
