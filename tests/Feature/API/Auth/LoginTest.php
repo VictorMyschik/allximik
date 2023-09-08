@@ -24,9 +24,11 @@ class LoginTest extends BaseTest
 
     $body = json_decode($response->getContent(), true);
 
-    self::assertNotEmpty($body['access_token']);
-    self::assertEquals('bearer', $body['token_type']);
-    self::assertEquals(3600, $body['expires_in']);
+    self::assertTrue($body['result']);
+    self::assertNotEmpty($body['content']);
+    self::assertNotEmpty($body['content']['access_token']);
+    self::assertEquals('bearer', $body['content']['token_type']);
+    self::assertEquals(3600, $body['content']['expires_in']);
 
     $user->delete();
   }
@@ -44,13 +46,14 @@ class LoginTest extends BaseTest
     ];
 
     $response = $this->post(route('api.login'), $args);
-    self::assertEquals(401, $response->getStatusCode());
+    self::assertEquals(400, $response->getStatusCode());
     self::assertNotEmpty($response->getContent());
 
     $body = json_decode($response->getContent(), true);
 
+    self::assertFalse($body['result']);
     self::assertNotEmpty($body['error']);
-    self::assertEquals('Unauthorized', $body['error']);
+    self::assertEquals('Invalid credentials', $body['error']);
 
     $user->delete();
   }

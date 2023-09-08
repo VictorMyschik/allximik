@@ -10,7 +10,7 @@ class LogoutTokenTest extends BaseTest
   {
     // try just logout
     $response = $this->post(route('api.logout'), []);
-    self::assertEquals(401, $response->getStatusCode());
+    self::assertEquals(400, $response->getStatusCode());
     $body = json_decode($response->getContent(), true);
     self::assertEquals('Unauthorized', $body['error']);
 
@@ -29,11 +29,15 @@ class LogoutTokenTest extends BaseTest
     self::assertNotEmpty($response->getContent());
 
     $body = json_decode($response->getContent(), true);
-    $oldToken = $body['access_token'];
 
-    self::assertNotEmpty($body['access_token']);
-    self::assertEquals('bearer', $body['token_type']);
-    self::assertEquals(3600, $body['expires_in']);
+    self::assertTrue($body['result']);
+    self::assertNotEmpty($body['content']);
+    $content = $body['content'];
+    $oldToken = $content['access_token'];
+
+    self::assertNotEmpty($content['access_token']);
+    self::assertEquals('bearer', $content['token_type']);
+    self::assertEquals(3600, $content['expires_in']);
 
     // Try logout
     $header = ['Authorization' => 'Bearer ' . $oldToken];

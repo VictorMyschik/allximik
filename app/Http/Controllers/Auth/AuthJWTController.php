@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\APIAuthException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthJWTController extends Controller
@@ -25,11 +27,11 @@ class AuthJWTController extends Controller
     ]);
 
     if ($validator->fails()) {
-      return response()->json($validator->errors(), 422);
+      throw new APIAuthException($validator->errors(), 400);
     }
 
     if (!$token = auth(self::GUARD)->attempt($validator->validated())) {
-      return response()->json(['error' => 'Unauthorized'], 401);
+      throw new APIAuthException('Invalid credentials');
     }
 
     return $this->createNewToken($token);
@@ -44,15 +46,12 @@ class AuthJWTController extends Controller
     ]);
 
     if ($validator->fails()) {
-      return response()->json($validator->errors()->toJson(), 400);
+      throw new APIAuthException($validator->errors(), 400);
     }
 
-    User::create(array_merge(
-      $validator->validated(),
-      ['password' => bcrypt($request->password)]
-    ));
+    User::create(array_merge($validator->validated(), ['password' => Hash::make($request->password)]));
 
-    return response()->json(['message' => 'User successfully registered'], 201);
+    return $this->login($request);
   }
 
   public function logout(): JsonResponse
@@ -68,7 +67,7 @@ class AuthJWTController extends Controller
 
   protected function createNewToken(string $token): JsonResponse
   {
-    return response()->json([
+    return $this->successResult([
       'access_token' => $token,
       'token_type'   => 'bearer',
       'expires_in'   => auth(self::GUARD)->factory()->getTTL() * 60,

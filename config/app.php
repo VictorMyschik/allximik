@@ -1,6 +1,5 @@
 <?php
 
-use App\Providers\JwtServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -171,7 +170,6 @@ return [
     App\Providers\RouteServiceProvider::class,
 
     Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-    JwtServiceProvider::class,
   ])->toArray(),
 
   /*

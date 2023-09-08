@@ -27,13 +27,14 @@ class RefreshTokenTest extends BaseTest
     self::assertEquals(200, $response->getStatusCode());
 
     $body = json_decode($response->getBody()->getContents(), true);
+    $content = $body['content'];
 
-    self::assertNotEmpty($body['access_token']);
-    self::assertEquals('bearer', $body['token_type']);
-    self::assertEquals(3600, $body['expires_in']);
+    self::assertNotEmpty($content['access_token']);
+    self::assertEquals('bearer', $content['token_type']);
+    self::assertEquals(3600, $content['expires_in']);
 
     // Refresh
-    $oldToken = $body['access_token'];
+    $oldToken = $content['access_token'];
 
     $header = ['Authorization' => 'Bearer ' . $oldToken];
     $response = $client->post(route('api.refresh'), ['headers' => $header]);
@@ -41,11 +42,13 @@ class RefreshTokenTest extends BaseTest
 
     $body = json_decode($response->getBody()->getContents(), true);
 
-    self::assertNotEmpty($body['access_token']);
-    self::assertEquals('bearer', $body['token_type']);
-    self::assertEquals(3600, $body['expires_in']);
+    $content = $body['content'];
 
-    self::assertNotEquals($oldToken, $body['access_token']);
+    self::assertNotEmpty($content['access_token']);
+    self::assertEquals('bearer', $content['token_type']);
+    self::assertEquals(3600, $content['expires_in']);
+
+    self::assertNotEquals($oldToken, $content['access_token']);
 
     // Try refresh again with old token
     try {
@@ -53,7 +56,7 @@ class RefreshTokenTest extends BaseTest
       self::fail('Expected exception not thrown');
     } catch (Throwable $e) {
       self::assertInstanceOf(Exception::class, $e);
-      self::assertEquals(500, $e->getCode());
+      self::assertEquals(400, $e->getCode());
     }
 
     $user->delete();
