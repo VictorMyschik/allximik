@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\APIAuthException;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\AuthenticateAPIMiddleware;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,13 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthJWTController extends Controller
 {
-  private const GUARD = 'jwt';
-
-  public function __construct()
-  {
-    $this->middleware('auth.jwt', ['except' => ['login', 'register']]);
-  }
-
   public function login(Request $request): JsonResponse
   {
     $validator = Validator::make($request->all(), [
@@ -30,7 +24,7 @@ class AuthJWTController extends Controller
       throw new APIAuthException($validator->errors(), 400);
     }
 
-    if (!$token = auth(self::GUARD)->attempt($validator->validated())) {
+    if (!$token = auth(AuthenticateAPIMiddleware::GUARD)->attempt($validator->validated())) {
       throw new APIAuthException('Invalid credentials');
     }
 
@@ -56,13 +50,13 @@ class AuthJWTController extends Controller
 
   public function logout(): JsonResponse
   {
-    auth(self::GUARD)->logout();
+    auth(AuthenticateAPIMiddleware::GUARD)->logout();
     return response()->json(['message' => 'User successfully signed out']);
   }
 
   public function refresh(): JsonResponse
   {
-    return $this->createNewToken(auth(self::GUARD)->refresh());
+    return $this->createNewToken(auth(AuthenticateAPIMiddleware::GUARD)->refresh());
   }
 
   protected function createNewToken(string $token): JsonResponse
@@ -70,7 +64,7 @@ class AuthJWTController extends Controller
     return $this->successResult([
       'access_token' => $token,
       'token_type'   => 'bearer',
-      'expires_in'   => auth(self::GUARD)->factory()->getTTL() * 60,
+      'expires_in'   => auth(AuthenticateAPIMiddleware::GUARD)->factory()->getTTL() * 60,
     ]);
   }
 }

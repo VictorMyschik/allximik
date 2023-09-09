@@ -10,9 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticateAPIMiddleware
 {
+  public const GUARD = 'jwt';
+
   public function handle(Request $request, Closure $next): Response
   {
-    if (!Auth::guard('jwt')->check()) {
+    if (!Auth::guard(self::GUARD)->check()) {
       throw new APIAuthException('Unauthorized');
     }
 
