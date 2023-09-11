@@ -32,6 +32,24 @@ class TravelImage extends ORM
     ];
   }
 
+  #region ORM
+  public function afterSave(): void
+  {
+    $this->flushAffectedCaches();
+  }
+
+  public function beforeDelete(): void
+  {
+    $this->flushAffectedCaches();
+  }
+
+  public function flushAffectedCaches(): void
+  {
+    $this->getTravel()->flush();
+  }
+
+  #endregion
+
   public function getTravel(): Travel
   {
     return Travel::loadByOrDie($this->travel_id);

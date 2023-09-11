@@ -9,6 +9,7 @@ use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\Lego\Fields\UpdatedNullableFieldTrait;
 use App\Models\ORM\ORM;
 use App\Models\Reference\Country;
+use Illuminate\Support\Facades\Cache;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
@@ -113,6 +114,12 @@ class Travel extends ORM
     }
   }
 
+  public function flush(): void
+  {
+    Cache::forget('travel_image_main_' . $this->id());
+    Cache::forget('travel_image_list_' . $this->id());
+  }
+
   #endregion
   public function getStatus(): int
   {
@@ -195,11 +202,15 @@ class Travel extends ORM
 
   public function getMainImage(): ?string
   {
-    return TravelImage::where('travel_id', $this->id())->where('kind', TravelImage::KIND_MAIN)->value('name');
+    return Cache::rememberForever('travel_image_main_' . $this->id(), function () {
+      return TravelImage::where('travel_id', $this->id())->where('kind', TravelImage::KIND_MAIN)->value('name');
+    });
   }
 
   public function getImagesList(): array
   {
-    return TravelImage::where('travel_id', $this->id())->where('kind', TravelImage::KIND_LIST)->get()->all();
+    return Cache::rememberForever('travel_image_list_' . $this->id(), function () {
+      return TravelImage::where('travel_id', $this->id())->where('kind', TravelImage::KIND_LIST)->get()->all();
+    });
   }
 }
