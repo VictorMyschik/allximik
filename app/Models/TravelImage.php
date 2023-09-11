@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Lego\Fields\CreatedFieldTrait;
+use App\Models\Lego\Fields\KindFieldTrait;
+use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
 
 class TravelImage extends ORM
 {
-  protected $table = 'travel_image';
+  use NameFieldTrait;
+  use CreatedFieldTrait;
+  use KindFieldTrait;
+
+  protected $table = 'travel_images';
 
   protected $fillable = [
     'travel_id',
@@ -17,13 +24,21 @@ class TravelImage extends ORM
   const KIND_MAIN = 0;
   const KIND_LIST = 1;
 
-  protected static array $kinds = [
-    self::KIND_MAIN => 'Главное',
-    self::KIND_LIST => 'Список',
-  ];
-
-  public function travel()
+  public static function getKindList(): array
   {
-    return $this->belongsTo(Travel::class);
+    return [
+      self::KIND_MAIN => 'Главное',
+      self::KIND_LIST => 'Список',
+    ];
+  }
+
+  public function getTravel(): Travel
+  {
+    return Travel::loadByOrDie($this->travel_id);
+  }
+
+  public function setTravelID(int $value): void
+  {
+    $this->travel_id = $value;
   }
 }

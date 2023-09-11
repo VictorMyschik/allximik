@@ -197,4 +197,9 @@ class Travel extends ORM
   {
     return TravelImage::where('travel_id', $this->id())->where('kind', TravelImage::KIND_MAIN)->value('name');
   }
+
+  public function getImagesList(): array
+  {
+    return TravelImage::where('travel_id', $this->id())->where('kind', TravelImage::KIND_LIST)->get()->all();
+  }
 }
