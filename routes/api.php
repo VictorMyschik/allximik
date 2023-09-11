@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthJWTController;
+use App\Http\Controllers\TravelController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,7 +18,7 @@ Route::group(['middleware' => 'auth.jwt', 'prefix' => 'auth'], function () {
 
 /// Public routes
 Route::group([], function () {
-  //Route::post('/hike/list', [AuthJWTController::class, 'logout'])->name('api.logout');
+  //Route::post('/travel/list', [TravelController::class, 'getList'])->name('api.travel.list');
 });
 
 /// Private routes

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Orchid\Layouts\Hike;
+namespace App\Orchid\Layouts\Travel;
 
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Rows;

@@ -31,16 +31,16 @@ class EmailScreen extends Screen
 
   public function layout(): iterable
   {
-    $fakeData['hike_invite'] = [
+    $fakeData['travel_invite'] = [
       'token'     => '8cde1582275a2afe5dd535f7e31108f1',
       'name'      => 'Восхождение на Казбек',
-      'hike_type' => 'Горный поход',
+      'travel_type' => 'Горный поход',
     ];
 
     return [
       Layout::tabs([
-        'Hike Invite' => Layout::view('emails.hike_invite', ['data' => $fakeData['hike_invite']]),
-        //'Email'       => Layout::view('emails.hike_invite', ['data' => $fakeData['hike_invite']]),
+        'Travel Invite' => Layout::view('emails.travel_invite', ['data' => $fakeData['travel_invite']]),
+        //'Email'       => Layout::view('emails.travel_invite', ['data' => $fakeData['travel_invite']]),
       ]),
     ];
   }

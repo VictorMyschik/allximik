@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Orchid\Screens\Hike;
+namespace App\Orchid\Screens\Travel;
 
 use App\Classes\Email\EmailService;
-use App\Mail\WebhookEmail;
 use App\Models\EmailInvite;
-use App\Models\Hike;
+use App\Models\Travel;
 use App\Models\UIH;
-use App\Orchid\Layouts\Hike\HikeEditLayout;
-use App\Orchid\Layouts\Hike\InviteByEmailEditLayout;
-use App\Orchid\Layouts\Hike\InviteListLayout;
-use App\Orchid\Layouts\Hike\UIHActiveListLayout;
-use App\Orchid\Layouts\Hike\UIHNotActiveListLayout;
+use App\Orchid\Layouts\Travel\TravelEditLayout;
+use App\Orchid\Layouts\Travel\InviteByEmailEditLayout;
+use App\Orchid\Layouts\Travel\InviteListLayout;
+use App\Orchid\Layouts\Travel\UIHActiveListLayout;
+use App\Orchid\Layouts\Travel\UIHNotActiveListLayout;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,63 +25,63 @@ use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
-class HikeDetailsScreen extends Screen
+class TravelDetailsScreen extends Screen
 {
-  public ?Hike $hike = null;
+  public ?Travel $travel = null;
 
-  public function query(Hike $hike): array
+  public function query(Travel $travel): array
   {
     return [
-      'hike'           => $hike,
-      'active-uih'     => UIH::filters([])->where('hike_id', $hike->id())->where('status', UIH::STATUS_APPROVED)->paginate(20),
-      'not-active-uih' => UIH::filters([])->where('hike_id', $hike->id())->where('status', UIH::STATUS_REJECTED)->paginate(20),
-      'invite-uih'     => EmailInvite::filters([])->where('hike_id', $hike->id())->paginate(20)
+      'travel'           => $travel,
+      'active-uih'     => UIH::filters([])->where('travel_id', $travel->id())->where('status', UIH::STATUS_APPROVED)->paginate(20),
+      'not-active-uih' => UIH::filters([])->where('travel_id', $travel->id())->where('status', UIH::STATUS_REJECTED)->paginate(20),
+      'invite-uih'     => EmailInvite::filters([])->where('travel_id', $travel->id())->paginate(20)
     ];
   }
 
   public function name(): ?string
   {
-    return $this->hike?->getName();
+    return $this->travel?->getName();
   }
 
   public function description(): ?string
   {
-    return $this->hike?->getDescription();
+    return $this->travel?->getDescription();
   }
 
   public function commandBar(): iterable
   {
-    $id = (int)$this->hike?->id();
+    $id = (int)$this->travel?->id();
     $user = Auth::user();
 
-    if ($this->hike?->getUser()->id === $user) {
+    if ($this->travel?->getUser()->id === $user) {
       return [
         ModalToggle::make('Edit')
           ->type(Color::BASIC())
           ->icon('pencil')
-          ->modal('hike_modal')
-          ->modalTitle('Edit hike id')
-          ->method('saveHike')
+          ->modal('travel_modal')
+          ->modalTitle('Edit travel id')
+          ->method('saveTravel')
           ->asyncParameters(['id' => $id]),
 
         Button::make(__('Delete'))
           ->icon('bs.trash3')
-          ->confirm(__('Are you sure you want to delete the hike?'))
+          ->confirm(__('Are you sure you want to delete the travel?'))
           ->method('remove', ['id' => $id]),
       ];
     }
 
-    if ($this->hike) {
+    if ($this->travel) {
       // Check invite by email
-      $inviteToken = EmailInvite::where('hike_id', $id)->where('email', $user->email)->first()?->getToken();
+      $inviteToken = EmailInvite::where('travel_id', $id)->where('email', $user->email)->first()?->getToken();
 
       if ($inviteToken) {
         return [
           Link::make('Подтвердить участие')->icon('check')
-            ->route('hike.email.invite.link', ['token' => $inviteToken, 'status' => 'true']),
+            ->route('travel.email.invite.link', ['token' => $inviteToken, 'status' => 'true']),
 
           Link::make('Отказаться')->icon('ban')
-            ->route('hike.email.invite.link', ['token' => $inviteToken, 'status' => 'false']),
+            ->route('travel.email.invite.link', ['token' => $inviteToken, 'status' => 'false']),
         ];
       }
     }
@@ -92,23 +91,23 @@ class HikeDetailsScreen extends Screen
 
   public function layout(): iterable
   {
-    $out = [Layout::modal('hike_modal', HikeEditLayout::class)->async('asyncGetHike')];
+    $out = [Layout::modal('travel_modal', TravelEditLayout::class)->async('asyncGetTravel')];
 
-    if ($hike = Hike::loadBy((int)$this->hike?->id())) {
-      $publicLink = route('hike.public.link', ['token' => $hike->getPublicId()]);
+    if ($travel = Travel::loadBy((int)$this->travel?->id())) {
+      $publicLink = route('travel.public.link', ['token' => $travel->getPublicId()]);
 
       $out[] = Layout::modal('new_invite_email_modal', InviteByEmailEditLayout::class);
 
       $columns[] = Layout::legend('Описание похода', [
-        Sight::make('Статус')->render(fn() => $hike->getStatusName()),
-        Sight::make('Страна')->render(fn() => $hike->getCountry()->getName()),
-        Sight::make('Тип похода')->render(fn() => $hike->getHikeType()->getName()),
-        Sight::make('Тип публичности')->render(fn() => $hike->getPublicName())->popover(Hike::getPublicDescription()[$hike->getPublic()]),
+        Sight::make('Статус')->render(fn() => $travel->getStatusName()),
+        Sight::make('Страна')->render(fn() => $travel->getCountry()->getName()),
+        Sight::make('Тип похода')->render(fn() => $travel->getTravelType()->getName()),
+        Sight::make('Тип публичности')->render(fn() => $travel->getPublicName())->popover(Travel::getVisibleKindDescription()[$travel->getVisibleKind()]),
         Sight::make('Публичная страница')
-          ->render(fn() => Hike::PUBLIC_FOR_ME !== $hike->getPublic() ? "<a target='_blank' href='" . $publicLink . "'>$publicLink</a>" : 'Публичная страница не доступна'),
+          ->render(fn() => Travel::VISIBLE_KIND_FOR_ME !== $travel->getVisibleKind() ? "<a target='_blank' href='" . $publicLink . "'>$publicLink</a>" : 'Публичная страница не доступна'),
       ])->title('Основная информация');
 
-      if (Hike::PUBLIC_FOR_ME !== $hike->getPublic()) {
+      if (Travel::VISIBLE_KIND_FOR_ME !== $travel->getVisibleKind()) {
         $columns[] = Layout::tabs([
           'Активные'   => UIHActiveListLayout::class,
           'Отказ'      => UIHNotActiveListLayout::class,
@@ -123,7 +122,7 @@ class HikeDetailsScreen extends Screen
                 ->modal('new_invite_email_modal')
                 ->modalTitle('Create new invite by email')
                 ->method('createNewInvite')
-                ->asyncParameters(['id' => $hike->id()]),
+                ->asyncParameters(['id' => $travel->id()]),
             ])->autoWidth()
           ])
         ])->activeTab('Активные');
@@ -135,10 +134,10 @@ class HikeDetailsScreen extends Screen
     return $out;
   }
 
-  public function asyncGetHike(int $id = 0): array
+  public function asyncGetTravel(int $id = 0): array
   {
     return [
-      'hike' => Hike::loadBy($id) ?: new Hike()
+      'travel' => Travel::loadBy($id) ?: new Travel()
     ];
   }
 
@@ -149,23 +148,23 @@ class HikeDetailsScreen extends Screen
     ];
   }
 
-  public function saveHike(Request $request): void
+  public function saveTravel(Request $request): void
   {
     $data = $request->validate([
-      'hike.name'         => 'required|string|max:255',
-      'hike.description'  => 'nullable|string|max:8000',
-      'hike.status'       => 'required|integer',
-      'hike.user_id'      => 'required|integer',
-      'hike.country_id'   => 'required|integer',
-      'hike.hike_type_id' => 'required|integer',
-      'hike.public'       => 'required|integer',
-    ])['hike'];
+      'travel.name'         => 'required|string|max:255',
+      'travel.description'  => 'nullable|string|max:8000',
+      'travel.status'       => 'required|integer',
+      'travel.user_id'      => 'required|integer',
+      'travel.country_id'   => 'required|integer',
+      'travel.travel_type_id' => 'required|integer',
+      'travel.public'       => 'required|integer',
+    ])['travel'];
 
-    $hike = Hike::loadBy($request->get('id')) ?: new Hike();
-    $hike->fill($data);
-    $hike->save_mr();
+    $travel = Travel::loadBy($request->get('id')) ?: new Travel();
+    $travel->fill($data);
+    $travel->save_mr();
 
-    Toast::info('Hike was saved');
+    Toast::info('Travel was saved');
   }
 
   public function saveUIH(Request $request): void
@@ -184,9 +183,9 @@ class HikeDetailsScreen extends Screen
 
   public function remove(int $id): RedirectResponse
   {
-    Hike::loadBy($id)?->delete_mr();
+    Travel::loadBy($id)?->delete_mr();
 
-    return redirect()->route('hike.list');
+    return redirect()->route('travel.list');
   }
 
   public function removeUIH(int $id): void
@@ -200,24 +199,24 @@ class HikeDetailsScreen extends Screen
       'email' => 'required|email|max:255'
     ])['email'];
 
-    $exists = DB::table(EmailInvite::getTableName())->where('email', $email)->where('hike_id', $id)->exists();
+    $exists = DB::table(EmailInvite::getTableName())->where('email', $email)->where('travel_id', $id)->exists();
     if ($exists) {
       Toast::error('Приглашение уже отправлено');
       return;
     }
 
 
-    $hike = Hike::loadByOrDie($id);
+    $travel = Travel::loadByOrDie($id);
 
     $invite = new EmailInvite();
     $invite->setEmail($email);
-    $invite->setHikeId($hike->id());
+    $invite->setTravelID($travel->id());
     $invite->setStatus(EmailInvite::STATUS_NEW);
     $invite->setToken($invite->generateToken());
-    $invite->setUserID($hike->getUser()->id);
+    $invite->setUserID($travel->getUser()->id);
     $invite->save_mr();
 
-    EmailService::sendHikeInvite($invite);
+    EmailService::sendTravelInvite($invite);
 
     Toast::info('Приглашение отправлено');
   }
@@ -225,7 +224,7 @@ class HikeDetailsScreen extends Screen
   public function resendEmailInvite(int $id): void
   {
     $invite = EmailInvite::loadByOrDie($id);
-    EmailService::sendHikeInvite($invite);
+    EmailService::sendTravelInvite($invite);
     Toast::info('Приглашение отправлено');
   }
 

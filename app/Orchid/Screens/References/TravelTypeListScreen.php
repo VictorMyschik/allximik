@@ -2,9 +2,9 @@
 
 namespace App\Orchid\Screens\References;
 
-use App\Models\HikeType;
-use App\Orchid\Layouts\References\HikeTypeEditLayout;
-use App\Orchid\Layouts\References\HikeTypeListLayout;
+use App\Models\TravelType;
+use App\Orchid\Layouts\References\TravelTypeEditLayout;
+use App\Orchid\Layouts\References\TravelTypeListLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
@@ -12,12 +12,12 @@ use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
-class HikeTypeListScreen extends Screen
+class TravelTypeListScreen extends Screen
 {
   public function query(): iterable
   {
     return [
-      'list' => HikeType::filters([])->paginate(20)
+      'list' => TravelType::filters([])->paginate(20)
     ];
   }
 
@@ -37,9 +37,9 @@ class HikeTypeListScreen extends Screen
       ModalToggle::make('Add')
         ->type(Color::PRIMARY())
         ->icon('plus')
-        ->modal('hike_type')
-        ->modalTitle('Create New Hike Type')
-        ->method('saveHikeType')
+        ->modal('travel_type')
+        ->modalTitle('Create New Travel Type')
+        ->method('saveTravelType')
         ->asyncParameters(['id' => 0])
     ];
   }
@@ -47,35 +47,35 @@ class HikeTypeListScreen extends Screen
   public function layout(): iterable
   {
     return [
-      HikeTypeListLayout::class,
-      Layout::modal('hike_type', HikeTypeEditLayout::class)->async('asyncGetHikeTypeList'),
+      TravelTypeListLayout::class,
+      Layout::modal('travel_type', TravelTypeEditLayout::class)->async('asyncGetTravelTypeList'),
     ];
   }
 
-  public function asyncGetHikeTypeList(int $id = 0): array
+  public function asyncGetTravelTypeList(int $id = 0): array
   {
     return [
-      'hike-type' => HikeType::loadBy($id) ?: new HikeType()
+      'travel-type' => TravelType::loadBy($id) ?: new TravelType()
     ];
   }
 
-  public function saveHikeType(Request $request): void
+  public function saveTravelType(Request $request): void
   {
     $data = $request->validate([
-      'hike-type.name' => 'required|string',
-      'hike-type.description' => 'nullable|string',
-    ])['hike-type'];
+      'travel-type.name' => 'required|string',
+      'travel-type.description' => 'nullable|string',
+    ])['travel-type'];
 
-    HikeType::updateOrCreate(
+    TravelType::updateOrCreate(
       ['id' => (int)$request->get('id')],
       $data
     );
 
-    Toast::info('Hike type was saved');
+    Toast::info('Travel type was saved');
   }
 
   public function remove(int $id): void
   {
-    HikeType::loadBy($id)?->delete_mr();
+    TravelType::loadBy($id)?->delete_mr();
   }
 }

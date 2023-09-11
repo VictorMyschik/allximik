@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Orchid\Layouts\Hike;
+namespace App\Orchid\Layouts\Travel;
 
 use App\Helpers\System\MrDateTime;
 use App\Models\UIH;
@@ -36,7 +36,7 @@ class UIHNotActiveListLayout extends Table
           ->list([
             Button::make(__('Delete'))
               ->icon('bs.trash3')
-              ->confirm(__('Are you sure you want to delete the user in hike?'))
+              ->confirm(__('Are you sure you want to delete the user in travel?'))
               ->method('removeUIH', ['id' => $uih->id]),
           ])),
     ];

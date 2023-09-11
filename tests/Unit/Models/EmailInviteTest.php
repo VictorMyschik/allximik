@@ -3,8 +3,8 @@
 namespace Models;
 
 use App\Models\EmailInvite;
-use App\Models\Hike;
-use App\Models\HikeType;
+use App\Models\Travel;
+use App\Models\TravelType;
 use App\Models\Reference\Country;
 use App\Models\User;
 use Tests\BaseTest;
@@ -16,18 +16,18 @@ class EmailInviteTest extends BaseTest
   {
     $this->be(User::findOrFail(1));
 
-    $hike = new Hike();
-    $hike->setName(RawDataHelper::getName());
-    $hike->setUserID(1);
-    $hike->setStatus(Hike::STATUS_ACTIVE);
-    $hike->setCountryID(self::randomIdFromClass(Country::class));
-    $hike->setHikeTypeID(self::randomIdFromClass(HikeType::class));
-    $hikeID = $hike->save_mr();
+    $travel = new Travel();
+    $travel->setName(RawDataHelper::getName());
+    $travel->setUserID(1);
+    $travel->setStatus(Travel::STATUS_ACTIVE);
+    $travel->setCountryID(self::randomIdFromClass(Country::class));
+    $travel->setTravelTypeID(self::randomIdFromClass(TravelType::class));
+    $travelID = $travel->save_mr();
 
     $invite = new EmailInvite();
     $userID = self::randomIdFromClass(User::class);
     $invite->setUserID($userID);
-    $invite->setHikeID($hikeID);
+    $invite->setTravelID($travelID);
     $email = self::randomEmail('test-email');
     $invite->setEmail($email);
     $token = $invite->generateToken();
@@ -39,7 +39,7 @@ class EmailInviteTest extends BaseTest
     // Asserts
     $invite = EmailInvite::loadBy($uihID);
     self::assertNotNull($invite);
-    self::assertEquals($hikeID, $invite->getHike()->id());
+    self::assertEquals($travelID, $invite->getTravel()->id());
     self::assertEquals($userID, $invite->getUser()->id);
     self::assertEquals($email, $invite->getEmail());
     self::assertEquals($token, $invite->getToken());

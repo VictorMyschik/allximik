@@ -9,13 +9,13 @@ return new class extends Migration {
   {
     Schema::create('uih', function (Blueprint $table) {
       $table->unsignedBigInteger('id')->autoIncrement();
-      $table->unsignedBigInteger('hike_id');
+      $table->unsignedBigInteger('travel_id');
       $table->unsignedBigInteger('user_id');
       $table->tinyInteger('status')->default(0);
       $table->timestamp('created_at')->useCurrent();
       $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
 
-      $table->foreign('hike_id')->references('id')->on('hike')->cascadeOnDelete();
+      $table->foreign('travel_id')->references('id')->on('travel')->cascadeOnDelete();
       $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
     });
   }

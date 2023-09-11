@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\TravelServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -170,6 +171,7 @@ return [
     App\Providers\RouteServiceProvider::class,
 
     Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+    TravelServiceProvider::class,
   ])->toArray(),
 
   /*

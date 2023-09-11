@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Orchid\Layouts\Hike;
+namespace App\Orchid\Layouts\Travel;
 
 use App\Helpers\System\MrDateTime;
 use App\Models\UIH;
@@ -40,7 +40,7 @@ class UIHActiveListLayout extends Table
 
         $btnBan = Button::make(__('ban'))
           ->icon('ban')
-          ->confirm(__('Are you sure you want to decline the user in hike?'))
+          ->confirm(__('Are you sure you want to decline the user in travel?'))
           ->method('declineUIH', ['id' => $uih->id]);
 
         return DropDown::make()
@@ -50,7 +50,7 @@ class UIHActiveListLayout extends Table
 
             Button::make(__('Delete'))
               ->icon('bs.trash3')
-              ->confirm(__('Are you sure you want to delete the user in hike?'))
+              ->confirm(__('Are you sure you want to delete the user in travel?'))
               ->method('removeUIH', ['id' => $uih->id]),
           ]);
       });

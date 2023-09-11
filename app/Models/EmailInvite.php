@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Lego\Fields\CreatedFieldTrait;
-use App\Models\Lego\Fields\HikeFieldTrait;
+use App\Models\Lego\Fields\TravelFieldTrait;
 use App\Models\Lego\Fields\UpdatedNullableFieldTrait;
 use App\Models\Lego\Fields\UserFieldTrait;
 use App\Models\ORM\ORM;
@@ -16,14 +16,14 @@ class EmailInvite extends ORM
   use Filterable;
 
   use UserFieldTrait;
-  use HikeFieldTrait;
+  use TravelFieldTrait;
   use CreatedFieldTrait;
   use UpdatedNullableFieldTrait;
 
   protected $table = 'email_invite';
 
   protected $fillable = [
-    'hike_id',
+    'travel_id',
     'email',
     'token',
     'status',
@@ -80,6 +80,6 @@ class EmailInvite extends ORM
   public function generateToken(): string
   {
     abort_if(empty($this->email), 500, 'Email ID is empty');
-    return md5($this->hike_id . $this->email);
+    return md5($this->travel_id . $this->email);
   }
 }

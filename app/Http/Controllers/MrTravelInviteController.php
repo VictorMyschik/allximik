@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
-class MrHikeInviteController extends Controller
+class MrTravelInviteController extends Controller
 {
   public function index(string $token, string $status): RedirectResponse
   {
@@ -29,18 +29,18 @@ class MrHikeInviteController extends Controller
 
       $status = $status === 'true' ? UIH::STATUS_APPROVED : UIH::STATUS_REJECTED;
 
-      UIH::where('hike_id', $emailInvite->getHike()->id())->where('user_id', $user->id)->updateOrCreate([
-        'hike_id' => $emailInvite->getHike()->id(),
+      UIH::where('travel_id', $emailInvite->getTravel()->id())->where('user_id', $user->id)->updateOrCreate([
+        'travel_id' => $emailInvite->getTravel()->id(),
         'user_id' => $user->id,
       ], [
         'status' => $status,
       ]);
 
-      $publicId = $emailInvite->getHike()->getPublicId();
+      $publicId = $emailInvite->getTravel()->getPublicId();
 
       $emailInvite->delete_mr();
 
-      return redirect()->route('hike.public.link', ['token' => $publicId]);
+      return redirect()->route('travel.public.link', ['token' => $publicId]);
     }
 
     if ($status === 'false') {

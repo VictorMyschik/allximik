@@ -56,7 +56,7 @@ class RefreshTokenTest extends BaseTest
       self::fail('Expected exception not thrown');
     } catch (Throwable $e) {
       self::assertInstanceOf(Exception::class, $e);
-      self::assertEquals(400, $e->getCode());
+      self::assertEquals(400, $e->getCode(), $e->getMessage());
     }
 
     $user->delete();

@@ -61,7 +61,7 @@ class purge extends Command
 
   private function clearCache(): void
   {
-    array_map('unlink', array_filter((array)glob('./storage/logs/*.log')));
+    file_put_contents(storage_path('logs/laravel.log'),'');
     $this->success('Logs: cleared');
     $this->nl();
 
@@ -140,7 +140,7 @@ class purge extends Command
     'country',
     'currency',
     'measure',
-    'hike_type',
-    'hike',
+    'travel_type',
+    'travel',
   ];
 }

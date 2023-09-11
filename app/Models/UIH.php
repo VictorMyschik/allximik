@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Lego\Fields\CreatedFieldTrait;
-use App\Models\Lego\Fields\HikeFieldTrait;
+use App\Models\Lego\Fields\TravelFieldTrait;
 use App\Models\Lego\Fields\UpdatedNullableFieldTrait;
 use App\Models\Lego\Fields\UserFieldTrait;
 use App\Models\ORM\ORM;
@@ -16,20 +16,20 @@ class UIH extends ORM
   use Filterable;
 
   use UserFieldTrait;
-  use HikeFieldTrait;
+  use TravelFieldTrait;
   use CreatedFieldTrait;
   use UpdatedNullableFieldTrait;
 
   protected $table = 'uih';
 
   protected array $allowedSorts = [
-    'hike_id',
+    'travel_id',
     'user_id',
     'status',
   ];
 
   protected $fillable = [
-    'hike_id',
+    'travel_id',
     'user_id',
     'status',
   ];

@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class HikeInviteEmail extends Mailable
+class TravelInviteEmail extends Mailable
 {
   use Queueable;
   use SerializesModels;
@@ -29,7 +29,7 @@ class HikeInviteEmail extends Mailable
 
   public function content(): Content
   {
-    return new Content(view: 'emails.hike_invite');
+    return new Content(view: 'emails.travel_invite');
   }
 
   public function attachments(): array

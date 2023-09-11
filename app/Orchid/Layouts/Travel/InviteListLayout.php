@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Orchid\Layouts\Hike;
+namespace App\Orchid\Layouts\Travel;
 
 use App\Models\EmailInvite;
 use Orchid\Screen\Actions\Button;
@@ -38,7 +38,7 @@ class InviteListLayout extends Table
 
             Button::make(__('Delete'))
               ->icon('bs.trash3')
-              ->confirm(__('Are you sure you want to delete the user in hike?'))
+              ->confirm(__('Are you sure you want to delete the user in travel?'))
               ->method('removeUIH', ['id' => $invite->id]),
           ])),
     ];

@@ -3,15 +3,15 @@
     <table class="table table-sm">
       <tr>
         <td><b>Статус</b></td>
-        <td>{{$hikeDescription['status']}}</td>
+        <td>{{$travelDescription['status']}}</td>
       </tr>
       <tr>
         <td><b>Тип</b></td>
-        <td>{{$hikeDescription['type']}}</td>
+        <td>{{$travelDescription['type']}}</td>
       </tr>
       <tr>
         <td><b>Страна</b></td>
-        <td>{{$hikeDescription['country']}}</td>
+        <td>{{$travelDescription['country']}}</td>
       </tr>
     </table>
   </div>

@@ -2,8 +2,8 @@
 
 namespace Models;
 
-use App\Models\Hike;
-use App\Models\HikeType;
+use App\Models\Travel;
+use App\Models\TravelType;
 use App\Models\Reference\Country;
 use App\Models\UIH;
 use App\Models\User;
@@ -19,24 +19,24 @@ class UIHTest extends BaseTest
     $name = RawDataHelper::getName();
     User::factory()->create(['name' => $name, 'email' => self::randomEmail($name), 'password' => self::randomString(50)]);
 
-    $hike = new Hike();
-    $hike->setName(RawDataHelper::getName());
-    $hike->setUserID(1);
-    $hike->setStatus(Hike::STATUS_ACTIVE);
-    $hike->setCountryID(self::randomIdFromClass(Country::class));
-    $hike->setHikeTypeID(self::randomIdFromClass(HikeType::class));
-    $hikeID = $hike->save_mr();
+    $travel = new Travel();
+    $travel->setName(RawDataHelper::getName());
+    $travel->setUserID(1);
+    $travel->setStatus(Travel::STATUS_ACTIVE);
+    $travel->setCountryID(self::randomIdFromClass(Country::class));
+    $travel->setTravelTypeID(self::randomIdFromClass(TravelType::class));
+    $travelID = $travel->save_mr();
 
     $uih = new UIH();
     $userID = self::randomIdFromClass(User::class);
     $uih->setUserID($userID);
-    $uih->setHikeID($hikeID);
+    $uih->setTravelID($travelID);
     $uihID = $uih->save_mr();
 
     // Asserts
     $uih = UIH::loadBy($uihID);
     self::assertNotNull($uih);
-    self::assertEquals($hikeID, $uih->getHike()->id());
+    self::assertEquals($travelID, $uih->getTravel()->id());
     self::assertEquals($userID, $uih->getUser()->id);
     self::assertEquals(UIH::STATUS_NEW, $uih->getStatus());
 

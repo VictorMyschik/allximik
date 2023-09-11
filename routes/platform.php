@@ -11,10 +11,10 @@ use App\Orchid\Screens\Examples\ExampleFieldsScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\FAQScreen;
-use App\Orchid\Screens\Hike\HikeDetailsScreen;
-use App\Orchid\Screens\Hike\HikeListScreen;
+use App\Orchid\Screens\Travel\TravelDetailsScreen;
+use App\Orchid\Screens\Travel\TravelListScreen;
 use App\Orchid\Screens\PlatformScreen;
-use App\Orchid\Screens\References\HikeTypeListScreen;
+use App\Orchid\Screens\References\TravelTypeListScreen;
 use App\Orchid\Screens\References\ReferenceCountryScreen;
 use App\Orchid\Screens\References\ReferenceCurrencyRateScreen;
 use App\Orchid\Screens\References\ReferenceCurrencyScreen;
@@ -109,9 +109,9 @@ Route::screen('/user-info/address/list', UserCommunicateScreen::class)->name('us
 Route::screen('/reference/country/list', ReferenceCountryScreen::class)->name('reference.country.list');
 Route::screen('/reference/currency/list', ReferenceCurrencyScreen::class)->name('reference.currency.list');
 Route::screen('/reference/currency-rate/list', ReferenceCurrencyRateScreen::class)->name('reference.currency-rate.list');
-// Hike
-Route::screen('/hike-type/list', HikeTypeListScreen::class)->name('reference.hike-type.list');
-Route::screen('/hike/list', HikeListScreen::class)->name('hike.list');
-Route::screen('/hike/details/{hike}', HikeDetailsScreen::class)->name('hike.details');
+// Travel
+Route::screen('/travel-type/list', TravelTypeListScreen::class)->name('reference.travel-type.list');
+Route::screen('/travel/list', TravelListScreen::class)->name('travel.list');
+Route::screen('/travel/details/{travel}', TravelDetailsScreen::class)->name('travel.details');
 Route::screen('/emails', EmailScreen::class)->name('reference.email.list');
 

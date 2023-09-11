@@ -34,14 +34,14 @@ class PlatformProvider extends OrchidServiceProvider
   {
     return [
       Menu::make('Get Started')->title('Navigation')->route(config('platform.index')),
-      // Hike
-      Menu::make('Hike list')->title('Hike')->icon('bs.list')->route('hike.list'),
+      // travel
+      Menu::make('Travel list')->title('Travel')->icon('bs.list')->route('travel.list'),
       // References
       Menu::make('References')->icon('grid')->list([
         Menu::make('Country')->icon('bs.list')->route('reference.country.list'),
         Menu::make('Currency')->icon('bs.list')->route('reference.currency.list'),
         Menu::make('Currency Rate')->icon('bs.list')->route('reference.currency-rate.list'),
-        Menu::make('Hike types')->icon('bs.list')->route('reference.hike-type.list'),
+        Menu::make('Travel types')->icon('bs.list')->route('reference.travel-type.list'),
         Menu::make('Emails')->icon('bs.list')->route('reference.email.list'),
       ]),
 

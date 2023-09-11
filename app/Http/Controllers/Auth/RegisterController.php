@@ -105,7 +105,7 @@ class RegisterController extends Controller
       }
 
       // Редиректим на страницу с приглашением
-      return redirect()->route('hike.email.invite.link', ['token' => $emailInvite->getToken(), 'status' => 'true']);
+      return redirect()->route('travel.email.invite.link', ['token' => $emailInvite->getToken(), 'status' => 'true']);
     }
 
     // Если приглашение не найдено - редиректим на главную

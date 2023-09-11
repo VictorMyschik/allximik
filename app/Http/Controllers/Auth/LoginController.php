@@ -43,7 +43,7 @@ class LoginController extends Controller
   protected function authenticated(Request $request, $user): RedirectResponse
   {
     if ($token = $request->get('token')) {
-      return redirect()->route('hike.public.link', ['token' => $token]);
+      return redirect()->route('travel.public.link', ['token' => $token]);
     }
 
     return redirect()->intended($this->redirectPath());

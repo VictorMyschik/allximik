@@ -3017,16 +3017,16 @@
         },
         {
             "name": "orchid/platform",
-            "version": "14.10.0",
+            "version": "14.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchidsoftware/platform.git",
-                "reference": "30208a6215f8b7c4ffc64d6826ef945da1628255"
+                "reference": "b8f8bddbb35698772c54ae271b0dacdde3ace3e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchidsoftware/platform/zipball/30208a6215f8b7c4ffc64d6826ef945da1628255",
-                "reference": "30208a6215f8b7c4ffc64d6826ef945da1628255",
+                "url": "https://api.github.com/repos/orchidsoftware/platform/zipball/b8f8bddbb35698772c54ae271b0dacdde3ace3e5",
+                "reference": "b8f8bddbb35698772c54ae271b0dacdde3ace3e5",
                 "shasum": ""
             },
             "require": {
@@ -3120,7 +3120,7 @@
                     "type": "opencollective"
                 }
             ],
-            "time": "2023-09-06T01:54:49+00:00"
+            "time": "2023-09-10T00:20:09+00:00"
         },
         {
             "name": "orhanerday/open-ai",

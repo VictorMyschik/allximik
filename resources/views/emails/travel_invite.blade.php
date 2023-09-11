@@ -22,7 +22,7 @@
                     <tr>
                       <td align="center">
                         <h2 style="margin-top: 10px">Вас пригласили участвовать в походе</h2>
-                        <h4><i>{{$data['hike_type']}}</i></h4>
+                        <h4><i>{{$data['travel_type']}}</i></h4>
                         <h3>
                           <a href="#" style="color: #0a1041"> {{$data['name']}}   </a>
                         </h3>
@@ -31,9 +31,9 @@
                     <tr>
                       <td align="center">
                         <div style="margin-bottom: 50px; margin-top: 50px;">
-                          <a href="{{route('hike.email.invite.link', ['token'=>$data['token'], 'status' => 'true'])}}"
+                          <a href="{{route('travel.email.invite.link', ['token'=>$data['token'], 'status' => 'true'])}}"
                              class="custom-btn btn-10">approve</a>
-                          <a href="{{route('hike.email.invite.link', ['token'=>$data['token'], 'status' => 'false'])}}"
+                          <a href="{{route('travel.email.invite.link', ['token'=>$data['token'], 'status' => 'false'])}}"
                              class="custom-btn btn-9">decline</a>
                         </div>
                       </td>

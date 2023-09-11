@@ -8,7 +8,7 @@ use App\Models\ORM\ORM;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class HikeType extends ORM
+class TravelType extends ORM
 {
   use AsSource;
   use Filterable;
@@ -18,7 +18,7 @@ class HikeType extends ORM
 
   public $timestamps = false;
 
-  protected $table = 'hike_type';
+  protected $table = 'travel_type';
 
   protected array $allowedSorts = [
     'name',

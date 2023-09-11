@@ -12,7 +12,7 @@ use App\Models\Reference\Country;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class Hike extends ORM
+class Travel extends ORM
 {
   use AsSource;
   use Filterable;
@@ -23,7 +23,7 @@ class Hike extends ORM
   use UpdatedNullableFieldTrait;
   use DeletedNullableFieldTrait;
 
-  protected $table = 'hike';
+  protected $table = 'travel';
 
   protected array $allowedSorts = [
     'name',
@@ -32,7 +32,7 @@ class Hike extends ORM
     'user_id',
     'country_id',
     'public',
-    'hike_type_id',
+    'travel_type_id',
     'public_id',
     'created_at',
     'updated_at',
@@ -46,7 +46,7 @@ class Hike extends ORM
     'user_id',
     'public_id',
     'country_id',
-    'hike_type_id',
+    'travel_type_id',
     'public',
     'public_id',
     'created_at',
@@ -54,25 +54,25 @@ class Hike extends ORM
     'deleted_at',
   ];
 
-  const PUBLIC_YES = 1; // публичный
-  const PUBLIC_FOR_ME = 0; // только для меня
-  const PUBLIC_PLATFORM = 2; // только для зарегистрированных пользователей
+  const VISIBLE_KIND_PUBLIC = 2; // публичный
+  const VISIBLE_KIND_FOR_ME = 0; // только для меня
+  const VISIBLE_KIND_PLATFORM = 1; // только для зарегистрированных пользователей
 
-  public static function getPublicList(): array
+  public static function getVisibleKindList(): array
   {
     return [
-      self::PUBLIC_YES      => 'Публичный',
-      self::PUBLIC_FOR_ME   => 'Только для меня',
-      self::PUBLIC_PLATFORM => 'Только для зарегистрированных пользователей',
+      self::VISIBLE_KIND_PUBLIC   => 'Публичный',
+      self::VISIBLE_KIND_FOR_ME   => 'Только для меня',
+      self::VISIBLE_KIND_PLATFORM => 'Только для зарегистрированных пользователей',
     ];
   }
 
-  public static function getPublicDescription(): array
+  public static function getVisibleKindDescription(): array
   {
     return [
-      self::PUBLIC_YES      => 'Все пользователи могут видеть эту походную программу',
-      self::PUBLIC_FOR_ME   => 'Только вы можете видеть эту походную программу',
-      self::PUBLIC_PLATFORM => 'Только зарегистрированные пользователи могут видеть эту походную программу',
+      self::VISIBLE_KIND_PUBLIC   => 'Все пользователи могут видеть эту походную программу',
+      self::VISIBLE_KIND_FOR_ME   => 'Только вы можете видеть эту походную программу',
+      self::VISIBLE_KIND_PLATFORM => 'Только зарегистрированные пользователи могут видеть эту походную программу',
     ];
   }
 
@@ -90,6 +90,21 @@ class Hike extends ORM
   }
 
   #region ORM
+  public function canView(?User $me = null): bool
+  {
+    if (self::VISIBLE_KIND_PUBLIC === $this->getVisibleKind()) {
+      return true;
+    }
+
+    if ($me) {
+      if ($me->id() === $this->user_id || self::VISIBLE_KIND_PLATFORM === $this->getVisibleKind()) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   public function afterSave(): void
   {
     if (!$this->getPublicId()) {
@@ -114,19 +129,28 @@ class Hike extends ORM
     $this->status = $value;
   }
 
-  public function getPublic(): int
+  public function getVisibleKind(): int
   {
-    return $this->public;
+    return $this->visible_kind;
   }
 
-  public function setPublic(int $value): void
+  public function getVisibleKindName(): string
   {
-    $this->public = $value;
+    return self::getVisibleKindList()[$this->getVisibleKind()];
+  }
+
+  public function setVisibleKind(int $value): void
+  {
+    if (!array_key_exists($value, self::getVisibleKindList())) {
+      throw new \InvalidArgumentException('Invalid visible kind');
+    }
+
+    $this->visible_kind = $value;
   }
 
   public function getPublicName(): string
   {
-    return self::getPublicList()[$this->getPublic()];
+    return self::getVisibleKindList()[$this->getVisibleKind()];
   }
 
   public function getUser(): User
@@ -149,14 +173,14 @@ class Hike extends ORM
     $this->country_id = $value;
   }
 
-  public function getHikeType(): HikeType
+  public function getTravelType(): TravelType
   {
-    return HikeType::findOrFail($this->hike_type_id);
+    return TravelType::findOrFail($this->travel_type_id);
   }
 
-  public function setHikeTypeID(int $value): void
+  public function setTravelTypeID(int $value): void
   {
-    $this->hike_type_id = $value;
+    $this->travel_type_id = $value;
   }
 
   public function getPublicId(): ?string
@@ -167,5 +191,10 @@ class Hike extends ORM
   public function setPublicId(?string $value): void
   {
     $this->public_id = $value;
+  }
+
+  public function getMainImage(): ?string
+  {
+    return TravelImage::where('travel_id', $this->id())->where('kind', TravelImage::KIND_MAIN)->value('name');
   }
 }
