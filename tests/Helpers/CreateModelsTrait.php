@@ -27,6 +27,7 @@ trait CreateModelsTrait
     $travel->setUserID($userID);
     $travel->setCountryID(self::randomIdFromClass(Country::class));
     $travel->setVisibleKind(Travel::VISIBLE_KIND_PUBLIC);
+    $travel->setStatus(Travel::STATUS_ACTIVE);
 
     // reset other fields
     $travel->fill($data);
