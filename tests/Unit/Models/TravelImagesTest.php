@@ -15,11 +15,11 @@ class TravelImagesTest extends BaseTest
      * 'kind',
      * 'name',
      * */
-    $travelImage = $this->createTravel(self::randomIdFromClass(User::class));
+    $travel = $this->createTravel(self::randomIdFromClass(User::class));
 
 
     $travelImage = new TravelImage();
-    $travelImage->setTravelID($travelImage->id());
+    $travelImage->setTravelID($travel->id());
     $kind = array_rand(TravelImage::getKindList());
     $travelImage->setKind($kind);
     $name = self::randomString(50);
@@ -36,7 +36,7 @@ class TravelImagesTest extends BaseTest
 
 
     // Update
-    $travelImage->setTravelID($travelImage->id());
+    $travelImage->setTravelID($travel->id());
     $kind = array_rand(TravelImage::getKindList());
     $travelImage->setKind($kind);
     $name = self::randomString(50);

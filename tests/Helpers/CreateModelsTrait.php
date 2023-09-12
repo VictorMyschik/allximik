@@ -4,6 +4,7 @@ namespace Tests\Helpers;
 
 use App\Models\Travel;
 use App\Models\Reference\Country;
+use App\Models\TravelType;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,6 +29,7 @@ trait CreateModelsTrait
     $travel->setCountryID(self::randomIdFromClass(Country::class));
     $travel->setVisibleKind(Travel::VISIBLE_KIND_PUBLIC);
     $travel->setStatus(Travel::STATUS_ACTIVE);
+    $travel->setTravelTypeID(self::randomIdFromClass(TravelType::class));
 
     // reset other fields
     $travel->fill($data);

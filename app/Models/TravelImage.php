@@ -15,6 +15,8 @@ class TravelImage extends ORM
 
   protected $table = 'travel_images';
 
+  public $timestamps = false;
+
   protected $fillable = [
     'travel_id',
     'kind',
