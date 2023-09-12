@@ -13,7 +13,7 @@ class TravelImageUploadMainEditLayout extends Rows
   {
     return [
       Group::make([
-        Upload::make('images')->title('Main photo')->groups('photo')->maxFiles(10)->maxFileSize(Settings::getMaxUploadFileSize()), // Size in MB
+        Upload::make('images')->title('Main photo')->groups('photo')->maxFiles(10)->maxFileSize(Settings::loadMaxFileSize()), // Size in MB
       ]),
     ];
   }

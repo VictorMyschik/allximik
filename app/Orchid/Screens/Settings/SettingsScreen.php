@@ -22,11 +22,17 @@ class SettingsScreen extends Screen
 
   public const SETUP_MODAL_TITLE = 'Settings';
 
-  public string $name = 'Settings';
-
-  public string $description = 'Managing Platform Settings';
-
   public static string $screen = PlatformProvider::PERMISSION_SETTINGS;
+
+  public function name(): string
+  {
+    return 'Settings';
+  }
+
+  public function description(): string
+  {
+    return 'Managing Platform Settings';
+  }
 
   public function permission(): ?iterable
   {
@@ -66,7 +72,7 @@ class SettingsScreen extends Screen
   }
 
   #region Popup From
-  public function asyncGetSetup(int $id): iterable
+  public function asyncGetSetup(int $id = 0): iterable
   {
     abort_unless(User::canEdit(self::$screen), 403);
 
