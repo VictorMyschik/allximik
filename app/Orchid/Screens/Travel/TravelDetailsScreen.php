@@ -6,9 +6,9 @@ use App\Classes\Email\EmailService;
 use App\Models\EmailInvite;
 use App\Models\Travel;
 use App\Models\UIH;
-use App\Orchid\Layouts\Travel\TravelEditLayout;
 use App\Orchid\Layouts\Travel\InviteByEmailEditLayout;
 use App\Orchid\Layouts\Travel\InviteListLayout;
+use App\Orchid\Layouts\Travel\TravelEditLayout;
 use App\Orchid\Layouts\Travel\UIHActiveListLayout;
 use App\Orchid\Layouts\Travel\UIHNotActiveListLayout;
 use Illuminate\Http\RedirectResponse;
@@ -20,7 +20,6 @@ use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Screen;
-use Orchid\Screen\Sight;
 use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
@@ -32,7 +31,7 @@ class TravelDetailsScreen extends Screen
   public function query(Travel $travel): array
   {
     return [
-      'travel'           => $travel,
+      'travel'         => $travel,
       'active-uih'     => UIH::filters([])->where('travel_id', $travel->id())->where('status', UIH::STATUS_APPROVED)->paginate(20),
       'not-active-uih' => UIH::filters([])->where('travel_id', $travel->id())->where('status', UIH::STATUS_REJECTED)->paginate(20),
       'invite-uih'     => EmailInvite::filters([])->where('travel_id', $travel->id())->paginate(20)
@@ -54,39 +53,20 @@ class TravelDetailsScreen extends Screen
     $id = (int)$this->travel?->id();
     $user = Auth::user();
 
-    if ($this->travel?->getUser()->id === $user) {
-      return [
-        ModalToggle::make('Edit')
-          ->type(Color::BASIC())
-          ->icon('pencil')
-          ->modal('travel_modal')
-          ->modalTitle('Edit travel id')
-          ->method('saveTravel')
-          ->asyncParameters(['id' => $id]),
+    return [
+      ModalToggle::make('Edit')
+        ->type(Color::BASIC())
+        ->icon('pencil')
+        ->modal('travel_modal')
+        ->modalTitle('Edit travel id')
+        ->method('saveTravel')
+        ->asyncParameters(['id' => $id]),
 
-        Button::make(__('Delete'))
-          ->icon('bs.trash3')
-          ->confirm(__('Are you sure you want to delete the travel?'))
-          ->method('remove', ['id' => $id]),
-      ];
-    }
-
-    if ($this->travel) {
-      // Check invite by email
-      $inviteToken = EmailInvite::where('travel_id', $id)->where('email', $user->email)->first()?->getToken();
-
-      if ($inviteToken) {
-        return [
-          Link::make('Подтвердить участие')->icon('check')
-            ->route('travel.email.invite.link', ['token' => $inviteToken, 'status' => 'true']),
-
-          Link::make('Отказаться')->icon('ban')
-            ->route('travel.email.invite.link', ['token' => $inviteToken, 'status' => 'false']),
-        ];
-      }
-    }
-
-    return [];
+      Button::make(__('Delete'))
+        ->icon('bs.trash3')
+        ->confirm(__('Are you sure you want to delete the travel?'))
+        ->method('remove', ['id' => $id]),
+    ];
   }
 
   public function layout(): iterable
@@ -98,14 +78,14 @@ class TravelDetailsScreen extends Screen
 
       $out[] = Layout::modal('new_invite_email_modal', InviteByEmailEditLayout::class);
 
-      $columns[] = Layout::legend('Описание похода', [
-        Sight::make('Статус')->render(fn() => $travel->getStatusName()),
-        Sight::make('Страна')->render(fn() => $travel->getCountry()->getName()),
-        Sight::make('Тип похода')->render(fn() => $travel->getTravelType()->getName()),
-        Sight::make('Тип публичности')->render(fn() => $travel->getPublicName())->popover(Travel::getVisibleKindDescription()[$travel->getVisibleKind()]),
-        Sight::make('Публичная страница')
-          ->render(fn() => Travel::VISIBLE_KIND_FOR_ME !== $travel->getVisibleKind() ? "<a target='_blank' href='" . $publicLink . "'>$publicLink</a>" : 'Публичная страница не доступна'),
-      ])->title('Основная информация');
+      $rows = [
+        'Статус'             => $travel->getStatusName(),
+        'Страна'             => $travel->getCountry()->getName(),
+        'Тип похода'         => $travel->getTravelType()->getName(),
+        'Тип публичности'    => $travel->getVisibleKindName(),
+        'Публичная страница' => Travel::VISIBLE_KIND_FOR_ME !== $travel->getVisibleKind() ? "<a target='_blank' href='" . $publicLink . "'>$publicLink</a>" : 'Публичная страница не доступна',
+      ];
+      $columns[] = Layout::view('table_travel_details', ['rows' => $rows]);
 
       if (Travel::VISIBLE_KIND_FOR_ME !== $travel->getVisibleKind()) {
         $columns[] = Layout::tabs([
@@ -131,6 +111,8 @@ class TravelDetailsScreen extends Screen
       $out[] = Layout::columns($columns);
     }
 
+    $out[] = Layout::view('travel_images', ['images' => $this->travel?->getImagesList()]);
+
     return $out;
   }
 
@@ -151,13 +133,13 @@ class TravelDetailsScreen extends Screen
   public function saveTravel(Request $request): void
   {
     $data = $request->validate([
-      'travel.name'         => 'required|string|max:255',
-      'travel.description'  => 'nullable|string|max:8000',
-      'travel.status'       => 'required|integer',
-      'travel.user_id'      => 'required|integer',
-      'travel.country_id'   => 'required|integer',
+      'travel.name'           => 'required|string|max:255',
+      'travel.description'    => 'nullable|string|max:8000',
+      'travel.status'         => 'required|integer',
+      'travel.user_id'        => 'required|integer',
+      'travel.country_id'     => 'required|integer',
       'travel.travel_type_id' => 'required|integer',
-      'travel.public'       => 'required|integer',
+      'travel.visible_kind'   => 'required|integer',
     ])['travel'];
 
     $travel = Travel::loadBy($request->get('id')) ?: new Travel();

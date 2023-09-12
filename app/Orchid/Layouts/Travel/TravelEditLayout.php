@@ -48,8 +48,8 @@ class TravelEditLayout extends Rows
         ->empty('Select travel type')
         ->options(TravelType::all()->pluck('name', 'id')->toArray()),
 
-      Select::make('travel.public')
-        ->title('Public')
+      Select::make('travel.visible_kind')
+        ->title('Visible type')
         ->required()
         ->empty('Select travel public type')
         ->options(Travel::getVisibleKindList()),

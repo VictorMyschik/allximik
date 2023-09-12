@@ -48,7 +48,7 @@ class Travel extends ORM
     'public_id',
     'country_id',
     'travel_type_id',
-    'public',
+    'visible_kind',
     'public_id',
     'created_at',
     'updated_at',
@@ -153,11 +153,6 @@ class Travel extends ORM
     }
 
     $this->visible_kind = $value;
-  }
-
-  public function getPublicName(): string
-  {
-    return self::getVisibleKindList()[$this->getVisibleKind()];
   }
 
   public function getUser(): User
