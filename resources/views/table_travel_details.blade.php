@@ -4,7 +4,7 @@
       <tbody>
       @foreach($rows as $key => $val)
         <tr>
-          <td>{{$key}}</td><td>{!! $val !!}</td>
+          <td><b>{{$key}}</b></td><td>{!! $val !!}</td>
         </tr>
       @endforeach
       </tbody>

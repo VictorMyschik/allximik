@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Orchid\Filters\Filterable;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
@@ -13,6 +14,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
+  public const TYPE_VIEW = 'view';
+
+  public const TYPE_EDIT = 'edit';
+
+  public const TYPE_DELETE = 'delete';
+
   use AsSource;
   use Filterable;
   use Notifiable;
@@ -84,4 +91,33 @@ class User extends Authenticatable implements JWTSubject
     'updated_at',
     'created_at',
   ];
+
+  public static function canView(string $objectCheckName): bool
+  {
+    $user = Auth::user();
+
+    return $user->hasAccess($objectCheckName . '.' . self::TYPE_VIEW);
+  }
+
+  public static function canEdit(string $objectCheckName): bool
+  {
+    if (! self::canView($objectCheckName)) {
+      return false;
+    }
+
+    $user = Auth::user();
+
+    return $user->hasAccess($objectCheckName . '.' . self::TYPE_EDIT);
+  }
+
+  public static function canDelete(string $objectCheckName): bool
+  {
+    if (! self::canEdit($objectCheckName)) {
+      return false;
+    }
+
+    $user = Auth::user();
+
+    return $user->hasAccess($objectCheckName . '.' . self::TYPE_DELETE);
+  }
 }

@@ -61,4 +61,9 @@ class TravelImage extends ORM
   {
     $this->travel_id = $value;
   }
+
+  public function getFileURL(): string
+  {
+
+  }
 }

@@ -3,6 +3,7 @@
 namespace App\Helpers\System;
 
 use App\Exceptions\Handler;
+use Carbon\Carbon;
 use DateTimeZone;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -302,5 +303,10 @@ class MrDateTime extends \DateTime
 
     $new_date = clone $this;
     return new self($new_date->modify($str));
+  }
+
+  public static function toDateTime(Carbon $obj): string
+  {
+    return $obj->format(self::AMERICAN_DATE_TIME);
   }
 }

@@ -9,11 +9,11 @@ use App\Models\UIH;
 use App\Orchid\Layouts\Travel\InviteByEmailEditLayout;
 use App\Orchid\Layouts\Travel\InviteListLayout;
 use App\Orchid\Layouts\Travel\TravelEditLayout;
+use App\Orchid\Layouts\Travel\TravelImageUploadMainEditLayout;
 use App\Orchid\Layouts\Travel\UIHActiveListLayout;
 use App\Orchid\Layouts\Travel\UIHNotActiveListLayout;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
@@ -51,7 +51,6 @@ class TravelDetailsScreen extends Screen
   public function commandBar(): iterable
   {
     $id = (int)$this->travel?->id();
-    $user = Auth::user();
 
     return [
       ModalToggle::make('Edit')
@@ -71,7 +70,10 @@ class TravelDetailsScreen extends Screen
 
   public function layout(): iterable
   {
-    $out = [Layout::modal('travel_modal', TravelEditLayout::class)->async('asyncGetTravel')];
+    $out = [
+      Layout::modal('travel_modal', TravelEditLayout::class)->async('asyncGetTravel'),
+      Layout::modal('travel_image_modal', TravelImageUploadMainEditLayout::class),
+    ];
 
     if ($travel = Travel::loadBy((int)$this->travel?->id())) {
       $publicLink = route('travel.public.link', ['token' => $travel->getPublicId()]);
@@ -109,9 +111,19 @@ class TravelDetailsScreen extends Screen
       }
 
       $out[] = Layout::columns($columns);
-    }
 
-    $out[] = Layout::view('travel_images', ['images' => $this->travel?->getImagesList()]);
+      $out[] = Layout::rows([ModalToggle::make('Edit')
+        ->type(Color::BASIC())
+        ->icon('pencil')
+        ->modal('travel_image_modal')
+        ->modalTitle('Edit travel id')
+        ->method('saveTravel')
+      ]);
+      // Images
+      $images = $this->travel->getImagesList();
+
+      $out[] = Layout::view('travel_images', ['images' => $images]);
+    }
 
     return $out;
   }
@@ -217,5 +229,17 @@ class TravelDetailsScreen extends Screen
     $invite->save_mr();
 
     Toast::info('Приглашение отклонено');
+  }
+
+  public function saveImages(Request $request): void
+  {
+    $images = $request->files->get('images');
+
+    $travel = Travel::loadByOrDie($request->get('id'));
+
+    $travel->setImages($images);
+    $travel->save_mr();
+
+    Toast::info('Images was saved');
   }
 }

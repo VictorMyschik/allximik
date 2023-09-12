@@ -9,10 +9,14 @@ use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\Lego\Fields\UpdatedNullableFieldTrait;
 use App\Models\ORM\ORM;
 use Illuminate\Support\Facades\Cache;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class Settings extends ORM
 {
   // Orchid
+  use AsSource;
+  use Filterable;
   use ActiveFieldTrait;
   use NameFieldTrait;
   use DescriptionNullableFieldTrait;

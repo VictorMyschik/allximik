@@ -11,6 +11,7 @@ use App\Orchid\Screens\Examples\ExampleFieldsScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\FAQScreen;
+use App\Orchid\Screens\Settings\SettingsScreen;
 use App\Orchid\Screens\Travel\TravelDetailsScreen;
 use App\Orchid\Screens\Travel\TravelListScreen;
 use App\Orchid\Screens\PlatformScreen;
@@ -115,3 +116,5 @@ Route::screen('/travel/list', TravelListScreen::class)->name('travel.list');
 Route::screen('/travel/details/{travel}', TravelDetailsScreen::class)->name('travel.details');
 Route::screen('/emails', EmailScreen::class)->name('reference.email.list');
 
+// Setup
+Route::screen('setup/list', SettingsScreen::class)->name('setup.list');

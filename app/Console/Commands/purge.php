@@ -61,7 +61,7 @@ class purge extends Command
 
   private function clearCache(): void
   {
-    file_put_contents(storage_path('logs/laravel.log'),'');
+    file_put_contents(storage_path('logs/laravel.log'), '');
     $this->success('Logs: cleared');
     $this->nl();
 
@@ -137,10 +137,21 @@ class purge extends Command
 
   private array $tableList = [
     'users',
+    'roles',
+    'role_users',
     'country',
     'currency',
     'measure',
     'travel_type',
     'travel',
+    'communicate',
+    'currency_rate',
+    'email_invite',
+    'faq',
+    'global_category_stuff',
+    'global_stuff',
+    'travel_images',
+    'uih',
+    'user_info',
   ];
 }
