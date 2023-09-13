@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Classes\Travel\Image\ImageClass;
+use App\Classes\ValidationClass;
+use App\Models\Travel;
+use App\Models\TravelImage;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
+class TravelImageController extends Controller
+{
+  public function __construct(private readonly ImageClass $imageClass, private readonly ValidationClass $validationClass)
+  {
+    $this->middleware('auth.jwt', ['except' => ['getList', 'showImage']]);
+  }
+
+  public function showImage(string $imageName): StreamedResponse
+  {
+    $input = $this->validationClass->validateImageShow($imageName);
+
+    $image = TravelImage::loadByOrDie($input['image_id']);
+    $travel = $image->getTravel();
+    $path = $travel->getDirNameForImages() . DIRECTORY_SEPARATOR . $image->name;
+
+    return Storage::response($path);
+  }
+
+  public function getList(Request $request): JsonResponse
+  {
+    $input = $this->validationClass->validateImageList($request);
+
+    $travel = Travel::loadByOrDie((int)$input['travel_id']);
+
+    $list = $travel->getFullImagesList();
+
+    $out = [];
+
+    foreach ($list as $image) {
+      $out[] = $this->imageClass->getTravelImageData($image);
+    }
+
+    return $this->successResult($out);
+  }
+
+  public function imageUpload(Request $request): JsonResponse
+  {
+    $input = $this->validationClass->validateImageUpload($request);
+
+    $result = $this->imageClass->uploadImage(Travel::loadByOrDie((int)$input['travel_id']), $input['image'], $input);
+
+    return $this->successResult($result);
+  }
+
+  public function deleteImage(Request $request): JsonResponse
+  {
+    $input = $this->validationClass->validateImageDelete($request);
+
+    $this->imageClass->deleteImage(TravelImage::loadByOrDie((int)$input['image_id']));
+
+    return $this->successResult();
+  }
+}

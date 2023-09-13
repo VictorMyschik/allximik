@@ -30,7 +30,7 @@ class TravelClass extends TravelBaseClass
     $result = [];
 
     foreach ($travels as $travel) {
-      $result[] = $this->getConvertTravel($travel);
+      $result[] = $this->getTravelData($travel);
     }
 
     return $result;

@@ -3,6 +3,7 @@
 namespace App\Orchid\Screens\Travel;
 
 use App\Classes\Email\EmailService;
+use App\Classes\Travel\Image\ImageClass;
 use App\Models\EmailInvite;
 use App\Models\Travel;
 use App\Models\UIH;
@@ -72,7 +73,6 @@ class TravelDetailsScreen extends Screen
   {
     $out = [
       Layout::modal('travel_modal', TravelEditLayout::class)->async('asyncGetTravel'),
-      Layout::modal('travel_image_modal', TravelImageUploadMainEditLayout::class),
     ];
 
     if ($travel = Travel::loadBy((int)$this->travel?->id())) {
@@ -112,13 +112,6 @@ class TravelDetailsScreen extends Screen
 
       $out[] = Layout::columns($columns);
 
-      $out[] = Layout::rows([ModalToggle::make('Edit')
-        ->type(Color::BASIC())
-        ->icon('pencil')
-        ->modal('travel_image_modal')
-        ->modalTitle('Edit travel id')
-        ->method('saveTravel')
-      ]);
       // Images
       $images = $this->travel->getImagesList();
 
@@ -231,14 +224,14 @@ class TravelDetailsScreen extends Screen
     Toast::info('Приглашение отклонено');
   }
 
-  public function saveImages(Request $request): void
+  public function saveImage(Request $request, Travel $travel): void
   {
-    $images = $request->files->get('images');
+    $files = $request->allFiles();
 
-    $travel = Travel::loadByOrDie($request->get('id'));
-
-    $travel->setImages($images);
-    $travel->save_mr();
+    $imageClass = new ImageClass();
+    foreach ($files as $image) {
+     // $imageClass->uploadImage($travel, $image, $kind);
+    }
 
     Toast::info('Images was saved');
   }

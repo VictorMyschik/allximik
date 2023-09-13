@@ -12,7 +12,7 @@ class TravelBaseClass
   {
   }
 
-  public function getConvertTravel(Travel $travel): array
+  public function getTravelData(Travel $travel): array
   {
     $out = [
       'id'           => $travel->id(),

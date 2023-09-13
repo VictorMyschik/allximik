@@ -136,6 +136,7 @@ class purge extends Command
   }
 
   private array $tableList = [
+    'settings',
     'users',
     'roles',
     'role_users',

@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Models\Lego\Fields\CreatedFieldTrait;
+use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
 use App\Models\Lego\Fields\KindFieldTrait;
 use App\Models\Lego\Fields\NameFieldTrait;
+use App\Models\Lego\Fields\UserFieldTrait;
 use App\Models\ORM\ORM;
 
 class TravelImage extends ORM
@@ -12,6 +14,8 @@ class TravelImage extends ORM
   use NameFieldTrait;
   use CreatedFieldTrait;
   use KindFieldTrait;
+  use DescriptionNullableFieldTrait;
+  use UserFieldTrait;
 
   protected $table = 'travel_images';
 
@@ -35,6 +39,35 @@ class TravelImage extends ORM
   }
 
   #region ORM
+  public function canView(?User $user): bool
+  {
+    $travel = $this->getTravel();
+
+    if (!$travel->canView($user)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public function canEdit(?User $user): bool
+  {
+    if (!$user) {
+      return false;
+    }
+
+    if (!$this->canView($user)) {
+      return false;
+    }
+
+    // is author of image
+    if ($user->id() === $this->getUser()->id() || $user->id() === $this->getTravel()->getUser()->id()) {
+      return true;
+    }
+
+    return false;
+  }
+
   public function afterSave(): void
   {
     $this->flushAffectedCaches();
@@ -60,6 +93,56 @@ class TravelImage extends ORM
   public function setTravelID(int $value): void
   {
     $this->travel_id = $value;
+  }
+
+  public function getSort(): int
+  {
+    return $this->sort;
+  }
+
+  public function setSort(int $value): void
+  {
+    $this->sort = $value;
+  }
+
+  public function getOriginalName(): string
+  {
+    return $this->original_name;
+  }
+
+  public function setOriginalName(string $value): void
+  {
+    $this->original_name = $value;
+  }
+
+  public function getSize(): int
+  {
+    return $this->size;
+  }
+
+  public function setSize(int $value): void
+  {
+    $this->size = $value;
+  }
+
+  public function getHash(): string
+  {
+    return $this->hash;
+  }
+
+  public function setHash(string $value): void
+  {
+    $this->hash = $value;
+  }
+
+  public function getGroup(): ?string
+  {
+    return $this->group;
+  }
+
+  public function setGroup(?string $value): void
+  {
+    $this->group = $value;
   }
 
   public function getFileURL(): string

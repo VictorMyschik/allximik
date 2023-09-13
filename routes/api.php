@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthJWTController;
-use App\Http\Controllers\TravelController;
+use App\Http\Controllers\TravelImageController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,12 +16,13 @@ Route::group(['middleware' => 'auth.jwt', 'prefix' => 'auth'], function () {
   Route::post('refresh', [AuthJWTController::class, 'refresh'])->name('api.refresh');
 });
 
-/// Public routes
-Route::group([], function () {
-  //Route::post('/travel/list', [TravelController::class, 'getList'])->name('api.travel.list');
-});
-
-/// Private routes
-Route::group(['middleware' => 'auth.jwt'], function () {
-
+Route::group(['prefix' => 'travel'], function () {
+  // Get list
+  Route::post('image/list', [TravelImageController::class, 'getList'])->name('api.travel.image.list');
+  // Upload image
+  Route::post('image/upload', [TravelImageController::class, 'imageUpload'])->name('api.travel.image.upload');
+  // Delete image
+  Route::post('image/delete', [TravelImageController::class, 'deleteImage'])->name('api.travel.image.delete');
+  // Public URL
+  Route::get('/image/show/{image_name}', [TravelImageController::class, 'showImage'])->name('api.travel.image.get');
 });

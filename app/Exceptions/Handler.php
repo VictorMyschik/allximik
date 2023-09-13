@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -30,10 +31,15 @@ class Handler extends ExceptionHandler
 
   public function render($request, \Throwable $e)
   {
-    if ($e instanceof APIAuthException) {
-      return response()->json(['result' => false, 'error' => $e->getMessage()], 400);
+    if ($e instanceof ExceptionAPIBase) {
+      return $this->failResult($e->getMessage());
     }
 
     return parent::render($request, $e);
+  }
+
+  private function failResult(string $message): JsonResponse
+  {
+    return response()->json(['result' => false, 'error' => $message], 400);
   }
 }

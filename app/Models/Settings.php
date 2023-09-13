@@ -109,8 +109,8 @@ class Settings extends ORM
     return self::getSetting('admin_email');
   }
 
-  public static function loadMaxFileSize(): int
+  public static function loadMaxFileSize(): string
   {
-    return self::getSetting('max_upload_file_size') ?: 0;
+    return self::getSetting('max_upload_file_size');
   }
 }

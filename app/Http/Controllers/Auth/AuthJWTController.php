@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\APIAuthException;
+use App\Exceptions\Validation\APIAuthException;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\AuthenticateAPIMiddleware;
 use App\Models\User;

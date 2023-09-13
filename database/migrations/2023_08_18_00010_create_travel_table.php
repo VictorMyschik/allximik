@@ -22,7 +22,7 @@ return new class extends Migration {
       $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
       $table->timestamp('deleted_at')->nullable();
 
-      $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+      $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
       $table->foreign('country_id')->references('id')->on('country')->onDelete('set null');
       $table->foreign('travel_type_id')->references('id')->on('travel_type')->onDelete('set null');
     });

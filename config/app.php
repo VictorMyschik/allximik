@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\TravelImageServiceProvider;
 use App\Providers\TravelServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
@@ -172,6 +173,7 @@ return [
 
     Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
     TravelServiceProvider::class,
+    TravelImageServiceProvider::class,
   ])->toArray(),
 
   /*

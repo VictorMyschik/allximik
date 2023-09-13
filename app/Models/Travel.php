@@ -90,6 +90,8 @@ class Travel extends ORM
     ];
   }
 
+  private const STORAGE_PATH = 'files/travel_images';
+
   #region ORM
   public function canView(?User $me = null): bool
   {
@@ -106,6 +108,24 @@ class Travel extends ORM
     return false;
   }
 
+  public function canEdit(?User $me = null): bool
+  {
+    if (!$this->canView($me)) {
+      return false;
+    }
+
+    // Authorised user only
+    if (!$me) {
+      return false;
+    }
+
+    if ($me->id() !== $this->user_id) {
+      return false;
+    }
+
+    return true;
+  }
+
   public function afterSave(): void
   {
     if (!$this->getPublicId()) {
@@ -118,6 +138,7 @@ class Travel extends ORM
   {
     Cache::forget('travel_image_main_' . $this->id());
     Cache::forget('travel_image_list_' . $this->id());
+    Cache::forget('travel_image_full_list_' . $this->id());
   }
 
   #endregion
@@ -193,6 +214,18 @@ class Travel extends ORM
   public function setPublicId(?string $value): void
   {
     $this->public_id = $value;
+  }
+
+  public function getDirNameForImages(): string
+  {
+    return self::STORAGE_PATH;
+  }
+
+  public function getFullImagesList(): array
+  {
+    return Cache::rememberForever('travel_image_full_list_' . $this->id(), function () {
+      return TravelImage::where('travel_id', $this->id())->get()->all();
+    });
   }
 
   public function getMainImage(): ?string

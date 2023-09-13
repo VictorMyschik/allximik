@@ -2,6 +2,7 @@
 
 namespace App\Models\ORM;
 
+use App\Exceptions\ExceptionAPIBase;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,7 +22,7 @@ class ORM extends Model
    */
   public static function loadBy(?int $value)
   {
-    if(!$value) {
+    if (!$value) {
       return null;
     }
 
@@ -36,33 +37,37 @@ class ORM extends Model
     return $this->attributes['id'] ?? null;
   }
 
-  public static function loadByOrDie(?string $value)
+  /**
+   * @throws ExceptionAPIBase
+   */
+  public static function loadByOrDie(?int $value): static
   {
-    $object = self::loadBy($value);
+    $travel = self::loadBy($value);
 
-    $msg = 'Object ' . self::getTableName() . ' not loaded: id' . $value;
-    abort_if(!$object, Response::HTTP_INTERNAL_SERVER_ERROR, $msg);
+    if (!$travel) {
+      throw new ExceptionAPIBase('Object ' . self::getTableName() . ' not loaded: id ' . $value);
+    }
 
-    return $object;
+    return $travel;
   }
 
   public function save_mr(bool $flushAffectedCaches = true): ?int
   {
-    if(method_exists($this, 'beforeSave')) {
+    if (method_exists($this, 'beforeSave')) {
       $this->beforeSave();
     }
 
     $this->save();
 
-    if(method_exists($this, 'afterSave')) {
+    if (method_exists($this, 'afterSave')) {
       $this->afterSave();
     }
 
-    if($flushAffectedCaches && method_exists($this, 'flushAffectedCaches')) {
+    if ($flushAffectedCaches && method_exists($this, 'flushAffectedCaches')) {
       $this->flushAffectedCaches();
     }
 
-    if(method_exists($this, 'selfFlush')) {
+    if (method_exists($this, 'selfFlush')) {
       $this->selfFlush();
     }
 
@@ -71,14 +76,14 @@ class ORM extends Model
 
   public function delete_mr(bool $skipAffectedCache = true): bool
   {
-    if(method_exists($this, 'beforeDelete')) {
+    if (method_exists($this, 'beforeDelete')) {
       $this->beforeDelete();
     }
 
     $results = $this->delete();
     abort_if(!$results, Response::HTTP_INTERNAL_SERVER_ERROR, 'Object was not deleted');
 
-    if($skipAffectedCache && method_exists($this, 'afterDelete')) {
+    if ($skipAffectedCache && method_exists($this, 'afterDelete')) {
       $this->afterDelete();
     }
 
