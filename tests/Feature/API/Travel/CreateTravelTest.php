@@ -51,4 +51,23 @@ class CreateTravelTest extends BaseTest
     self::assertEquals($payload['visible_kind'], $content['content']['visible_kind']['key']);
     self::assertEquals($payload['travel_type_id'], $content['content']['travel_type']['id']);
   }
+
+  public function testCreateMissingTravel()
+  {
+    $payload = [
+      'name'           => 'Test travel',
+      'description'    => 'Test description',
+      'country_id'     => self::randomIdFromClass(Country::class),
+      'visible_kind'   => 999, // invalid
+      'status'         => array_rand(Travel::getStatusList()),
+      'travel_type_id' => self::randomIdFromClass(TravelType::class),
+    ];
+
+    [$code, $content] = self::doPost(route('api.travel.create'), $payload);
+
+    self::assertEquals(400, $code);
+    self::assertFalse($content['result']);
+    self::assertNotEmpty($content['error']);
+    self::assertNotEmpty('Input missing', $content['error']);
+  }
 }
