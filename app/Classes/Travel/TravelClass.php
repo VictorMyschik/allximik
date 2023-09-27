@@ -27,6 +27,22 @@ class TravelClass extends TravelBaseClass
     return $travel;
   }
 
+  public function updateTravel(array $input): Travel
+  {
+    $travel = Travel::loadByOrDie($input['id']);
+
+    $travel->setTravelTypeID($input['travel_type_id']);
+    $travel->setCountryID($input['country_id']);
+    $travel->setUserID($input['user_id']);
+    $travel->setName($input['name']);
+    $travel->setDescription($input['description']);
+    $travel->setStatus($input['status']);
+    $travel->setVisibleKind($input['visible_kind']);
+    $travel->save_mr();
+
+    return $travel;
+  }
+
   /**
    * Using for personal pages. Show draft users travels
    * @return Travel[]

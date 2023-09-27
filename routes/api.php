@@ -21,6 +21,9 @@ Route::group(['prefix' => 'travel'], function () {
 
   // Create Travel
   Route::post('create', [TravelController::class, 'create'])->name('api.travel.create');
+  Route::post('update', [TravelController::class, 'update'])->name('api.travel.update');
+  Route::post('details', [TravelController::class, 'details'])->name('api.travel.details');
+  Route::post('delete', [TravelController::class, 'delete'])->name('api.travel.delete');
   Route::post('list', [TravelController::class, 'getList'])->name('api.travel.list');
 
   // Get list

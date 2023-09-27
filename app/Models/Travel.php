@@ -110,16 +110,25 @@ class Travel extends ORM
 
   public function canEdit(?User $me = null): bool
   {
-    if (!$this->canView($me)) {
-      return false;
-    }
-
     // Authorised user only
     if (!$me) {
       return false;
     }
 
+    if (!$this->canView($me)) {
+      return false;
+    }
+
     if ($me->id() !== $this->user_id) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public function canDelete(User $user): bool
+  {
+    if (!$this->canEdit($user)) {
       return false;
     }
 

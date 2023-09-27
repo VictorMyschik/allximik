@@ -32,7 +32,7 @@ class TravelBaseClass
       'country' => [
         'id'           => $travel->getCountry()->id(),
         'name'         => $travel->getCountry()->getName(),
-        'continent_id' => [
+        'continent' => [
           'name'       => $travel->getCountry()->getContinentName(),
           'short_name' => $travel->getCountry()->getContinentShortName(),
         ],
