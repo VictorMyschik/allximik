@@ -27,7 +27,11 @@ class TravelClass extends TravelBaseClass
     return $travel;
   }
 
-  public function getPersonalList(): array
+  /**
+   * Using for personal pages. Show draft users travels
+   * @return Travel[]
+   */
+  public function getPersonalList(array $filter = []): array
   {
     return Travel::where('user_id', $this->user->id())->get()->all();
   }

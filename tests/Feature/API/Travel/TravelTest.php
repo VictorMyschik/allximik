@@ -39,7 +39,7 @@ class TravelTest extends BaseTest
       $travel = new TravelClass(null);
 
       foreach ($travel->getPublicList() as $item) {
-        $this->assertTrue($item->canView($user));
+        self::assertTrue($item->canView($user));
       }
 
       $list = $travel->getConvertedList();
@@ -54,13 +54,25 @@ class TravelTest extends BaseTest
       $travel = new TravelClass($user);
 
       foreach ($travel->getPublicList() as $item) {
-        $this->assertTrue($item->canView($user));
+        self::assertTrue($item->canView($user));
       }
 
       $list = $travel->getConvertedList();
       foreach ($list as $travelConverted) {
         self::assertTrue(in_array($travelConverted['visible_kind']['key'], [Travel::VISIBLE_KIND_PUBLIC, Travel::VISIBLE_KIND_PLATFORM, Travel::VISIBLE_KIND_FOR_ME]));
         self::assertTrue(in_array($travelConverted['status']['key'], [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED]), 'Visible wrong: ' . $travelConverted['status']['name']);
+      }
+    }
+  }
+
+  public function testGetPersonalList(): void
+  {
+    foreach ($this->users as $user) {
+      $travel = new TravelClass($user);
+
+      foreach ($travel->getPersonalList() as $item) {
+        self::assertTrue($item->canView($user));
+        self::assertEquals($item->getUser()->id(), $user->id());
       }
     }
   }
