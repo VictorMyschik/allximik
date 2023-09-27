@@ -6,7 +6,6 @@ use App\Classes\Travel\TravelClass;
 use App\Models\Reference\Country;
 use App\Models\Travel;
 use App\Models\TravelType;
-use App\Models\User;
 use Tests\BaseTest;
 
 class TravelTest extends BaseTest
@@ -26,21 +25,27 @@ class TravelTest extends BaseTest
     foreach ($this->users as $user) {
       $user->delete();
     }
+
+    // Deleted cascade from User
+    foreach ($this->travels as $travel) {
+      self::assertNull(Travel::loadBy($travel->id()));
+    }
   }
 
   public function testGetList(): void
   {
-    $user = User::find(1);
+    foreach ($this->users as $user) {
+      $travel = new TravelClass();
 
-    $travel = new TravelClass($user);
+      foreach ($travel->getList() as $item) {
+        $this->assertTrue($item->canView($user));
+      }
 
-    foreach ($travel->getList() as $item) {
-      $this->assertTrue($item->canView($user));
-    }
-
-    $list = $travel->getConvertedList();
-    foreach ($list as $travelConverted) {
-
+      $list = $travel->getConvertedList();
+      foreach ($list as $travelConverted) {
+        self::assertEquals(Travel::VISIBLE_KIND_PUBLIC, $travelConverted['visible_kind']['key']);
+        self::assertEquals(Travel::STATUS_ACTIVE, $travelConverted['status']['key']);
+      }
     }
   }
 
@@ -62,17 +67,17 @@ class TravelTest extends BaseTest
 
     $this->users = $users;
 
-    $cnt = 10;
+    $cnt = 30;
+    $out = [];
 
     for ($i = 0; $i <= $cnt; $i++) {
       $out[] = $this->createTravel($users[array_rand($users)]->id(), [
         'name'           => self::randomString(20),
         'country_id'     => self::randomIdFromClass(Country::class),
-        'visible_kind'   => Travel::VISIBLE_KIND_FOR_ME,
-        'status'         => Travel::STATUS_ACTIVE,
+        'visible_kind'   => array_rand(Travel::getVisibleKindList()),
+        'status'         => array_rand(Travel::getStatusList()),
         'travel_type_id' => self::randomIdFromClass(TravelType::class)
       ]);
-
     }
 
     return $out;

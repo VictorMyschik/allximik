@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Classes;
+namespace App\Classes\Validation;
 
 use App\Exceptions\Validation\InputMissingException;
 use App\Exceptions\Validation\MaxFileSizeException;
@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-readonly class ValidationClass
+readonly class TravelImageValidation
 {
   public function __construct(private ?User $user)
   {
@@ -127,5 +127,29 @@ readonly class ValidationClass
     }
 
     return ['image_id' => $image->id()];
+  }
+
+  public function validateImageUpdate(Request $request): array
+  {
+    $validator = Validator::make($request->all(), [
+      'image_id'    => 'required|int|min:1',
+      'image_type'  => 'required|int|min:1|max:2',
+      'group'       => 'nullable|string|max:255',
+      'description' => 'nullable|string|max:255',
+    ]);
+
+    if ($validator->fails()) {
+      throw new InputMissingException($validator->errors(), 400);
+    }
+
+    $input = $validator->safe()->only('image_id', 'image_type', 'group', 'description');
+
+    $image = TravelImage::loadByOrDie($input['id']);
+
+    if (!$image->getTravel()->id() !== $this->user->id()) {
+      throw new PermissionDeniedException();
+    }
+
+    return $input;
   }
 }

@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Classes\Travel\Image\ImageClass;
-use App\Classes\ValidationClass;
+use App\Classes\Validation\TravelImageValidation;
 use App\Http\Middleware\AuthenticateAPIMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
@@ -19,8 +19,8 @@ class TravelImageServiceProvider extends ServiceProvider
       return new ImageClass(Auth::guard(AuthenticateAPIMiddleware::GUARD)->user());
     });
 
-    $this->app->singleton(ValidationClass::class, function () {
-      return new ValidationClass(Auth::guard(AuthenticateAPIMiddleware::GUARD)->user());
+    $this->app->singleton(TravelImageValidation::class, function () {
+      return new TravelImageValidation(Auth::guard(AuthenticateAPIMiddleware::GUARD)->user());
     });
   }
 }

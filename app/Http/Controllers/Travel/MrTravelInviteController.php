@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Travel;
 
+use App\Http\Controllers\Controller;
 use App\Models\EmailInvite;
 use App\Models\UIH;
 use App\Models\User;

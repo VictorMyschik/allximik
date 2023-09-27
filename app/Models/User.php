@@ -23,6 +23,7 @@ class User extends Authenticatable implements JWTSubject
   use AsSource;
   use Filterable;
   use Notifiable;
+
   public function getJWTIdentifier()
   {
     return $this->getKey();
@@ -101,7 +102,7 @@ class User extends Authenticatable implements JWTSubject
 
   public static function canEdit(string $objectCheckName): bool
   {
-    if (! self::canView($objectCheckName)) {
+    if (!self::canView($objectCheckName)) {
       return false;
     }
 
@@ -112,7 +113,7 @@ class User extends Authenticatable implements JWTSubject
 
   public static function canDelete(string $objectCheckName): bool
   {
-    if (! self::canEdit($objectCheckName)) {
+    if (!self::canEdit($objectCheckName)) {
       return false;
     }
 

@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\MrAccountController;
 use App\Http\Controllers\MrFAQController;
-use App\Http\Controllers\TravelController;
-use App\Http\Controllers\MrTravelInviteController;
 use App\Http\Controllers\MrTestController;
 use App\Http\Controllers\MrWelcomeController;
+use App\Http\Controllers\Travel\MrTravelInviteController;
+use App\Http\Controllers\Travel\TravelController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;

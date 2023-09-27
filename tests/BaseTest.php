@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Tests\Helpers\AuthTrait;
 use Tests\Helpers\CreateModelsTrait;
 use Tests\Helpers\HTTPClientTrait;
 use Tests\Helpers\RawDataHelper;
@@ -12,6 +13,7 @@ class BaseTest extends TestCase
 {
   use CreateModelsTrait;
   use HTTPClientTrait;
+  use AuthTrait;
 
   public function setUp(): void
   {

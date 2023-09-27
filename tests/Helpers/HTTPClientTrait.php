@@ -3,19 +3,33 @@
 namespace Tests\Helpers;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Exception\ClientException;
 
 trait HTTPClientTrait
 {
-  /**
-   * @throws GuzzleException
-   */
-  public static function doPost(string $url, array $args, array $options = []): ResponseInterface
+  public function doPost(string $url, array $args, array $headers = []): array
   {
     $client = new Client();
-    $response = $client->request('POST', $url, $args, $options);
 
-    return $response;
+    if (isset($this->authToken)) {
+      $headers['Authorization'] = 'Bearer ' . $this->authToken;
+    }
+
+    $headers = array_merge($headers, [
+      'Content-Type' => 'application/json',
+    ]);
+
+    $options = [
+      'headers' => $headers,
+      'body'    => json_encode($args),
+    ];
+
+    try {
+      $response = $client->post($url, $options);
+    } catch (ClientException  $e) {
+      $response = $e->getResponse();
+    }
+
+    return [$response->getStatusCode(), json_decode($response->getBody()->getContents(), true)];
   }
 }

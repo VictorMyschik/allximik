@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Travel;
 
 use App\Classes\Travel\Image\ImageClass;
-use App\Classes\ValidationClass;
+use App\Classes\Validation\TravelImageValidation;
+use App\Http\Controllers\Controller;
 use App\Models\Travel;
 use App\Models\TravelImage;
 use Illuminate\Http\JsonResponse;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TravelImageController extends Controller
 {
-  public function __construct(private readonly ImageClass $imageClass, private readonly ValidationClass $validationClass)
+  public function __construct(private readonly ImageClass $imageClass, private readonly TravelImageValidation $validationClass)
   {
     $this->middleware('auth.jwt', ['except' => ['getList', 'showImage']]);
   }
@@ -60,6 +61,13 @@ class TravelImageController extends Controller
     $input = $this->validationClass->validateImageDelete($request);
 
     $this->imageClass->deleteImage(TravelImage::loadByOrDie((int)$input['image_id']));
+
+    return $this->successResult();
+  }
+
+  public function updateImage(Request $request): JsonResponse
+  {
+    $input = $this->validationClass->validateImageUpdate($request);
 
     return $this->successResult();
   }
