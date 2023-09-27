@@ -8,7 +8,7 @@ use App\Models\Travel;
 use App\Models\TravelType;
 use Tests\BaseTest;
 
-class TravelTest extends BaseTest
+class GetTravelListTest extends BaseTest
 {
   private array $users;
   private array $travels;

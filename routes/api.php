@@ -21,6 +21,7 @@ Route::group(['prefix' => 'travel'], function () {
 
   // Create Travel
   Route::post('create', [TravelController::class, 'create'])->name('api.travel.create');
+  Route::post('list', [TravelController::class, 'getList'])->name('api.travel.list');
 
   // Get list
   Route::post('image/list', [TravelImageController::class, 'getList'])->name('api.travel.image.list');
