@@ -52,7 +52,7 @@ class CreateTravelTest extends BaseTest
     self::assertEquals($payload['travel_type_id'], $content['content']['travel_type']['id']);
   }
 
-  public function testCreateMissingTravel()
+  public function testCreateMissingTravel(): void
   {
     $payload = [
       'name'           => 'Test travel',

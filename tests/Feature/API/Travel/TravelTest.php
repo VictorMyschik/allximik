@@ -32,19 +32,35 @@ class TravelTest extends BaseTest
     }
   }
 
-  public function testGetList(): void
+  public function testGetPublicList(): void
   {
+    // Guest
     foreach ($this->users as $user) {
-      $travel = new TravelClass();
+      $travel = new TravelClass(null);
 
-      foreach ($travel->getList() as $item) {
+      foreach ($travel->getPublicList() as $item) {
         $this->assertTrue($item->canView($user));
       }
 
       $list = $travel->getConvertedList();
       foreach ($list as $travelConverted) {
-        self::assertEquals(Travel::VISIBLE_KIND_PUBLIC, $travelConverted['visible_kind']['key']);
-        self::assertEquals(Travel::STATUS_ACTIVE, $travelConverted['status']['key']);
+        self::assertTrue(in_array($travelConverted['visible_kind']['key'], [Travel::VISIBLE_KIND_PUBLIC, Travel::VISIBLE_KIND_PLATFORM]));
+        self::assertTrue(in_array($travelConverted['status']['key'], [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED]), 'Visible wrong: ' . $travelConverted['status']['name']);
+      }
+    }
+
+    // Authorized user
+    foreach ($this->users as $user) {
+      $travel = new TravelClass($user);
+
+      foreach ($travel->getPublicList() as $item) {
+        $this->assertTrue($item->canView($user));
+      }
+
+      $list = $travel->getConvertedList();
+      foreach ($list as $travelConverted) {
+        self::assertTrue(in_array($travelConverted['visible_kind']['key'], [Travel::VISIBLE_KIND_PUBLIC, Travel::VISIBLE_KIND_PLATFORM, Travel::VISIBLE_KIND_FOR_ME]));
+        self::assertTrue(in_array($travelConverted['status']['key'], [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED]), 'Visible wrong: ' . $travelConverted['status']['name']);
       }
     }
   }
@@ -60,14 +76,14 @@ class TravelTest extends BaseTest
     // Generate random users
     for ($i = 0; $i <= 10; $i++) {
       $email = self::randomEmail();
-      $password = self::randomString(20);
+      $password = 'test_password';
 
       $users[] = $this->createUser($email, $password);
     }
 
     $this->users = $users;
 
-    $cnt = 30;
+    $cnt = 50;
     $out = [];
 
     for ($i = 0; $i <= $cnt; $i++) {

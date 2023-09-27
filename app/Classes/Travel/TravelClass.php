@@ -3,9 +3,14 @@
 namespace App\Classes\Travel;
 
 use App\Models\Travel;
+use App\Models\User;
 
 class TravelClass extends TravelBaseClass
 {
+  public function __construct(private readonly ?User $user)
+  {
+  }
+
   public function createTravel(array $input): Travel
   {
     $travel = new Travel();
@@ -22,17 +27,39 @@ class TravelClass extends TravelBaseClass
     return $travel;
   }
 
+  public function getPersonalList(): array
+  {
+    return Travel::where('user_id', $this->user->id())->get()->all();
+  }
+
   /**
+   * For public pages. Not show draft users travels
    * @return Travel[]
    */
-  public function getList(): array
+  public function getPublicList(array $filter = []): array
   {
-    return Travel::where('visible_kind', Travel::VISIBLE_KIND_PUBLIC)->where('status', Travel::STATUS_ACTIVE)->get()->all();
+    if (!$this->user) {
+      $query = Travel::where('visible_kind', Travel::VISIBLE_KIND_PUBLIC)->whereIn('status', [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED]);
+    }
+
+    if ($this->user) {
+      $query = Travel::whereIn('visible_kind', [Travel::VISIBLE_KIND_PUBLIC, Travel::VISIBLE_KIND_PLATFORM])
+        ->whereIn('status', [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED])
+        ->orWhere(function ($q) {
+          $q->where('user_id', $this->user->id())
+            ->whereIn('visible_kind', [Travel::VISIBLE_KIND_PUBLIC, Travel::VISIBLE_KIND_PLATFORM])
+            ->whereIn('status', [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED]);
+        });
+    }
+
+    // Filtering
+
+    return $query->get()->all();
   }
 
   public function getConvertedList(): array
   {
-    $travels = $this->getList();
+    $travels = $this->getPublicList();
 
     return $this->convertTravelList($travels);
   }

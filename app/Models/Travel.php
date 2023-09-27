@@ -79,14 +79,14 @@ class Travel extends ORM
 
   const STATUS_DRAFT = -1;
   const STATUS_ACTIVE = 1;
-  const STATUS_CLOSED = 2;
+  const STATUS_ARCHIVED = 2;
 
   public static function getStatusList(): array
   {
     return [
-      self::STATUS_DRAFT  => 'Черновик',
-      self::STATUS_ACTIVE => 'Активный',
-      self::STATUS_CLOSED => 'Закрытый',
+      self::STATUS_DRAFT    => 'Черновик',
+      self::STATUS_ACTIVE   => 'Активный',
+      self::STATUS_ARCHIVED => 'Архивный',
     ];
   }
 
