@@ -48,15 +48,8 @@ class TravelController extends Controller
 
   public function details(Request $request): JsonResponse
   {
-    $travel = Travel::loadBy((int)$request->get('id'));
-
-    if (!$travel) {
-      throw new InputMissingException('Travel not found');
-    }
-
-    if (!$travel->canView()) {
-      throw new PermissionDeniedException();
-    }
+    $input = $this->validationClass->validateDetails($request);
+    $travel = Travel::loadBy($input['id']);
 
     return $this->successResult($this->travel->getTravelData($travel));
   }

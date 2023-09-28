@@ -86,4 +86,23 @@ class TravelValidation
 
     return ['id' => $id];
   }
+
+  public function validateDetails(Request $request): array
+  {
+    $validator = Validator::make($request->all(), [
+      'id' => 'required|int|exists:travel,id',
+    ]);
+
+    if ($validator->fails()) {
+      throw new InputMissingException($validator->errors()->first());
+    }
+
+    $id = (int)$validator->safe()->only('id')['id'];
+
+    if (!Travel::loadByOrDie($id)->canView($this->user)) {
+      throw new PermissionDeniedException();
+    }
+
+    return ['id' => $id];
+  }
 }
