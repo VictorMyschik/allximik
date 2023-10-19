@@ -13,7 +13,7 @@ return new class extends Migration {
       $table->string('description', 8000)->nullable();
       $table->unsignedBigInteger('category_id')->nullable();
 
-      $table->foreign('category_id')->references('id')->on('category_equipments')->nullOnDelete();
+      $table->foreign('category_id')->references('id')->on('category_equipments')->restrictOnDelete();
     });
   }
 
