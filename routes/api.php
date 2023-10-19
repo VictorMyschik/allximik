@@ -33,7 +33,7 @@ Route::group(['prefix' => 'travel'], function () {
   // Delete image
   Route::post('image/delete', [TravelImageController::class, 'deleteImage'])->name('api.travel.image.delete');
   // Public URL
-  Route::get('/image/show/{image_name}', [TravelImageController::class, 'showImage'])->name('api.travel.image.get');
+  Route::get('{travel_id}/image/show/{image_name}', [TravelImageController::class, 'showImage'])->name('api.travel.image.get');
   // Update image description
   Route::post('image/update', [TravelImageController::class, 'updateImage'])->name('api.travel.image.update');
 });

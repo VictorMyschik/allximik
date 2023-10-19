@@ -2,6 +2,7 @@
 
 namespace App\Classes\Validation;
 
+use App\Exceptions\ExceptionAPIBase;
 use App\Exceptions\Validation\InputMissingException;
 use App\Exceptions\Validation\MaxFileSizeException;
 use App\Exceptions\Validation\PermissionDeniedException;
@@ -21,7 +22,7 @@ readonly class TravelImageValidation
   {
   }
 
-  public function validateImageShow(string $imageName): array
+  public function validateImageShow(int $travel_id, string $imageName): array
   {
     $validator = Validator::make(['image_name' => $imageName], ['image_name' => 'required|string|max:255']);
 
@@ -31,7 +32,7 @@ readonly class TravelImageValidation
 
     $name = $validator->safe()->only('image_name')['image_name'];
     /** @var TravelImage $image */
-    $image = TravelImage::where('name', $name)->first();
+    $image = TravelImage::where('travel_id', $travel_id)->where('name', $name)->first();
 
     if (!$image) {
       throw new InputMissingException('Image not found');
@@ -133,7 +134,7 @@ readonly class TravelImageValidation
   {
     $validator = Validator::make($request->all(), [
       'image_id'    => 'required|int|min:1',
-      'image_type'  => 'required|int|min:1|max:2',
+      'image_type'  => 'nullable|int|min:1|max:2',
       'group'       => 'nullable|string|max:255',
       'description' => 'nullable|string|max:255',
     ]);
@@ -144,9 +145,9 @@ readonly class TravelImageValidation
 
     $input = $validator->safe()->only('image_id', 'image_type', 'group', 'description');
 
-    $image = TravelImage::loadByOrDie($input['id']);
+    $image = TravelImage::loadByOrDie($input['image_id']);
 
-    if (!$image->getTravel()->id() !== $this->user->id()) {
+    if ($image->getTravel()->id() !== $this->user->id()) {
       throw new PermissionDeniedException();
     }
 

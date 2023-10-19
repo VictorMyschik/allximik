@@ -28,7 +28,7 @@ readonly class ImageClass
     $travelImageProperties['description'] = $properties['description'] ?? null; // optionally
     $travelImageProperties['group'] = $properties['group'] ?? null; // optionally
 
-    return $this->addImage($travelImageProperties);
+    return $this->addNewImage($travelImageProperties);
   }
 
   private function getExistsOrSaveNewImage(Travel $travel, UploadedFile $image): array
@@ -74,20 +74,19 @@ readonly class ImageClass
     };
   }
 
-  private function addImage(array $properties): array
+  private function addNewImage(array $properties): array
   {
     $saveImage = new TravelImage();
 
-    $saveImage->setName($properties['name']);
-    $saveImage->setKind($properties['image_type']);
-    $saveImage->setTravelID($properties['travel_id']);
-    $saveImage->setUserID($this->user->id());
-    $saveImage->setOriginalName($properties['original_name']);
+    $saveImage->setTravelID((int)$properties['travel_id']);
     $saveImage->setSize($properties['size']);
     $saveImage->setHash($properties['hash']);
+    $saveImage->setName($properties['name']);
+    $saveImage->setUserID($this->user->id());
+    $saveImage->setOriginalName($properties['original_name']);
 
-    $saveImage->setDescription($properties['description']);
-    $saveImage->setGroup($properties['group']);
+    $this->setImageProperties($saveImage, $properties);
+
     $id = $saveImage->save_mr();
 
     $properties['id'] = $id;
@@ -95,11 +94,26 @@ readonly class ImageClass
     return $properties;
   }
 
+  public function setImageProperties(TravelImage &$image, array $properties): void
+  {
+    if (array_key_exists('description', $properties)) {
+      $image->setDescription($properties['description']);
+    }
+
+    if (array_key_exists('group', $properties)) {
+      $image->setGroup($properties['group']);
+    }
+
+    if (array_key_exists('image_type', $properties)) {
+      $image->setKind($properties['image_type']);
+    }
+  }
+
   public function deleteImage(TravelImage $image): void
   {
-    $images = TravelImage::where('name', $image->getName())->get();
+    $images = DB::table(TravelImage::getTableName())->where('name', $image->getName())->count();
 
-    if ($images->count() === 1) {
+    if ($images === 1) {
       $this->deleteImageFromStorage($image);
     }
 
@@ -110,7 +124,7 @@ readonly class ImageClass
   {
     $imagePath = $image->getTravel()->getDirNameForImages() . '/' . $image->getName();
     $imagePath = str_replace('storage/', '', $imagePath);
-    Storage::disk('local')->delete($imagePath);
+    Storage::delete($imagePath);
   }
 
   public function getTravelImageData(TravelImage $image): array
@@ -123,12 +137,12 @@ readonly class ImageClass
       'group'       => $image->getGroup(),
       'kind'        => $image->getKindName(),
       'sort'        => $image->getSort(),
-      'created' => $image->getCreatedObject()->format(MrDateTime::SHORT_DATE),
+      'created'     => $image->getCreatedObject()->format(MrDateTime::SHORT_DATE),
     ];
   }
 
   private function getPublicUrl(TravelImage $image): string
   {
-    return route('api.travel.image.get', ['image_name' => $image->getName()]);
+    return route('api.travel.image.get', ['travel_id' => $image->getTravel()->id(), 'image_name' => $image->getName()]);
   }
 }

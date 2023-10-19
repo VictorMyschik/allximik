@@ -27,6 +27,7 @@ class Travel extends ORM
   protected $table = 'travel';
 
   protected array $allowedSorts = [
+    'id',
     'name',
     'description',
     'status',

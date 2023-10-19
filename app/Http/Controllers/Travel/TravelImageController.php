@@ -19,9 +19,9 @@ class TravelImageController extends Controller
     $this->middleware('auth.jwt', ['except' => ['getList', 'showImage']]);
   }
 
-  public function showImage(string $imageName): StreamedResponse
+  public function showImage(int $travel_id, string $imageName): StreamedResponse
   {
-    $input = $this->validationClass->validateImageShow($imageName);
+    $input = $this->validationClass->validateImageShow($travel_id, $imageName);
 
     $image = TravelImage::loadByOrDie($input['image_id']);
     $travel = $image->getTravel();
@@ -68,6 +68,12 @@ class TravelImageController extends Controller
   public function updateImage(Request $request): JsonResponse
   {
     $input = $this->validationClass->validateImageUpdate($request);
+
+    $image = TravelImage::loadByOrDie($input['image_id']);
+
+    $this->imageClass->setImageProperties($image, $input);
+
+    $image->save_mr();
 
     return $this->successResult();
   }
