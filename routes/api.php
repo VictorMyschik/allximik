@@ -18,7 +18,6 @@ Route::group(['middleware' => 'auth.jwt', 'prefix' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'travel'], function () {
-
   // Create Travel
   Route::post('create', [TravelController::class, 'create'])->name('api.travel.create');
   Route::post('update', [TravelController::class, 'update'])->name('api.travel.update');

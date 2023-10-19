@@ -145,8 +145,8 @@ class TravelImage extends ORM
     $this->group = $value;
   }
 
-  public function getFileURL(): string
+  public function getLocalPath(): string
   {
-
+    return $this->getTravel()->getDirNameForImages() . DIRECTORY_SEPARATOR . $this->name;
   }
 }

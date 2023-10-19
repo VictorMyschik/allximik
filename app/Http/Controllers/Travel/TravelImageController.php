@@ -9,6 +9,7 @@ use App\Models\Travel;
 use App\Models\TravelImage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -16,7 +17,7 @@ class TravelImageController extends Controller
 {
   public function __construct(private readonly ImageClass $imageClass, private readonly TravelImageValidation $validationClass)
   {
-    $this->middleware('auth.jwt', ['except' => ['getList', 'showImage']]);
+    $this->middleware('auth.jwt', ['except' => ['getList', 'showImage', 'showImageAdmin']]);
   }
 
   public function showImage(int $travel_id, string $imageName): StreamedResponse

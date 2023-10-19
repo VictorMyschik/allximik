@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminTravelController;
 use App\Http\Controllers\MrAccountController;
 use App\Http\Controllers\MrFAQController;
 use App\Http\Controllers\MrTestController;
@@ -29,4 +30,10 @@ Route::match(['get', 'post'], '/travel/email-invite/{token}/{status}', [MrTravel
 
 Route::group(['middleware' => ['auth']], function () {
   Route::get('/account', [MrAccountController::class, 'index'])->name('account');
+});
+
+// Admin routes
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin/travel'], function () {
+  Route::get('{travel_id}/image/show/{image_name}', [AdminTravelController::class, 'showImage'])->name('admin.show.image');
+  Route::get('image/delete/{image_id}', [AdminTravelController::class, 'deleteImage'])->name('admin.delete.travel.image');
 });
