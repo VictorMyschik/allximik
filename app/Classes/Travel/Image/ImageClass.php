@@ -111,21 +111,9 @@ readonly class ImageClass
 
   public function deleteImage(TravelImage $image): void
   {
-    $images = DB::table(TravelImage::getTableName())->where('name', $image->getName())->count();
-
-    if ($images === 1) {
-      $this->deleteImageFromStorage($image);
-    }
-
     $image->delete_mr();
   }
 
-  private function deleteImageFromStorage(TravelImage $image): void
-  {
-    $imagePath = $image->getTravel()->getDirNameForImages() . '/' . $image->getName();
-    $imagePath = str_replace('storage/', '', $imagePath);
-    Storage::delete($imagePath);
-  }
 
   public function getTravelImageData(TravelImage $image): array
   {

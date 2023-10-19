@@ -8,6 +8,8 @@ use App\Models\Lego\Fields\KindFieldTrait;
 use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\Lego\Fields\UserFieldTrait;
 use App\Models\ORM\ORM;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class TravelImage extends ORM
 {
@@ -75,6 +77,12 @@ class TravelImage extends ORM
 
   public function beforeDelete(): void
   {
+    $images = DB::table(TravelImage::getTableName())->where('name', $this->getName())->count();
+
+    if ($images === 1) {
+      $this->deleteImageFromStorage();
+    }
+
     $this->flushAffectedCaches();
   }
 
@@ -148,5 +156,12 @@ class TravelImage extends ORM
   public function getLocalPath(): string
   {
     return $this->getTravel()->getDirNameForImages() . DIRECTORY_SEPARATOR . $this->name;
+  }
+
+  private function deleteImageFromStorage(): void
+  {
+    $imagePath = $this->getTravel()->getDirNameForImages() . '/' . $this->getName();
+    $imagePath = str_replace('storage/', '', $imagePath);
+    Storage::delete($imagePath);
   }
 }

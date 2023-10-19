@@ -151,6 +151,17 @@ class Travel extends ORM
     Cache::forget('travel_image_full_list_' . $this->id());
   }
 
+  public function beforeDelete(): void
+  {
+    foreach ($this->getImagesList() as $image) {
+      $image->delete_mr();
+    }
+    
+     foreach ($this->getMainImage() as $image) {
+      $image->delete_mr();
+    }
+  }
+
   #endregion
   public function getStatus(): int
   {
@@ -245,6 +256,9 @@ class Travel extends ORM
     });
   }
 
+  /**
+   * @return TravelImage[]
+   */
   public function getImagesList(): array
   {
     return Cache::rememberForever('travel_image_list_' . $this->id(), function () {

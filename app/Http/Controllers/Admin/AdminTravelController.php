@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Classes\Travel\Image\ImageClass;
 use App\Http\Controllers\Controller;
 use App\Models\Travel;
 use App\Models\TravelImage;
@@ -22,8 +21,8 @@ class AdminTravelController extends Controller
 
   public function deleteImage(int $image_id): RedirectResponse
   {
-    $imageClass = new ImageClass(null);
-    $imageClass->deleteImage(TravelImage::loadByOrDie($image_id));
+    $image = TravelImage::loadByOrDie($image_id);
+    $image->delete_mr();
 
     return back();
   }

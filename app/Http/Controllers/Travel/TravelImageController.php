@@ -61,7 +61,8 @@ class TravelImageController extends Controller
   {
     $input = $this->validationClass->validateImageDelete($request);
 
-    $this->imageClass->deleteImage(TravelImage::loadByOrDie((int)$input['image_id']));
+    $image = TravelImage::loadByOrDie((int)$input['image_id']);
+    $image->delete_mr();
 
     return $this->successResult();
   }

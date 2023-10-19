@@ -50,7 +50,9 @@ class CRUDTravelImageTest extends BaseTest
     self::assertEquals($args['description'], $image->getDescription());
     self::assertEquals($args['image_type'], $image->getKind());
 
-    $imageClass->deleteImage(TravelImage::loadByOrDie($result['id']));
+    $image = TravelImage::loadByOrDie($result['id']);
+    $image->delete_mr();
+
     self::assertFalse(Storage::exists($travel->getDirNameForImages() . '/' . $result['name']));
 
     // Delete
