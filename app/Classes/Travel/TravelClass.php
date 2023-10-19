@@ -64,12 +64,7 @@ class TravelClass extends TravelBaseClass
 
     if ($this->user) {
       $query = Travel::whereIn('visible_kind', [Travel::VISIBLE_KIND_PUBLIC, Travel::VISIBLE_KIND_PLATFORM])
-        ->whereIn('status', [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED])
-        ->orWhere(function ($q) {
-          $q->where('user_id', $this->user->id())
-            ->whereIn('visible_kind', [Travel::VISIBLE_KIND_PUBLIC, Travel::VISIBLE_KIND_PLATFORM])
-            ->whereIn('status', [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED]);
-        });
+        ->whereIn('status', [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED]);
     }
 
     // Filtering
@@ -79,20 +74,9 @@ class TravelClass extends TravelBaseClass
 
   public function getConvertedList(): array
   {
-    $travels = $this->getPublicList();
-
-    return $this->convertTravelList($travels);
-  }
-
-  /**
-   * @param Travel[] $travels
-   * @return array
-   */
-  public function convertTravelList(array $travels): array
-  {
     $result = [];
 
-    foreach ($travels as $travel) {
+    foreach ($this->getPublicList() as $travel) {
       $result[] = $this->getTravelData($travel);
     }
 

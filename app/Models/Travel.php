@@ -56,7 +56,7 @@ class Travel extends ORM
   ];
 
   const VISIBLE_KIND_PUBLIC = 2; // публичный
-  const VISIBLE_KIND_FOR_ME = 0; // только для меня
+  const VISIBLE_KIND_FOR_ME = 0; // только для меня, в публичном поиске не участвует
   const VISIBLE_KIND_PLATFORM = 1; // только для зарегистрированных пользователей
 
   public static function getVisibleKindList(): array

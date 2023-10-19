@@ -6,6 +6,7 @@ use App\Classes\Travel\TravelClass;
 use App\Models\Reference\Country;
 use App\Models\Travel;
 use App\Models\TravelType;
+use Illuminate\Support\Facades\Auth;
 use Tests\BaseTest;
 
 class GetTravelListTest extends BaseTest
@@ -44,13 +45,14 @@ class GetTravelListTest extends BaseTest
 
       $list = $travel->getConvertedList();
       foreach ($list as $travelConverted) {
-        self::assertTrue(in_array($travelConverted['visible_kind']['key'], [Travel::VISIBLE_KIND_PUBLIC, Travel::VISIBLE_KIND_PLATFORM]));
+        self::assertEquals(Travel::VISIBLE_KIND_PUBLIC, $travelConverted['visible_kind']['key']);
         self::assertTrue(in_array($travelConverted['status']['key'], [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED]), 'Visible wrong: ' . $travelConverted['status']['name']);
       }
     }
 
     // Authorized user
     foreach ($this->users as $user) {
+      // Auth
       $travel = new TravelClass($user);
 
       foreach ($travel->getPublicList() as $item) {
@@ -59,7 +61,7 @@ class GetTravelListTest extends BaseTest
 
       $list = $travel->getConvertedList();
       foreach ($list as $travelConverted) {
-        self::assertTrue(in_array($travelConverted['visible_kind']['key'], [Travel::VISIBLE_KIND_PUBLIC, Travel::VISIBLE_KIND_PLATFORM, Travel::VISIBLE_KIND_FOR_ME]));
+        self::assertTrue(in_array($travelConverted['visible_kind']['key'], [Travel::VISIBLE_KIND_PUBLIC, Travel::VISIBLE_KIND_PLATFORM]));
         self::assertTrue(in_array($travelConverted['status']['key'], [Travel::STATUS_ACTIVE, Travel::STATUS_ARCHIVED]), 'Visible wrong: ' . $travelConverted['status']['name']);
       }
     }
