@@ -5,6 +5,7 @@ namespace App\Orchid\Layouts\References;
 use App\Models\CategoryEquipment;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
@@ -18,7 +19,8 @@ class CategoryEquipmentListLayout extends Table
   {
     return [
       TD::make('id', __('ID'))->sort(),
-      TD::make('name', __('Name'))->sort(),
+      TD::make('name', __('Name'))->render(fn(CategoryEquipment $categoryEquipment) => Link::make($categoryEquipment->getName())
+        ->route('reference.equipments.list', ['category[0]' => $categoryEquipment->getName()]))->sort(),
       TD::make('description', __('Description'))->sort(),
 
       TD::make(__('Actions'))

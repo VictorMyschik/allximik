@@ -3,8 +3,10 @@
 namespace App\Orchid\Screens\References;
 
 use App\Models\Equipment;
+use App\Orchid\Filters\EquipmentFilter;
 use App\Orchid\Layouts\References\EquipmentEditLayout;
 use App\Orchid\Layouts\References\EquipmentListLayout;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
@@ -17,7 +19,7 @@ class EquipmentScreen extends Screen
   public function query(): iterable
   {
     return [
-      'list' => Equipment::filters([])->paginate(20)
+      'list' => EquipmentFilter::query()
     ];
   }
 
@@ -47,6 +49,7 @@ class EquipmentScreen extends Screen
   public function layout(): iterable
   {
     return [
+      EquipmentFilter::displayFilterCard(),
       EquipmentListLayout::class,
       Layout::modal('equipment', EquipmentEditLayout::class)->async('asyncGetEquipment'),
     ];
@@ -83,4 +86,23 @@ class EquipmentScreen extends Screen
       Toast::error($e->getMessage());
     }
   }
+
+  #region Filter
+  public function runFiltering(Request $request): RedirectResponse
+  {
+    $list = [];
+    foreach (EquipmentFilter::getFilterFields() as $item) {
+      if (!is_null($request->get($item))) {
+        $list[$item] = $request->get($item);
+      }
+    }
+
+    return redirect()->route('reference.equipments.list', $list);
+  }
+
+  public function clearFilter(): RedirectResponse
+  {
+    return redirect()->route('reference.equipments.list');
+  }
+  #endregion
 }
