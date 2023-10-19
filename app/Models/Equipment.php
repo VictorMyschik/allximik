@@ -7,13 +7,13 @@ use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
 use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
 
-class GlobalStuff extends ORM
+class Equipment extends ORM
 {
   use NameFieldTrait;
   use DescriptionNullableFieldTrait;
   use CreatedFieldTrait;
 
-  protected $table = 'global_stuff';
+  protected $table = 'equipments';
   public $timestamps = false;
 
   protected $fillable = array(
@@ -22,9 +22,9 @@ class GlobalStuff extends ORM
     'category_id',
   );
 
-  public function getCategory(): ?GlobalCategoryStuff
+  public function getCategory(): ?CategoryEquipment
   {
-    return GlobalCategoryStuff::loadBy($this->category_id);
+    return CategoryEquipment::loadBy($this->category_id);
   }
 
   public function setCategoryID(?int $value): void

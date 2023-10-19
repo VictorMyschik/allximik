@@ -156,10 +156,8 @@ class Travel extends ORM
     foreach ($this->getImagesList() as $image) {
       $image->delete_mr();
     }
-    
-     foreach ($this->getMainImage() as $image) {
-      $image->delete_mr();
-    }
+
+    $this->getMainImage()?->delete_mr();
   }
 
   #endregion
@@ -249,7 +247,7 @@ class Travel extends ORM
     });
   }
 
-  public function getMainImage(): ?string
+  public function getMainImage(): ?TravelImage
   {
     return Cache::rememberForever('travel_image_main_' . $this->id(), function () {
       return TravelImage::where('travel_id', $this->id())->where('kind', TravelImage::KIND_MAIN)->value('name');
