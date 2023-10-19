@@ -6,9 +6,13 @@ use App\Models\Lego\Fields\CreatedFieldTrait;
 use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
 use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class Equipment extends ORM
 {
+  use AsSource;
+  use Filterable;
   use NameFieldTrait;
   use DescriptionNullableFieldTrait;
   use CreatedFieldTrait;
@@ -21,6 +25,12 @@ class Equipment extends ORM
     'description',
     'category_id',
   );
+
+  protected array $allowedSorts = [
+    'id',
+    'name',
+    'description',
+  ];
 
   public function getCategory(): ?CategoryEquipment
   {

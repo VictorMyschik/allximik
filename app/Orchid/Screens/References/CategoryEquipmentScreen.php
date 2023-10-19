@@ -76,6 +76,10 @@ class CategoryEquipmentScreen extends Screen
 
   public function remove(int $id): void
   {
-    CategoryEquipment::loadBy($id)?->delete_mr();
+    try {
+      CategoryEquipment::loadBy($id)?->delete_mr();
+    } catch (\Exception $e) {
+      Toast::error($e->getMessage());
+    }
   }
 }

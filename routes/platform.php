@@ -13,6 +13,7 @@ use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\FAQScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\References\CategoryEquipmentScreen;
+use App\Orchid\Screens\References\EquipmentScreen;
 use App\Orchid\Screens\References\ReferenceCountryScreen;
 use App\Orchid\Screens\References\ReferenceCurrencyRateScreen;
 use App\Orchid\Screens\References\ReferenceCurrencyScreen;
@@ -112,6 +113,7 @@ Route::screen('/reference/country/list', ReferenceCountryScreen::class)->name('r
 Route::screen('/reference/currency/list', ReferenceCurrencyScreen::class)->name('reference.currency.list');
 Route::screen('/reference/currency-rate/list', ReferenceCurrencyRateScreen::class)->name('reference.currency-rate.list');
 Route::screen('/reference/category-equipments/list', CategoryEquipmentScreen::class)->name('reference.category.equipments.list');
+Route::screen('/reference/equipments/list', EquipmentScreen::class)->name('reference.equipments.list');
 // Travel
 Route::screen('/travel-type/list', TravelTypeListScreen::class)->name('reference.travel-type.list');
 Route::screen('/travel/list', TravelListScreen::class)->name('travel.list');
