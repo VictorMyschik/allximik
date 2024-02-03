@@ -2,9 +2,8 @@
 
 namespace App\Orchid\Filters;
 
-use App\Models\Settings;
+use App\Models\System\Settings;
 use App\Orchid\Layouts\ActionFilterPanel;
-use App\Orchid\Screens\Settings\SettingsScreen;
 use Illuminate\Database\Eloquent\Builder;
 use Orchid\Filters\Filter;
 use Orchid\Screen\Fields\Group;

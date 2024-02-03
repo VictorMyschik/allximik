@@ -2,12 +2,11 @@
 
 namespace App\Classes\Validation;
 
-use App\Exceptions\ExceptionAPIBase;
 use App\Exceptions\Validation\InputMissingException;
 use App\Exceptions\Validation\MaxFileSizeException;
 use App\Exceptions\Validation\PermissionDeniedException;
 use App\Helpers\System\MrBaseHelper;
-use App\Models\Settings;
+use App\Models\System\Settings;
 use App\Models\Travel;
 use App\Models\TravelImage;
 use App\Models\User;

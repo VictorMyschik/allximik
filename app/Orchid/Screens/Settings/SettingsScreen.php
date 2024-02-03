@@ -2,7 +2,7 @@
 
 namespace App\Orchid\Screens\Settings;
 
-use App\Models\Settings;
+use App\Models\System\Settings;
 use App\Models\User;
 use App\Orchid\Filters\SetupFilter;
 use App\Orchid\Layouts\Setup\SetupEditLayout;

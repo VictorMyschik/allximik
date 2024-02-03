@@ -3,7 +3,7 @@
 namespace App\Orchid\Layouts\Setup;
 
 use App\Helpers\System\MrDateTime;
-use App\Models\Settings;
+use App\Models\System\Settings;
 use App\Models\User;
 use App\Orchid\Screens\Settings\SettingsScreen;
 use Orchid\Screen\Actions\Button;

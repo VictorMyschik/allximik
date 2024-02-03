@@ -84,7 +84,7 @@ class TravelDetailsScreen extends Screen
         'Тип похода'         => $travel->getTravelType()->getName(),
         'Тип публичности'    => $travel->getVisibleKindName(),
         'Публичная страница' => Travel::VISIBLE_KIND_FOR_ME !== $travel->getVisibleKind() ? "<a target='_blank' href='" . $publicLink . "'>$publicLink</a>" : 'Публичная страница не доступна',
-        'Снаряжение'         => '<a href="'.route().'">Снаряжение</a>',
+        //'Снаряжение'         => '<a href="'.route().'">Снаряжение</a>',
       ];
       $columns[] = Layout::view('table_travel_details', ['rows' => $rows]);
 

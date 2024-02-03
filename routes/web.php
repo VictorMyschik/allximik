@@ -31,6 +31,11 @@ Route::get('/clear', function () {
   return back();
 })->name('clear');
 
+Route::get('locale/{locale}', function ($locale) {
+  Session::put('locale', $locale);
+  return redirect()->back();
+});
+
 Route::get('/', [MrWelcomeController::class, 'index'])->name('welcome');
 
 Route::match(['get', 'post'], '/faq', [MrFAQController::class, 'faqPage'])->name('faq.page');

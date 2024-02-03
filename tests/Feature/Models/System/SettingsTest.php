@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature\Models\System;
 
-use App\Models\Settings;
+use App\Models\System\Settings;
 use Tests\TestBase;
 
 class SettingsTest extends TestBase

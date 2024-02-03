@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\System;
 
 use App\Models\Lego\Fields\ActiveFieldTrait;
 use App\Models\Lego\Fields\CreatedFieldTrait;
@@ -14,7 +14,6 @@ use Orchid\Screen\AsSource;
 
 class Settings extends ORM
 {
-  // Orchid
   use AsSource;
   use Filterable;
 

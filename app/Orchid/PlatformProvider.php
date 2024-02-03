@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid;
 
-use App\Models\Settings;
+use App\Models\System\Settings;
 use App\Models\User;
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
@@ -16,6 +16,7 @@ class PlatformProvider extends OrchidServiceProvider
   public const PERMISSION_TRAVEL = 'Travel';
   public const PERMISSION_SYSTEM = 'System';
   public const PERMISSION_SETTINGS = 'Settings';
+  public const PERMISSION_LANGUAGE = 'Language';
 
   public function boot(Dashboard $dashboard): void
   {
@@ -45,10 +46,10 @@ class PlatformProvider extends OrchidServiceProvider
       Menu::make('User Addresses')->icon('bs.list')->route('user.info.address.list'),
     ]);
 
-    $menu[] = Menu::make('System Info')->icon('info')->list([
+    $menu[self::PERMISSION_SETTINGS] = Menu::make('System')->icon('info')->list([
+      Menu::make('Settings')->icon('settings')->route('setup.list'),
       Menu::make('Cache')->icon('database')->route('system.info.cache'),
       Menu::make('Cron')->icon('calendar')->route('system.info.cron'),
-      Menu::make('Settings')->icon('settings')->route('setup.list'),
     ])->divider();
 
     // FAQ
@@ -61,7 +62,7 @@ class PlatformProvider extends OrchidServiceProvider
     $menu[] = Menu::make(__('Roles'))->icon('bs.lock')->route('platform.systems.roles')
       ->permission('platform.systems.roles')->divider();
 
-    $menu[self::PERMISSION_SETTINGS] = Menu::make('Settings')->icon('settings')->list(self::categoryMenu())->route('setup.list');
+    $menu[self::PERMISSION_LANGUAGE] = Menu::make('Language')->icon('language')->route('language.list');
 
     foreach ($menu as $name => $item) {
       if (is_numeric($name)) {
@@ -120,6 +121,7 @@ class PlatformProvider extends OrchidServiceProvider
       self::PERMISSION_TRAVEL,
       self::PERMISSION_SETTINGS,
       self::PERMISSION_SYSTEM,
+      self::PERMISSION_LANGUAGE,
     ];
   }
 }

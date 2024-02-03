@@ -11,6 +11,8 @@ use App\Orchid\Screens\Examples\ExampleFieldsScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\FAQScreen;
+use App\Orchid\Screens\Language\LanguageScreen;
+use App\Orchid\Screens\Language\TranslateScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\References\CategoryEquipmentScreen;
 use App\Orchid\Screens\References\EquipmentScreen;
@@ -129,3 +131,6 @@ Route::screen('setup/list', SettingsScreen::class)->name('setup.list');
 // System Info
 Route::screen('system-info/cache', CacheScreen::class)->name('system.info.cache');
 Route::screen('system-info/cron', CronScreen::class)->name('system.info.cron');
+// Language
+Route::screen('language', LanguageScreen::class)->name('language.list');
+Route::screen('language/{language}/translate', TranslateScreen::class)->name('language.translate.list');
