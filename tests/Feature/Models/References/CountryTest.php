@@ -1,11 +1,11 @@
 <?php
 
-namespace Models\References;
+namespace Tests\Feature\Models\References;
 
 use App\Models\Reference\Country;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class CountryTest extends BaseTest
+class CountryTest extends TestBase
 {
   public function testCountry(): void
   {

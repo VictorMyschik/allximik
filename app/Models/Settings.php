@@ -17,6 +17,7 @@ class Settings extends ORM
   // Orchid
   use AsSource;
   use Filterable;
+
   use ActiveFieldTrait;
   use NameFieldTrait;
   use DescriptionNullableFieldTrait;

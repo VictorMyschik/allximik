@@ -3,9 +3,9 @@
 namespace API\Auth;
 
 use App\Models\User;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class RegisterTest extends BaseTest
+class RegisterTest extends TestBase
 {
   public function testSuccessRegister(): void
   {

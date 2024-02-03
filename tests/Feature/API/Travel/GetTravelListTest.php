@@ -7,9 +7,9 @@ use App\Models\Reference\Country;
 use App\Models\Travel;
 use App\Models\TravelType;
 use Illuminate\Support\Facades\Auth;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class GetTravelListTest extends BaseTest
+class GetTravelListTest extends TestBase
 {
   private array $users;
   private array $travels;

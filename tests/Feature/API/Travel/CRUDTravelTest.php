@@ -6,9 +6,9 @@ use App\Models\Reference\Country;
 use App\Models\Travel;
 use App\Models\TravelType;
 use App\Models\User;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class CRUDTravelTest extends BaseTest
+class CRUDTravelTest extends TestBase
 {
   public function setUp(): void
   {

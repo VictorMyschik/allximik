@@ -4,10 +4,10 @@ namespace Tests\Feature\API\Auth;
 
 use Exception;
 use GuzzleHttp\Client;
-use Tests\BaseTest;
+use Tests\TestBase;
 use Throwable;
 
-class RefreshTokenTest extends BaseTest
+class RefreshTokenTest extends TestBase
 {
   public function testRefreshToken(): void
   {

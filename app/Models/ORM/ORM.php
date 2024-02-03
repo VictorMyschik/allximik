@@ -40,7 +40,7 @@ class ORM extends Model
   /**
    * @throws ExceptionAPIBase
    */
-  public static function loadByOrDie(?int $value): static
+  public static function loadByOrDie(int $value): static
   {
     $travel = self::loadBy($value);
 

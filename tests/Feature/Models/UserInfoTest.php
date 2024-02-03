@@ -1,13 +1,13 @@
 <?php
 
-namespace Models;
+namespace Tests\Feature\Models;
 
 use App\Models\User;
 use App\Models\UserInfo;
 use Carbon\Carbon;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class UserInfoTest extends BaseTest
+class UserInfoTest extends TestBase
 {
   public function testUserINfo(): void
   {

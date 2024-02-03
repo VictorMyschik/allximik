@@ -1,11 +1,11 @@
 <?php
 
-namespace Models;
+namespace Tests\Feature\Models;
 
 use App\Models\Settings;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class SettingsTest extends BaseTest
+class SettingsTest extends TestBase
 {
     public function testSettings(): void
     {

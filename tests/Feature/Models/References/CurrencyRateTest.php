@@ -1,18 +1,17 @@
 <?php
 
-namespace Models\References;
+namespace Tests\Feature\Models\References;
 
 use App\Models\Reference\Currency;
 use App\Models\Reference\CurrencyRate;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class CurrencyRateTest extends BaseTest
+class CurrencyRateTest extends TestBase
 {
   public function testCurrencyRate(): void
   {
     /**
      * 'CurrencyID',
-     * 'Scale',
      * 'Rate',
      * //'WriteDate',
      */
@@ -20,11 +19,8 @@ class CurrencyRateTest extends BaseTest
     // CurrencyID
     $CurrencyID = self::randomIdFromClass(Currency::class);
     $rate->setCurrencyID($CurrencyID);
-    // Scale
-    $Scale = rand(1, 3);
-    $rate->setScale($Scale);
     // Rate
-    $Rate = rand(1, 99);
+    $Rate = rand(1, 99) . '.' . rand(1, 99);
     $rate->setRate($Rate);
 
     $rate_id = $rate->save_mr();
@@ -33,18 +29,13 @@ class CurrencyRateTest extends BaseTest
     $rate = CurrencyRate::loadBy($rate_id);
     self::assertNotNull($rate);
     self::assertEquals($CurrencyID, $rate->getCurrency()->id());
-    self::assertEquals($Scale, $rate->getScale());
     self::assertEquals($Rate, $rate->getRate());
 
     /// Update
     // CurrencyID
     $CurrencyID = self::randomIdFromClass(Currency::class);
     $rate->setCurrencyID($CurrencyID);
-    // Scale
-    $Scale = rand(1, 3);
-    $rate->setScale($Scale);
-    // Rate
-    $Rate = rand(1, 99);
+    $Rate = rand(1, 99) . '.' . rand(1, 99);
     $rate->setRate($Rate);
 
     $rate_id = $rate->save_mr();
@@ -53,7 +44,6 @@ class CurrencyRateTest extends BaseTest
     $rate = CurrencyRate::loadBy($rate_id);
     self::assertNotNull($rate);
     self::assertEquals($CurrencyID, $rate->getCurrency()->id());
-    self::assertEquals($Scale, $rate->getScale());
     self::assertEquals($Rate, $rate->getRate());
 
     /// Delete

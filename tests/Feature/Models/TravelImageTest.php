@@ -1,12 +1,12 @@
 <?php
 
-namespace Models;
+namespace Tests\Feature\Models;
 
 use App\Models\TravelImage;
 use App\Models\User;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class TravelImageTest extends BaseTest
+class TravelImageTest extends TestBase
 {
   public function testTravel()
   {

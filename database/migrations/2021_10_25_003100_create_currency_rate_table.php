@@ -11,12 +11,9 @@ class CreateCurrencyRateTable extends Migration
     Schema::create('currency_rate', function (Blueprint $table) {
       $table->unsignedBigInteger('id')->autoIncrement();
       $table->unsignedBigInteger('currency_id');
-      $table->integer('scale');
-      $table->decimal('rate', 6, 4);
+      $table->decimal('rate', 10, 4);
 
       $table->timestamp('created_at')->useCurrent();
-      $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
-
       $table->foreign('currency_id')->references('id')->on('currency')->cascadeOnDelete();
     });
   }

@@ -19,9 +19,16 @@ class CurrencyRate extends ORM
   protected $table = 'currency_rate';
   protected $fillable = array(
     'currency_id',
-    'scale',
     'rate',
   );
+
+  public $timestamps = false;
+
+  protected array $allowedSorts = [
+    'id',
+    'currency_id',
+    'rate',
+  ];
 
   public function getCurrency(): Currency
   {
@@ -31,19 +38,6 @@ class CurrencyRate extends ORM
   public function setCurrencyID(int $value): void
   {
     $this->currency_id = $value;
-  }
-
-  /**
-   * Количество единиц валюты
-   */
-  public function getScale(): int
-  {
-    return $this->scale;
-  }
-
-  public function setScale(int $value): void
-  {
-    $this->scale = $value;
   }
 
   public function getRate(): float

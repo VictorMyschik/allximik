@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\API\Auth;
 
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class LogoutTokenTest extends BaseTest
+class LogoutTokenTest extends TestBase
 {
   public function testLogout(): void
   {

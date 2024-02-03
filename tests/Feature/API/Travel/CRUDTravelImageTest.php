@@ -7,9 +7,9 @@ use App\Models\TravelImage;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class CRUDTravelImageTest extends BaseTest
+class CRUDTravelImageTest extends TestBase
 {
   public function testUploadImage()
   {

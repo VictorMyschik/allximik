@@ -47,6 +47,12 @@ class PlatformProvider extends OrchidServiceProvider
       Menu::make('User Addresses')->icon('bs.list')->route('user.info.address.list'),
     ]);
 
+    $menu[] = Menu::make('System Info')->icon('info')->list([
+      Menu::make('Cache')->icon('database')->route('system.info.cache'),
+      Menu::make('Cron')->icon('calendar')->route('system.info.cron'),
+      Menu::make('Settings')->icon('settings')->route('setup.list'),
+    ])->divider();
+
     // FAQ
     $menu[] = Menu::make('FAQ')->title('Information')->icon('bs.book')->route('faq.list');
 

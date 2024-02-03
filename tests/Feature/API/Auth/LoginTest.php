@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\API\Auth;
 
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class LoginTest extends BaseTest
+class LoginTest extends TestBase
 {
   public function testSuccessLogin(): void
   {

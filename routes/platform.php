@@ -21,6 +21,8 @@ use App\Orchid\Screens\References\TravelTypeListScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\Settings\SettingsScreen;
+use App\Orchid\Screens\SystemInfo\CacheScreen;
+use App\Orchid\Screens\SystemInfo\CronScreen;
 use App\Orchid\Screens\Travel\TravelDetailsScreen;
 use App\Orchid\Screens\Travel\TravelListScreen;
 use App\Orchid\Screens\User\UserCommunicateScreen;
@@ -119,6 +121,11 @@ Route::screen('/travel-type/list', TravelTypeListScreen::class)->name('reference
 Route::screen('/travel/list', TravelListScreen::class)->name('travel.list');
 Route::screen('/travel/details/{travel}', TravelDetailsScreen::class)->name('travel.details');
 Route::screen('/emails', EmailScreen::class)->name('reference.email.list');
+// Travel Equipment
+Route::screen('/travel/{travel_id}/', EmailScreen::class)->name('2reference.email.list');
 
 // Setup
 Route::screen('setup/list', SettingsScreen::class)->name('setup.list');
+// System Info
+Route::screen('system-info/cache', CacheScreen::class)->name('system.info.cache');
+Route::screen('system-info/cron', CronScreen::class)->name('system.info.cron');

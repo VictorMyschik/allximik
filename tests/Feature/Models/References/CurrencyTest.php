@@ -1,11 +1,11 @@
 <?php
 
-namespace Models\References;
+namespace Tests\Feature\Models\References;
 
 use App\Models\Reference\Currency;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class CurrencyTest extends BaseTest
+class CurrencyTest extends TestBase
 {
   function testCurrency(): void
   {

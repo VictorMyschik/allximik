@@ -1,13 +1,13 @@
 <?php
 
-namespace Models;
+namespace Tests\Feature\Models;
 
 
 use App\Models\Communicate;
 use App\Models\User;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class CommunicateTest extends BaseTest
+class CommunicateTest extends TestBase
 {
   public function testCommunicate(): void
   {

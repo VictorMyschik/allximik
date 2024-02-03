@@ -44,7 +44,7 @@ class SettingsScreen extends Screen
   public function query(): iterable
   {
     return [
-      'setup' => SetupFilter::query(),
+      'list' => SetupFilter::query(),
     ];
   }
 
@@ -72,9 +72,9 @@ class SettingsScreen extends Screen
   }
 
   #region Popup From
-  public function asyncGetSetup(int $id = 0): iterable
+  public function asyncGetSetup(int $id): array
   {
-    abort_unless(User::canEdit(self::$screen), 403);
+    //abort_unless(User::canEdit(self::$screen), 403);
 
     return [
       'setup' => Settings::loadBy($id) ?: new Settings(),

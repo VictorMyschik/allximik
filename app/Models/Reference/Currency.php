@@ -24,15 +24,20 @@ class Currency extends ORM
   protected $table = 'currency';
 
   protected array $allowedSorts = [
-    'rate',
-    'scale',
-    'currency_id',
+    'id',
+    'code',
+    'text_code',
+    'name',
+    'rounding',
+    'description',
   ];
 
   protected $fillable = array(
-    'rate',
-    'scale',
-    'currency_id',
+    'code',
+    'text_code',
+    'name',
+    'rounding',
+    'description',
   );
 
   public static array $base_currency = ['USD', 'BYN', 'RUR', 'EUR', 'GEL'];

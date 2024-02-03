@@ -1,16 +1,16 @@
 <?php
 
-namespace Models;
+namespace Tests\Feature\Models;
 
+use App\Models\Reference\Country;
 use App\Models\Travel;
 use App\Models\TravelType;
-use App\Models\Reference\Country;
 use App\Models\UIH;
 use App\Models\User;
-use Tests\BaseTest;
+use Tests\TestBase;
 use Tests\Helpers\RawDataHelper;
 
-class UIHTest extends BaseTest
+class UIHTest extends TestBase
 {
   public function testUIH()
   {

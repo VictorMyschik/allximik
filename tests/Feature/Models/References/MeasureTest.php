@@ -1,11 +1,11 @@
 <?php
 
-namespace Models\References;
+namespace Tests\Feature\Models\References;
 
 use App\Models\Reference\Measure;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class MeasureTest extends BaseTest
+class MeasureTest extends TestBase
 {
   public function testMeasure(): void
   {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Models\References;
+namespace Tests\Feature\Models\References;
 
 use App\Models\TravelType;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class TravelTypeTest extends BaseTest
+class TravelTypeTest extends TestBase
 {
   public function testTravelType()
   {

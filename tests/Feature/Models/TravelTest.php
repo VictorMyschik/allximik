@@ -1,13 +1,13 @@
 <?php
 
-namespace Models;
+namespace Tests\Feature\Models;
 
+use App\Models\Reference\Country;
 use App\Models\Travel;
 use App\Models\TravelType;
-use App\Models\Reference\Country;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class TravelTest extends BaseTest
+class TravelTest extends TestBase
 {
   public function testTravel()
   {

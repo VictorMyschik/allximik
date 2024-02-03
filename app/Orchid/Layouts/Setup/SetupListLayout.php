@@ -14,7 +14,7 @@ use Orchid\Screen\TD;
 
 class SetupListLayout extends Table
 {
-  protected $target = 'setup';
+  protected $target = 'list';
 
   protected function columns(): iterable
   {
@@ -35,7 +35,7 @@ class SetupListLayout extends Table
         ->sort()
         ->defaultHidden(),
 
-      TD::make('#', 'Actions')
+      TD::make(__('Actions'))
         ->align(TD::ALIGN_CENTER)
         ->width('100px')
         ->render(function (Settings $setup) {

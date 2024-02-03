@@ -1,11 +1,11 @@
 <?php
 
-namespace Models;
+namespace Tests\Feature\Models;
 
 use App\Models\Faq;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class FaqTest extends BaseTest
+class FaqTest extends TestBase
 {
   public function testFaq()
   {

@@ -3,14 +3,12 @@
 namespace App\Orchid\Screens\Travel;
 
 use App\Classes\Email\EmailService;
-use App\Classes\Travel\Image\ImageClass;
 use App\Models\EmailInvite;
 use App\Models\Travel;
 use App\Models\UIH;
 use App\Orchid\Layouts\Travel\InviteByEmailEditLayout;
 use App\Orchid\Layouts\Travel\InviteListLayout;
 use App\Orchid\Layouts\Travel\TravelEditLayout;
-use App\Orchid\Layouts\Travel\TravelImageUploadMainEditLayout;
 use App\Orchid\Layouts\Travel\UIHActiveListLayout;
 use App\Orchid\Layouts\Travel\UIHNotActiveListLayout;
 use Illuminate\Http\RedirectResponse;
@@ -86,6 +84,7 @@ class TravelDetailsScreen extends Screen
         'Тип похода'         => $travel->getTravelType()->getName(),
         'Тип публичности'    => $travel->getVisibleKindName(),
         'Публичная страница' => Travel::VISIBLE_KIND_FOR_ME !== $travel->getVisibleKind() ? "<a target='_blank' href='" . $publicLink . "'>$publicLink</a>" : 'Публичная страница не доступна',
+        'Снаряжение'         => '<a href="'.route().'">Снаряжение</a>',
       ];
       $columns[] = Layout::view('table_travel_details', ['rows' => $rows]);
 
@@ -222,17 +221,5 @@ class TravelDetailsScreen extends Screen
     $invite->save_mr();
 
     Toast::info('Приглашение отклонено');
-  }
-
-  public function saveImage(Request $request, Travel $travel): void
-  {
-    $files = $request->allFiles();
-
-    $imageClass = new ImageClass();
-    foreach ($files as $image) {
-     // $imageClass->uploadImage($travel, $image, $kind);
-    }
-
-    Toast::info('Images was saved');
   }
 }

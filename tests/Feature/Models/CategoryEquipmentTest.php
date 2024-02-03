@@ -1,11 +1,11 @@
 <?php
 
-namespace Models;
+namespace Tests\Feature\Models;
 
 use App\Models\CategoryEquipment;
-use Tests\BaseTest;
+use Tests\TestBase;
 
-class CategoryEquipmentTest extends BaseTest
+class CategoryEquipmentTest extends TestBase
 {
   public function testGlobalCategoryStuff()
   {

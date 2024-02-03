@@ -9,7 +9,7 @@ use Tests\Helpers\CreateModelsTrait;
 use Tests\Helpers\HTTPClientTrait;
 use Tests\Helpers\RawDataHelper;
 
-class BaseTest extends TestCase
+class TestBase extends TestCase
 {
   use CreateModelsTrait;
   use HTTPClientTrait;
@@ -20,9 +20,7 @@ class BaseTest extends TestCase
     parent::setUp();
   }
 
-  public function tearDown(): void
-  {
-  }
+  public function tearDown(): void {}
 
   protected static function randomIdFromClass(string $className): ?int
   {
