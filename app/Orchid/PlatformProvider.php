@@ -26,8 +26,6 @@ class PlatformProvider extends OrchidServiceProvider
 
   public function menu(): array
   {
-    $menu[] = Menu::make('Get Started')->title('Navigation')->route(config('platform.index'));
-
     // Travel
     $menu[] = Menu::make('Travel list')->title('Travel')->icon('bs.list')->route('travel.list');
 

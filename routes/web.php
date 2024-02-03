@@ -7,6 +7,7 @@ use App\Http\Controllers\MrTestController;
 use App\Http\Controllers\MrWelcomeController;
 use App\Http\Controllers\Travel\MrTravelInviteController;
 use App\Http\Controllers\Travel\TravelController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -19,6 +20,16 @@ Route::get('/logout', function () {
 
   return redirect()->route('login');
 })->name('logout');
+
+// Clear cache
+Route::get('/clear', function () {
+  Artisan::call('cache:clear');
+  Artisan::call('view:clear');
+  Artisan::call('route:clear');
+  Artisan::call('config:clear');
+
+  return back();
+})->name('clear');
 
 Route::get('/', [MrWelcomeController::class, 'index'])->name('welcome');
 

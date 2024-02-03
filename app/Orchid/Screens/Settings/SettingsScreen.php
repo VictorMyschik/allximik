@@ -72,9 +72,9 @@ class SettingsScreen extends Screen
   }
 
   #region Popup From
-  public function asyncGetSetup(int $id): array
+  public function asyncGetSetup(int $id = 0): array
   {
-    //abort_unless(User::canEdit(self::$screen), 403);
+    abort_unless(User::canEdit(self::$screen), 403);
 
     return [
       'setup' => Settings::loadBy($id) ?: new Settings(),

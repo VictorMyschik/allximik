@@ -9,6 +9,9 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * https://app.currencyapi.com/request-playground
+ */
 class CurrencyRateService
 {
   private const URL = 'https://api.currencyapi.com/v3/latest';

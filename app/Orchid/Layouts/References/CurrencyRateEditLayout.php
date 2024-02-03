@@ -17,23 +17,14 @@ class CurrencyRateEditLayout extends Rows
         ->title('Currency')
         ->fromModel('App\Models\Reference\Currency', 'name')
         ->required()
-        ->placeholder('Currency')
-        ->help('Валюта'),
-
-      Input::make('currency-rate.scale')
-        ->title('Scale')
-        ->type('number')
-        ->required()
-        ->placeholder('Scale')
-        ->help('Количество единиц валюты'),
+        ->placeholder('Currency'),
 
       Input::make('currency-rate.rate')
         ->title('Rate')
         ->type('number')
         ->step('0.0001')
         ->required()
-        ->placeholder('Rate')
-        ->help('Курс валюты'),
+        ->placeholder('Rate'),
     ];
   }
 }

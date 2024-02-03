@@ -1,6 +1,7 @@
 <?php
 
 use App\Orchid\Providers\TableServiceProvider;
+use App\Providers\CacheInfoServiceProvider;
 use App\Providers\TravelImageServiceProvider;
 use App\Providers\TravelServiceProvider;
 use Illuminate\Support\Facades\Facade;
@@ -176,6 +177,7 @@ return [
     TravelServiceProvider::class,
     TravelImageServiceProvider::class,
     TableServiceProvider::class,
+    CacheInfoServiceProvider::class,
   ])->toArray(),
 
   /*

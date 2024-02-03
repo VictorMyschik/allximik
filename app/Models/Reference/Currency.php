@@ -40,7 +40,7 @@ class Currency extends ORM
     'description',
   );
 
-  public static array $base_currency = ['USD', 'BYN', 'RUR', 'EUR', 'GEL'];
+  public static array $base_currency = ['USD', 'BYN', 'RUB', 'EUR', 'GEL'];
 
   private static int $usdId = 0;
 

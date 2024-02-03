@@ -20,7 +20,7 @@ class SetupListLayout extends Table
   {
     return [
       TD::make('id', 'ID')->sort(),
-      TD::make('active', 'Active'),
+      TD::make('active', 'Active')->sort()->active(),
       TD::make('category')->sort()->defaultHidden(),
       TD::make('name')->sort(),
       TD::make('code_key')->sort()->defaultHidden(),

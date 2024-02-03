@@ -2,10 +2,12 @@
 
 namespace App\Orchid\Screens\References;
 
+use App\Classes\Cron\CurrencyRateService;
 use App\Models\Reference\CurrencyRate;
 use App\Orchid\Layouts\References\CurrencyRateEditLayout;
 use App\Orchid\Layouts\References\CurrencyRateListLayout;
 use Illuminate\Http\Request;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
 use Orchid\Support\Color;
@@ -14,6 +16,8 @@ use Orchid\Support\Facades\Toast;
 
 class ReferenceCurrencyRateScreen extends Screen
 {
+  public function __construct(private readonly CurrencyRateService $service) {}
+
   public function query(): iterable
   {
     return [
@@ -40,7 +44,9 @@ class ReferenceCurrencyRateScreen extends Screen
         ->modal('currency_rate_modal')
         ->modalTitle('Create New Currency Rate')
         ->method('saveCurrencyRate')
-        ->asyncParameters(['id' => 0])
+        ->asyncParameters(['id' => 0]),
+      Button::make('Clear All')->method('clearAllCurrencyRates')->icon('trash'),
+      Button::make('Load All')->method('loadAllCurrencyRates')->icon('upload'),
     ];
   }
 
@@ -50,6 +56,16 @@ class ReferenceCurrencyRateScreen extends Screen
       CurrencyRateListLayout::class,
       Layout::modal('currency_rate_modal', CurrencyRateEditLayout::class)->async('asyncGetCurrencyRate'),
     ];
+  }
+
+  public function loadAllCurrencyRates(): void
+  {
+    $this->service->update();
+  }
+
+  public function clearAllCurrencyRates(): void
+  {
+    CurrencyRate::truncate();
   }
 
   public function asyncGetCurrencyRate(int $id = 0): array
@@ -64,7 +80,6 @@ class ReferenceCurrencyRateScreen extends Screen
     $data = $request->validate([
       'currency-rate.currency_id' => 'required|integer',
       'currency-rate.rate'        => 'required|numeric',
-      'currency-rate.scale'       => 'required|integer',
     ])['currency-rate'];
 
     CurrencyRate::updateOrCreate(
