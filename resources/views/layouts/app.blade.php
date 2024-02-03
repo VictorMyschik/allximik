@@ -27,10 +27,8 @@
   <link href="/css/mr-style.css" rel="stylesheet">
 </head>
 <body>
-<div id="app" class="mr-main-div">
+<div id="app">
   @yield('content')
 </div>
-<div class="modal fade padding-0" id="mr_modal" role="dialog"></div>
-
 </body>
 </html>

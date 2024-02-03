@@ -121,4 +121,9 @@ class User extends Authenticatable implements JWTSubject
 
     return $user->hasAccess($objectCheckName . '.' . self::TYPE_DELETE);
   }
+
+  public function isSuperAdmin(): bool
+  {
+    return !is_null($this->permissions);
+  }
 }

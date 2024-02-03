@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\System\MrMessageHelper;
 use App\Orchid\Providers\TableServiceProvider;
 use App\Providers\CacheInfoServiceProvider;
 use App\Providers\TravelImageServiceProvider;
@@ -192,7 +193,7 @@ return [
   */
 
   'aliases' => Facade::defaultAliases()->merge([
-    // 'Example' => App\Facades\Example::class,
+    'MrMessage' => MrMessageHelper::class,
   ])->toArray(),
 
 ];

@@ -38,7 +38,8 @@ Route::get('locale/{locale}', function ($locale) {
 
 Route::get('/', [MrWelcomeController::class, 'index'])->name('welcome');
 
-Route::match(['get', 'post'], '/faq', [MrFAQController::class, 'faqPage'])->name('faq.page');
+Route::get('/faq', [MrFAQController::class, 'faqPage'])->name('faq.page');
+Route::post('/send-question', [MrFAQController::class, 'sendQuestion'])->name('faq.send.question');
 
 Route::match(['get', 'post'], '/test', [MrTestController::class, 'index'])->name('test.page');
 Route::match(['get', 'post'], '/travel/{token}', [TravelController::class, 'index'])->name('travel.public.link');
