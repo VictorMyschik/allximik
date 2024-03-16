@@ -14,10 +14,31 @@
                 class="mr-nav-link-color">{{ __('mr-t.Login') }}</span></a>
           </li>
           <li class="nav-item mr-5">
-            <a class="nav-link" href="{{ route('register') }}"><span class="mr-nav-link-color">{{ __('mr-t.Register') }}</span></a>
+            <a class="nav-link" href="{{ route('register') }}"><span
+                class="mr-nav-link-color">{{ __('mr-t.Register') }}</span></a>
           </li>
           @include('layouts.language')
         @else
+
+          <li class="nav-item dropdown">
+            <a id="navbarDropdown" class="nav-link mr-nav-link-color dropdown-toggle font-weight-bolder" href="#" role="button"
+               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>{{__('mr-t.MyTravels')}}<span
+                class="caret"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right mr-nav-link-submenu-background"
+                 aria-labelledby="navbarDropdown">
+              @foreach([] as $office)
+                @if($office->id() == $default_office->id())
+                  @continue
+                @endif
+                <a class="nav-link"
+                   href="{{route('change_office', ['office_id'=>$office->id()])}}">{{$office->getName()}}</a>
+              @endforeach
+            </div>
+          </li>
+
+
+
           <li class="nav-item">
             <a class="nav-link" href="{{ route('faq.page') }}"><span class="mr-nav-link-color">FAQ</span></a>
           </li>

@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="mr-main-div">
-    @include('layouts.mr_nav')
-
-
-  </div>
+  @include('layouts.mr_nav')
+  <main_page></main_page>
 @endsection
