@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light shadow-sm shadow mr-nav">
+<nav class="navbar navbar-expand-md shadow-sm shadow mr-nav">
   <div class="container">
     <a class="navbar-brand text-italic mr-nav-link-color" href="{{ url('/') }}">
       <span class="mr-nav-link-color">My Climbing</span>
@@ -25,18 +25,8 @@
                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>{{__('mr-t.MyTravels')}}<span
                 class="caret"></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right mr-nav-link-submenu-background"
-                 aria-labelledby="navbarDropdown">
-              @foreach([] as $office)
-                @if($office->id() == $default_office->id())
-                  @continue
-                @endif
-                <a class="nav-link"
-                   href="{{route('change_office', ['office_id'=>$office->id()])}}">{{$office->getName()}}</a>
-              @endforeach
-            </div>
+            <nav_bar></nav_bar>
           </li>
-
 
 
           <li class="nav-item">

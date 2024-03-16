@@ -10,12 +10,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Travel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TravelController extends Controller
 {
   public function __construct(private readonly TravelClass $travel, private readonly TravelValidation $validationClass)
   {
-    $this->middleware('auth.jwt', ['except' => ['getList']]);
+    $this->middleware('auth', ['except' => ['getList']]);
+  }
+
+  public function index(int $travel_id): View
+  {
+    $out = [];
+
+    return view('account.travel.index', $out);
   }
 
   public function create(Request $request): JsonResponse

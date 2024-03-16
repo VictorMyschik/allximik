@@ -54,3 +54,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin/travel'], function ()
   Route::get('{travel_id}/image/show/{image_name}', [AdminTravelController::class, 'showImage'])->name('admin.show.image');
   Route::get('image/delete/{image_id}', [AdminTravelController::class, 'deleteImage'])->name('admin.delete.travel.image');
 });
+
+// User routes
+Route::group(['middleware' => ['auth'], 'prefix' => 'account'], function () {
+  Route::get('/travel/{travel_id}/page', [TravelController::class, 'index'])->name('account.travel.page');
+});
