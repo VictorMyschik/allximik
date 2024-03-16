@@ -7,9 +7,9 @@ use App\Models\System\Translate;
 use App\Orchid\Layouts\Language\TranslateEditLayout;
 use App\Orchid\Layouts\Language\TranslateListLayout;
 use Illuminate\Http\Request;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
-use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
@@ -26,12 +26,14 @@ class TranslateScreen extends Screen
   {
     return [
       ModalToggle::make('Add')
-        ->type(Color::PRIMARY())
         ->icon('plus')
         ->modal('translate')
         ->modalTitle('Create New Translate')
         ->method('saveTranslate')
         ->asyncParameters(['id' => 0]),
+      Link::make('Назад')
+        ->icon('arrow-left')
+        ->route('language.list'),
     ];
   }
 

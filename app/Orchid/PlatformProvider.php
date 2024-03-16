@@ -43,7 +43,7 @@ class PlatformProvider extends OrchidServiceProvider
 
     $menu[] = Menu::make('Users')->icon('grid')->list([
       Menu::make('User list')->icon('bs.list')->route('user.info.list'),
-      Menu::make('User Addresses')->icon('bs.list')->route('user.info.address.list'),
+      Menu::make('User Contacts')->icon('bs.list')->route('user.info.address.list'),
     ]);
 
     $menu[self::PERMISSION_SETTINGS] = Menu::make('System')->icon('info')->list([
