@@ -1,5 +1,6 @@
 <?php
 
+use App\Forms\Account\Travel\NameDescriptionTravelForm;
 use App\Http\Controllers\Admin\AdminTravelController;
 use App\Http\Controllers\MrAccountController;
 use App\Http\Controllers\MrFAQController;
@@ -58,4 +59,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin/travel'], function ()
 // User routes
 Route::group(['middleware' => ['auth'], 'prefix' => 'account'], function () {
   Route::get('/travel/{travel_id}/page', [TravelController::class, 'index'])->name('account.travel.page');
+  // Edit travel name and description
+  Route::match(['get', 'post', 'put'], '/travel/{travel_id}/base/form', [NameDescriptionTravelForm::class, 'processForm'])->name('account.travel.base.form');
 });

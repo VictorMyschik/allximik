@@ -23,7 +23,6 @@ export default {
           }
 
           this.list = response.data.content;
-          console.log(this.list);
         }
       );
     },

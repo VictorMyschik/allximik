@@ -6,7 +6,7 @@
     {{ Form::open(['method' => 'get', 'enctype'=>'multipart/form-data', 'files' => true]) }}
     <div id="filter" class="collapse container col-md-12 padding-horizontal-0">
         @if(is_array($form))
-            @include('Form.BaseForm.mr_logic_form', ['form' => $form])
+            @include('form.base_form.mr_logic_form', ['form' => $form])
         @else
             {!! $form !!}
         @endif

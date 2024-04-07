@@ -30,5 +30,6 @@
 <div id="app">
   @yield('content')
 </div>
+<div class="modal fade padding-0" id="mr_modal" role="dialog"></div>
 </body>
 </html>

@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Travel;
 
 use App\Classes\Travel\TravelClass;
 use App\Classes\Validation\TravelValidation;
-use App\Exceptions\Validation\InputMissingException;
-use App\Exceptions\Validation\PermissionDeniedException;
 use App\Http\Controllers\Controller;
 use App\Models\Travel;
 use Illuminate\Http\JsonResponse;
@@ -16,12 +14,12 @@ class TravelController extends Controller
 {
   public function __construct(private readonly TravelClass $travel, private readonly TravelValidation $validationClass)
   {
-    $this->middleware('auth', ['except' => ['getList']]);
+    $this->middleware('web', ['except' => ['getList']]);
   }
 
   public function index(int $travel_id): View
   {
-    $out = [];
+    $out = ['travel_id' => $travel_id];
 
     return view('account.travel.index', $out);
   }

@@ -1,11 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="mr-main-div">
-    @include('layouts.mr_nav')
-    <div class="container m-t-10">
-      123
+  @include('layouts.mr_nav')
+    <div class="container col-md-10 mt-3">
+      <account_travel_list :travel_id='4'></account_travel_list>
     </div>
-  </div>
 @endsection
 

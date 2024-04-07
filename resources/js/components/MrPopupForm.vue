@@ -45,10 +45,12 @@
 </template>
 
 <script>
-import VRuntimeTemplate from "v-runtime-template";
+import VRuntimeTemplate from 'vue3-runtime-template';
 
 export default {
-  components: {VRuntimeTemplate},
+  components: {
+    VRuntimeTemplate
+  },
   name: "MrPopupForm",
   props: [
     'route_url',
