@@ -23,7 +23,7 @@
                     <v-runtime-template :template="form_html"></v-runtime-template>
                   </form>
                 </div>
-                <div class="modal-footer justify-content-center" style="height: 45px;">
+                <div class="modal-footer justify-content-center" style="height: 55px;">
                   <span v-if="form_data['#btn_info']">
                      <button type="button" @click="hide()" class="mr-btn-primary">Закрыть</button>
                   </span>
@@ -48,121 +48,121 @@
 import VRuntimeTemplate from 'vue3-runtime-template';
 
 export default {
-  components: {
-    VRuntimeTemplate
-  },
-  name: "MrPopupForm",
-  props: [
-    'route_url',
-    'btn_name',
-    'class_arr',
-    'need_reload', // нужно ли перезагружать страницу
-  ],
-  data() {
-    return {
-      showModal: false,
-      form_html: null,
-      form_data: [],
-      title: '',
-      load_data: false,
-      mrErrors: null,
-      is_wait: false,
-    }
-  },
-
-  created: function () {
-    document.addEventListener('keyup', this.escPress);
-  },
-
-  methods: {
-    escPress(event) {
-      if (event.keyCode === 27) {
-        this.hide();
-      }
+    components: {
+        VRuntimeTemplate,
     },
-
-    show() {
-      this.GetForm();
-      this.showModal = true;
-      this.mrErrors = null;
-    },
-    hide() {
-      this.mrErrors = null;
-      this.showModal = false
-    },
-
-    GetForm: function () {
-      this.load_data = true;
-      axios.post(this.route_url).then(response => {
-          let data = response.data;
-          this.form_html = data.html;
-          this.form_data = data.form_data;
-          this.title = this.form_data['#title'];
-
-          this.load_data = false;
-          this.is_wait = false;
+    name: "MrPopupForm",
+    props: [
+        'route_url',
+        'btn_name',
+        'class_arr',
+        'need_reload', // нужно ли перезагружать страницу
+    ],
+    data() {
+        return {
+            showModal: false,
+            form_html: null,
+            form_data: [],
+            title: '',
+            load_data: false,
+            mrErrors: null,
+            is_wait: false,
         }
-      );
     },
 
-    MrSave: function () {
-      document.getElementById('mrError').innerHTML = '';
-      this.in_data = {};
-      this.is_wait = false;
-      let myForm = document.getElementById('frm');
-      let formData = new FormData(myForm);
-      // need to convert it before using not with XMLHttpRequest
-      for (let [key, val] of formData.entries()) {
-        Object.assign(this.in_data, {[key]: val});
-        let tmpElement = document.getElementById(key);
-        if (undefined !== tmpElement && null !== tmpElement) {
-          tmpElement.style.border = "1px solid #ced4da";
-        }
-      }
+    created: function () {
+        document.addEventListener('keyup', this.escPress);
+    },
 
-      if (this.form_data['#url'] !== undefined) {
-        axios.put(this.form_data['#url'], this.in_data).then(response => {
-          if (undefined !== response.data['code']) {
-            this.buildErrorHtml(response.data.message);
-          } else {
-            this.hide();
-            this.afterSave();
+    methods: {
+        escPress(event) {
+            if (event.keyCode === 27) {
+                this.hide();
+            }
+        },
+
+        show() {
+            this.GetForm();
+            this.showModal = true;
+            this.mrErrors = null;
+        },
+        hide() {
+            this.mrErrors = null;
+            this.showModal = false
+        },
+
+        GetForm: function () {
+            this.load_data = true;
+            axios.post(this.route_url).then(response => {
+                    let data = response.data;
+                    this.form_html = data.html;
+                    this.form_data = data.form_data;
+                    this.title = this.form_data['#title'];
+
+                    this.load_data = false;
+                    this.is_wait = false;
+                }
+            );
+        },
+
+        MrSave: function () {
+            document.getElementById('mrError').innerHTML = '';
+            this.in_data = {};
             this.is_wait = false;
-          }
-        });
-      }
-    },
+            let myForm = document.getElementById('frm');
+            let formData = new FormData(myForm);
+            // need to convert it before using not with XMLHttpRequest
+            for (let [key, val] of formData.entries()) {
+                Object.assign(this.in_data, {[key]: val});
+                let tmpElement = document.getElementById(key);
+                if (undefined !== tmpElement && null !== tmpElement) {
+                    tmpElement.style.border = "1px solid #ced4da";
+                }
+            }
 
-    afterSave: function () {
-      if (this.need_reload == 1) {
-        window.location.reload();
-      } else {
-        this.$emit('response', {
-          result: this.in_data,
-          args: this.form_data,
-          url: this.route_url
-        });
+            if (this.form_data['#url'] !== undefined) {
+                axios.put(this.form_data['#url'], this.in_data).then(response => {
+                    if (undefined !== response.data['code']) {
+                        this.buildErrorHtml(response.data.message);
+                    } else {
+                        this.hide();
+                        this.afterSave();
+                        this.is_wait = false;
+                    }
+                });
+            }
+        },
 
-        this.hide();
-      }
-    },
+        afterSave: function () {
+            if (this.need_reload == 1) {
+                window.location.reload();
+            } else {
+                this.$emit('response', {
+                    result: this.in_data,
+                    args: this.form_data,
+                    url: this.route_url
+                });
 
-    buildErrorHtml: function (response) {
-      let errorMessageHtml = '<div><h6>Пожалуйста, проверьте форму</h6>';
-      let msg = JSON.parse(response);
-      let el;
-      for (let r in msg) {
-        errorMessageHtml += '<div>' + msg[r] + '</div>';
-        el = document.getElementById(r);
-        if (el) {
-          el.style.border = "red solid 1px";
-        }
-      }
-      errorMessageHtml += '</div><hr>';
-      document.getElementById('mrError').innerHTML = errorMessageHtml;
+                this.hide();
+            }
+        },
 
-    },
-  }
+        buildErrorHtml: function (response) {
+            let errorMessageHtml = '<div><h6>Пожалуйста, проверьте форму</h6>';
+            let msg = JSON.parse(response);
+            let el;
+            for (let r in msg) {
+                errorMessageHtml += '<div>' + msg[r] + '</div>';
+                el = document.getElementById(r);
+                if (el) {
+                    el.style.border = "red solid 1px";
+                }
+            }
+            errorMessageHtml += '</div><hr>';
+            document.getElementById('mrError').innerHTML = errorMessageHtml;
+
+        },
+    }
 }
 </script>
 

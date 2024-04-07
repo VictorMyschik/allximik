@@ -5,5 +5,5 @@
          @if(isset($item['#attributes']))
            @include('layouts.Elements.input_attr', ['attributes'=>$item['#attributes']])
          @endif
-         class="form-control">
+         class="form-control" @if(!empty($item['#autofocus'])) autofocus @endif>
 </div>

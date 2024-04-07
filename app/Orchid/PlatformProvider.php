@@ -32,7 +32,7 @@ class PlatformProvider extends OrchidServiceProvider
 
     // References
     $menu[] = Menu::make('References')->icon('grid')->list([
-      Menu::make('Country')->icon('bs.list')->route('reference.country.list'),
+      Menu::make('CountryResponse')->icon('bs.list')->route('reference.country.list'),
       Menu::make('Currency')->icon('bs.list')->route('reference.currency.list'),
       Menu::make('Currency Rate')->icon('bs.list')->route('reference.currency-rate.list'),
       Menu::make('Travel types')->icon('bs.list')->route('reference.travel-type.list'),

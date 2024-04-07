@@ -17,28 +17,6 @@ class FormBase extends Controller
   protected array $errors = [];
   protected string $size = 'w-50';
 
-  public static function loadForm(
-    string $routeName,
-    array  $routeParameters,
-    string $btnName = null,
-    array  $btnClass = array(),
-    bool   $needReload = false,
-    string $methodName = ''
-  ): string
-  {
-    $out = [
-      'needReload' => $needReload,
-      'methodName' => $methodName,
-      'url'        => route($routeName, $routeParameters),
-      'btnName'    => $btnName ?? 'Изменить',
-    ];
-
-    $baseClassBtn = ['mr-border-radius-5', 'btn', 'btn-sm'];
-    $out['btnClass'] = array_unique(array_merge($baseClassBtn, $btnClass));
-
-    return View('Form.button_form_base')->with($out)->toHtml();
-  }
-
   public function processForm(): Factory|View|array|Application|null
   {
     $method = request()->getMethod();

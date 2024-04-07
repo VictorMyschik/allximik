@@ -4,10 +4,10 @@ namespace App\Services\Travel;
 
 use App\Models\Travel;
 
-class TravelService
+readonly class TravelService
 {
   public function __construct(
-    private readonly TravelRepositoryInterface $repository,
+    private TravelRepositoryInterface $repository,
   ) {}
 
   public function getTravelById(int $id): ?Travel

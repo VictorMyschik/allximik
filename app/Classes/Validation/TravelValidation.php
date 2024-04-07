@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class TravelValidation
 {
-  public function __construct(protected ?User $user)
-  {
-  }
+  public function __construct(protected ?User $user) {}
 
   /**
    * @throws InputMissingException
@@ -87,22 +85,20 @@ class TravelValidation
     return ['id' => $id];
   }
 
-  public function validateDetails(Request $request): array
+  public function validateDetails(Request $request): void
   {
     $validator = Validator::make($request->all(), [
-      'id' => 'required|int|exists:travel,id',
+      'travel_id' => 'required|int|exists:travel,id',
     ]);
 
     if ($validator->fails()) {
       throw new InputMissingException($validator->errors()->first());
     }
 
-    $id = (int)$validator->safe()->only('id')['id'];
+    $id = (int)$validator->safe()->only('travel_id')['travel_id'];
 
     if (!Travel::loadByOrDie($id)->canView($this->user)) {
       throw new PermissionDeniedException();
     }
-
-    return ['id' => $id];
   }
 }

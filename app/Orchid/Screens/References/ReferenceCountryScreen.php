@@ -38,7 +38,7 @@ class ReferenceCountryScreen extends Screen
         ->type(Color::PRIMARY())
         ->icon('plus')
         ->modal('country_modal')
-        ->modalTitle('Create New Country')
+        ->modalTitle('Create New CountryResponse')
         ->method('saveCountry')
         ->asyncParameters(['id' => 0])
     ];
@@ -74,7 +74,7 @@ class ReferenceCountryScreen extends Screen
       $data
     );
 
-    Toast::info('Country was saved');
+    Toast::info('CountryResponse was saved');
   }
 
   public function remove(int $id): void

@@ -37,7 +37,7 @@ class TravelEditLayout extends Rows
         ->options(User::all()->pluck('name', 'id')->toArray()),
 
       Select::make('travel.country_id')
-        ->title('Country')
+        ->title('CountryResponse')
         ->required()
         ->empty('Select country')
         ->options(Country::all()->pluck('name', 'id')->toArray()),

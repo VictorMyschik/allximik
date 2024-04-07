@@ -32,7 +32,7 @@ class TravelListLayout extends Table
 
       TD::make('user_id', 'User')->render(fn(Travel $travel) => $travel->getUser()->name),
 
-      TD::make('country', 'Country')->render(fn(Travel $travel) => $travel->getCountry()->getName()),
+      TD::make('country', 'CountryResponse')->render(fn(Travel $travel) => $travel->getCountry()->getName()),
 
       TD::make('travel_type_id', 'Travel type')->render(fn(Travel $travel) => $travel->getTravelType()->getName()),
 

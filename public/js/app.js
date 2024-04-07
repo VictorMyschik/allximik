@@ -24515,7 +24515,9 @@ __webpack_require__.r(__webpack_exports__);
         'api.travel.details': '/api/travel/details',
         'account.travel.base.form': '/account/travel/{travel_id}/base/form'
       },
-      travelDetails: {}
+      travelDetails: {},
+      country: {},
+      travelType: {}
     };
   },
   created: function created() {
@@ -24532,13 +24534,15 @@ __webpack_require__.r(__webpack_exports__);
     getTravelDetails: function getTravelDetails() {
       var _this = this;
       axios.post(this.urlList['api.travel.details'], {
-        'id': this.travel_id
+        'travel_id': this.travel_id
       }).then(function (response) {
         if (response.data.result !== true) {
           console.log('Error');
           return;
         }
         _this.travelDetails = response.data.content;
+        _this.country = _this.travelDetails.country;
+        _this.travelType = _this.travelDetails.travel_type;
       });
     }
   }
@@ -24704,7 +24708,7 @@ var _hoisted_11 = /*#__PURE__*/_withScopeId(function () {
 var _hoisted_12 = {
   "class": "modal-footer justify-content-center",
   style: {
-    "height": "45px"
+    "height": "55px"
   }
 };
 var _hoisted_13 = {
@@ -24802,7 +24806,7 @@ var _hoisted_1 = {
   "class": "row col-md-12 col-sm-12 col-lg-12"
 };
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "col-md-2 p-3 mr-left-side",
+  "class": "col-md-2 col-sm-12 p-3 mr-left-side",
   style: {
     "border-radius": "5px"
   }
@@ -24814,22 +24818,27 @@ var _hoisted_4 = {
   "class": "row col-md-10"
 };
 var _hoisted_5 = {
-  "class": "ml-1"
+  "class": "row col-md-10"
 };
 var _hoisted_6 = {
+  "class": "ml-1"
+};
+var _hoisted_7 = {
+  "class": "row col-md-10"
+};
+var _hoisted_8 = {
   "class": "row col-md-10"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_mrp = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("mrp");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mrp, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mrp, {
     title: "Изменить",
-    need_reload: "true",
+    onResponse: $options.getTravelDetails,
     route_url: $options.router('account.travel.base.form', {
       'travel_id': $props.travel_id
     }),
-    btn_name: "",
     class_arr: "mr-btn-primary fa fa-pen"
-  }, null, 8 /* PROPS */, ["route_url"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.description), 1 /* TEXT */)])]);
+  }, null, 8 /* PROPS */, ["onResponse", "route_url"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.country.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelType.name), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.description), 1 /* TEXT */)])]);
 }
 
 /***/ }),

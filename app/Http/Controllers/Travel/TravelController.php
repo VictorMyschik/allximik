@@ -5,17 +5,20 @@ namespace App\Http\Controllers\Travel;
 use App\Classes\Travel\TravelClass;
 use App\Classes\Validation\TravelValidation;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Travel\Request\TravelDetailsRequest;
 use App\Models\Travel;
+use App\Services\TravelApiService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class TravelController extends Controller
+final class TravelController extends Controller
 {
-  public function __construct(private readonly TravelClass $travel, private readonly TravelValidation $validationClass)
-  {
-    $this->middleware('web', ['except' => ['getList']]);
-  }
+  public function __construct(
+    private readonly TravelClass      $travel,
+    private readonly TravelValidation $validationClass,
+    private readonly TravelApiService $travelApiService,
+  ) {}
 
   public function index(int $travel_id): View
   {
@@ -52,12 +55,13 @@ class TravelController extends Controller
     return $this->successResult();
   }
 
-  public function details(Request $request): JsonResponse
+  public function details(TravelDetailsRequest $request): JsonResponse
   {
-    $input = $this->validationClass->validateDetails($request);
-    $travel = Travel::loadBy($input['id']);
+    $this->validationClass->validateDetails($request);
 
-    return $this->successResult($this->travel->getTravelData($travel));
+    return $this->successResult(
+      $this->travelApiService->getTravelDetailsResponse($request->getTravelId())
+    );
   }
 
   public function getList(): JsonResponse
