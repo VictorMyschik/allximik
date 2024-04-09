@@ -8,17 +8,24 @@
             <h4>Маршрут</h4>
         </div>
         <div class="col-md-10">
-            <div class="row col-md-10">
-                <div class="row col-md-10">
-                    <mrp title="Изменить"
-                         @response="getTravelDetails"
-                         :route_url="router('account.travel.base.form', {'travel_id': travel_id})"
-                         class_arr="mr-btn-primary fa fa-pen">
-                    </mrp>
-                    <h4 class="ml-1">{{ travelDetails.name }}</h4>
+            <div class="row">
+                <div class="row col-md-12">
+                    <div class="d-inline col-md-9 text-nowrap">
+                        <mrp title="Изменить"
+                             @response="getTravelDetails"
+                             :route_url="router('account.travel.base.form', {'travel_id': travel_id})"
+                             class_arr="mr-btn-primary fa fa-pen">
+                        </mrp>
+                        <span class="font-weight-bolder ml-1">{{ travelDetails.name }}</span>
+                    </div>
+                    <div class="d-inline col-md-3 text-nowrap">
+                        <div>Обновлено: {{ travelDetails.updated_at }}</div>
+                        <div>{{ travelStatus.name }}</div>
+                    </div>
                 </div>
-                <div class="row col-md-10">
-                    <div>
+
+                <div class="row col-md-12 mt-3">
+                    <div class="d-inline col-md-9 text-nowrap">
                         <h5>{{ country.name }}</h5>
                         <h5>{{ travelType.name }}</h5>
                     </div>
@@ -48,6 +55,7 @@ export default {
             travelDetails: {},
             country: {},
             travelType: {},
+            travelStatus: {},
         }
     },
     created() {
@@ -64,7 +72,8 @@ export default {
         },
 
         getTravelDetails: function () {
-            axios.post(this.urlList['api.travel.details'], {'travel_id': this.travel_id}).then(response => {
+            axios.post(this.urlList['api.travel.details'], {'travel_id': this.travel_id}, {
+            }).then(response => {
                     if (response.data.result !== true) {
                         console.log('Error');
                         return;
@@ -73,6 +82,7 @@ export default {
                     this.travelDetails = response.data.content;
                     this.country = this.travelDetails.country;
                     this.travelType = this.travelDetails.travel_type;
+                    this.travelStatus = this.travelDetails.status;
                 }
             );
         },

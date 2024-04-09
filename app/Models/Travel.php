@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Models\Lego\Fields\CreatedFieldTrait;
@@ -87,7 +89,7 @@ class Travel extends ORM
         return [
             self::STATUS_DRAFT    => __('mr-t.Draft'),
             self::STATUS_ACTIVE   => __('mr-t.Active'),
-            self::STATUS_ARCHIVED => __('mr-t.Archive'),
+            self::STATUS_ARCHIVED => __('mr-t.Archived'),
         ];
     }
 
@@ -139,7 +141,7 @@ class Travel extends ORM
     public function afterSave(): void
     {
         if (!$this->getPublicId()) {
-            $this->setPublicId(crc32($this->id()));
+            $this->setPublicId(crc32((string)$this->id()));
             $this->save_mr();
         }
     }
@@ -230,7 +232,7 @@ class Travel extends ORM
         return $this->public_id;
     }
 
-    public function setPublicId(?string $value): void
+    public function setPublicId(?int $value): void
     {
         $this->public_id = $value;
     }

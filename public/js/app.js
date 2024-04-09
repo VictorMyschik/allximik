@@ -24363,7 +24363,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue3_runtime_template__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue3-runtime-template */ "./node_modules/vue3-runtime-template/dist/vue3-runtime-template.es.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -24517,7 +24517,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       travelDetails: {},
       country: {},
-      travelType: {}
+      travelType: {},
+      travelStatus: {}
     };
   },
   created: function created() {
@@ -24535,7 +24536,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       axios.post(this.urlList['api.travel.details'], {
         'travel_id': this.travel_id
-      }).then(function (response) {
+      }, {}).then(function (response) {
         if (response.data.result !== true) {
           console.log('Error');
           return;
@@ -24543,6 +24544,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.travelDetails = response.data.content;
         _this.country = _this.travelDetails.country;
         _this.travelType = _this.travelDetails.travel_type;
+        _this.travelStatus = _this.travelDetails.status;
       });
     }
   }
@@ -24815,30 +24817,39 @@ var _hoisted_3 = {
   "class": "col-md-10"
 };
 var _hoisted_4 = {
-  "class": "row col-md-10"
+  "class": "row"
 };
 var _hoisted_5 = {
-  "class": "row col-md-10"
+  "class": "row col-md-12"
 };
 var _hoisted_6 = {
-  "class": "ml-1"
+  "class": "d-inline col-md-9 text-nowrap"
 };
 var _hoisted_7 = {
-  "class": "row col-md-10"
+  "class": "font-weight-bolder ml-1"
 };
 var _hoisted_8 = {
+  "class": "d-inline col-md-3 text-nowrap"
+};
+var _hoisted_9 = {
+  "class": "row col-md-12 mt-3"
+};
+var _hoisted_10 = {
+  "class": "d-inline col-md-9 text-nowrap"
+};
+var _hoisted_11 = {
   "class": "row col-md-10"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_mrp = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("mrp");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mrp, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mrp, {
     title: "Изменить",
     onResponse: $options.getTravelDetails,
     route_url: $options.router('account.travel.base.form', {
       'travel_id': $props.travel_id
     }),
     class_arr: "mr-btn-primary fa fa-pen"
-  }, null, 8 /* PROPS */, ["onResponse", "route_url"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.country.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelType.name), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.description), 1 /* TEXT */)])]);
+  }, null, 8 /* PROPS */, ["onResponse", "route_url"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Обновлено: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.updated_at), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelStatus.name), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.country.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelType.name), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.description), 1 /* TEXT */)])]);
 }
 
 /***/ }),

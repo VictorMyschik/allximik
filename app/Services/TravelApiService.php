@@ -12,6 +12,7 @@ use App\Http\Controllers\Travel\Response\Components\TravelStatusComponent;
 use App\Http\Controllers\Travel\Response\Components\TravelUserComponent;
 use App\Http\Controllers\Travel\Response\Components\TravelVisibleKind;
 use App\Http\Controllers\Travel\Response\TravelDetailsResponse;
+use App\Models\Travel;
 use App\Services\Travel\TravelService;
 
 readonly class TravelApiService extends TravelService
