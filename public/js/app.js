@@ -24927,7 +24927,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     route_url: $options.router('account.travel.base.form', {
       'travel_id': 0
     }),
-    class_arr: "mr-btn-primary text-center"
+    class_arr: "mr-btn-primary"
   }, null, 8 /* PROPS */, ["onResponse", "route_url"])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(this.list, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       "class": "nav-link",

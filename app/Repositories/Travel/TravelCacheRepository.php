@@ -26,7 +26,7 @@ readonly class TravelCacheRepository implements TravelRepositoryInterface
 
     public function saveTravel(int $id, array $data): int
     {
-        $this->repository->saveTravel($id, $data);
+        $id = $this->repository->saveTravel($id, $data);
         $this->clearCache($id);
 
         return $id;

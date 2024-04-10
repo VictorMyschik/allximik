@@ -7,7 +7,7 @@ namespace App\Models;
 use App\Models\Lego\Fields\CreatedFieldTrait;
 use App\Models\Lego\Fields\DeletedNullableFieldTrait;
 use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
-use App\Models\Lego\Fields\NameFieldTrait;
+use App\Models\Lego\Fields\TitleFieldTrait;
 use App\Models\Lego\Fields\UpdatedNullableFieldTrait;
 use App\Models\ORM\ORM;
 use App\Models\Reference\Country;
@@ -20,7 +20,7 @@ class Travel extends ORM
     use AsSource;
     use Filterable;
 
-    use NameFieldTrait;
+    use TitleFieldTrait;
     use DescriptionNullableFieldTrait;
     use CreatedFieldTrait;
     use UpdatedNullableFieldTrait;
@@ -30,7 +30,7 @@ class Travel extends ORM
 
     protected array $allowedSorts = [
         'id',
-        'name',
+        'title',
         'description',
         'status',
         'user_id',
@@ -44,7 +44,7 @@ class Travel extends ORM
     ];
 
     protected $fillable = [
-        'name',
+        'title',
         'description',
         'status',
         'user_id',

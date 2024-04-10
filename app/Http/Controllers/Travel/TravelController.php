@@ -24,7 +24,10 @@ final class TravelController extends Controller
         private readonly TravelValidation $validationClass,
         private readonly TravelApiService $travelApiService,
         private readonly TravelService    $travelService,
-    ) {}
+    )
+    {
+        $this->middleware('auth', ['except' => ['getList']]);
+    }
 
     public function index(int $travel_id): View
     {
@@ -36,7 +39,7 @@ final class TravelController extends Controller
     public function create(CreateTravelRequest $request): JsonResponse
     {
         $input = $request->validated();
-        $input['user_id'] = auth()->id();
+        $input['user_id'] = $request->user()->id;
 
         $id = $this->travelService->saveTravel(0, $input);
 
@@ -48,10 +51,10 @@ final class TravelController extends Controller
     public function update(UpdateTravelRequest $request): JsonResponse
     {
         $input = $this->validationClass->validateUpdate($request);
-        $this->travelService->saveTravel($input['id'], $input);
+        $this->travelService->saveTravel((int)$input['id'], $input);
 
         return $this->successResult(
-            $this->travelApiService->getTravelDetailsResponse($input['id'])
+            $this->travelApiService->getTravelDetailsResponse((int)$input['id'])
         );
     }
 

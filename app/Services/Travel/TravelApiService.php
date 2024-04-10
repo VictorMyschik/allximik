@@ -34,7 +34,7 @@ readonly class TravelApiService extends TravelService
 
         return new TravelDetailsResponse(
             id: $travelId,
-            name: $travel->getName(),
+            title: $travel->getTitle(),
             description: $travel->getDescription(),
             status: new TravelStatusComponent(
                 key: $travel->getStatus(),

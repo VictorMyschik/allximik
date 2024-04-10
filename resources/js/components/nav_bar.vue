@@ -6,7 +6,7 @@
                  @response="getUsersTravelList"
                  btn_name="Добавить поездку"
                  :route_url="router('account.travel.base.form', {'travel_id': 0})"
-                 class_arr="mr-btn-primary text-center">
+                 class_arr="mr-btn-primary">
             </mrp>
         </div>
         <a class="nav-link" v-for="item in this.list"
