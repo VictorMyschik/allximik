@@ -24609,13 +24609,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _MrPopupForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MrPopupForm.vue */ "./resources/js/components/MrPopupForm.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    mrp: _MrPopupForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   name: "nav_bar",
   data: function data() {
     return {
       urlList: {
         "api.travel.list": "/api/travel/list",
-        "account.travel.page": "/account/travel/{travel_id}/page"
+        "account.travel.page": "/account/travel/{travel_id}/page",
+        'account.travel.base.form': '/account/travel/{travel_id}/base/form'
       },
       list: null
     };
@@ -24636,6 +24642,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     buildLink: function buildLink(url, id) {
       return url.replace('{travel_id}', id);
+    },
+    router: function router(route, params) {
+      var url = this.urlList[route];
+      for (var key in params) {
+        url = url.replace('{' + key + '}', params[key]);
+      }
+      return url;
     }
   }
 });
@@ -24906,7 +24919,16 @@ var _hoisted_1 = {
 var _hoisted_2 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(this.list, function (item) {
+  var _component_mrp = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("mrp");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mrp, {
+    title: "Изменить",
+    onResponse: $options.getUsersTravelList,
+    btn_name: "Добавить поездку",
+    route_url: $options.router('account.travel.base.form', {
+      'travel_id': 0
+    }),
+    class_arr: "mr-btn-primary text-center"
+  }, null, 8 /* PROPS */, ["onResponse", "route_url"])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(this.list, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       "class": "nav-link",
       href: $options.buildLink(_this.urlList['account.travel.page'], item.id)

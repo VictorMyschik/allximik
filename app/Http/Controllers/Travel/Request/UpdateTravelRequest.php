@@ -19,7 +19,7 @@ class UpdateTravelRequest extends FormRequest
     {
         return [
             'id'             => 'required|int|exists:travels,id',
-            'name'           => 'string|max:255',
+            'title'          => 'string|max:255',
             'description'    => 'string|max:8000',
             'status'         => 'int|in:-1,1,2',
             'country_id'     => 'int|exists:country,id',

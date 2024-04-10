@@ -18,7 +18,7 @@ class CreateTravelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'           => 'required|string|max:255',
+            'title'          => 'required|string|max:255',
             'description'    => 'string|max:8000',
             'status'         => 'required|int|in:-1,1,2',
             'country_id'     => 'required|int|exists:country,id',

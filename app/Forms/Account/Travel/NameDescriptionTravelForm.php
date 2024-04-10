@@ -20,29 +20,29 @@ class NameDescriptionTravelForm extends FormBase
 
     protected function builderForm(array &$form, array $args): void
     {
-        $travel = Travel::loadBy((int)$args['travel_id']) ?: new Travel();
+        $travel = $this->service->getTravelById((int)$args['travel_id']);
 
         $form['#title'] = __('mr-t.account_form_travel_edit');
 
         $form['status'] = array(
             '#type'          => 'select',
             '#title'         => __('mr-t.account_form_status'),
-            '#default_value' => $travel->id() ? $travel->getStatus() : Travel::STATUS_DRAFT,
+            '#default_value' => $travel ? $travel->getStatus() : Travel::STATUS_DRAFT,
             '#options'       => Travel::getStatusList(),
         );
 
         $form['name'] = array(
             '#type'  => 'textfield',
-            '#title' => __('mr-t.account_form_name'),
+            '#title' => __('mr-t.Title'),
             '#class' => ['mr-border-radius-5'],
-            '#value' => $travel->getName(),
+            '#value' => $travel?->getName(),
         );
 
         $form['country_id'] = array(
             '#type'          => 'select',
-            '#title'         => __('mr-t.account_form_country'),
+            '#title'         => __('mr-t.country'),
             '#required'      => true,
-            '#default_value' => $travel->id() ? $travel->getCountry()->id() : 0,
+            '#default_value' => $travel ? $travel->getCountry()->id() : 0,
             '#options'       => [0 => 'не выбрано'] + $this->countryService->getSelectList()
         );
     }

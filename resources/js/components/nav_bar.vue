@@ -1,46 +1,68 @@
+<template>
+    <div class="dropdown-menu dropdown-menu-right mr-nav-link-submenu-background"
+         aria-labelledby="navbarDropdown">
+        <div>
+            <mrp title="Изменить"
+                 @response="getUsersTravelList"
+                 btn_name="Добавить поездку"
+                 :route_url="router('account.travel.base.form', {'travel_id': 0})"
+                 class_arr="mr-btn-primary text-center">
+            </mrp>
+        </div>
+        <a class="nav-link" v-for="item in this.list"
+           :href="buildLink(this.urlList['account.travel.page'], item.id)">{{ item.name }}</a>
+    </div>
+</template>
+
 <script>
+import mrp from './MrPopupForm.vue';
+
 export default {
-  name: "nav_bar",
-  data() {
-    return {
-      urlList: {
-        "api.travel.list": "/api/travel/list",
-        "account.travel.page": "/account/travel/{travel_id}/page",
-      },
-      list: null,
-    }
-  },
-  created() {
-    this.getUsersTravelList();
-  },
-
-  methods: {
-    getUsersTravelList: function () {
-      axios.post(this.urlList['api.travel.list']).then(response => {
-          if (response.data.result !== true) {
-            console.log('Error');
-            return;
-          }
-
-          this.list = response.data.content;
+    components: {
+        mrp
+    },
+    name: "nav_bar",
+    data() {
+        return {
+            urlList: {
+                "api.travel.list": "/api/travel/list",
+                "account.travel.page": "/account/travel/{travel_id}/page",
+                'account.travel.base.form': '/account/travel/{travel_id}/base/form',
+            },
+            list: null,
         }
-      );
+    },
+    created() {
+        this.getUsersTravelList();
     },
 
-    buildLink: function (url, id) {
-      return url.replace('{travel_id}', id);
+    methods: {
+        getUsersTravelList: function () {
+            axios.post(this.urlList['api.travel.list']).then(response => {
+                    if (response.data.result !== true) {
+                        console.log('Error');
+                        return;
+                    }
+
+                    this.list = response.data.content;
+                }
+            );
+        },
+
+        buildLink: function (url, id) {
+            return url.replace('{travel_id}', id);
+        },
+
+        router: function (route, params) {
+            let url = this.urlList[route];
+            for (let key in params) {
+                url = url.replace('{' + key + '}', params[key]);
+            }
+            return url;
+        },
     }
-  }
 }
 </script>
-
-<template>
-  <div class="dropdown-menu dropdown-menu-right mr-nav-link-submenu-background"
-       aria-labelledby="navbarDropdown">
-    <a class="nav-link" v-for="item in this.list"
-       :href="buildLink(this.urlList['account.travel.page'], item.id)">{{ item.name }}</a>
-  </div>
-</template>
 
 <style scoped>
 
