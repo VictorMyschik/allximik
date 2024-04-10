@@ -26,7 +26,7 @@ class Travel extends ORM
     use UpdatedNullableFieldTrait;
     use DeletedNullableFieldTrait;
 
-    protected $table = 'travel';
+    protected $table = 'travels';
 
     protected array $allowedSorts = [
         'id',

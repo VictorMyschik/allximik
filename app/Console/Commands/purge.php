@@ -146,7 +146,7 @@ class purge extends Command
     'currency',
     'measure',
     'travel_type',
-    'travel',
+    'travels',
     'communicate',
     'currency_rate',
     'email_invite',

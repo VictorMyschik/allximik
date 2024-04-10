@@ -17,9 +17,9 @@ readonly class TravelService
         return $this->repository->getTravelById($id);
     }
 
-    public function updateTravel(int $id, array $data): void
+    public function saveTravel(int $id, array $data): int
     {
-        $this->repository->updateTravel($id, $data);
+        return $this->repository->saveTravel($id, $data);
     }
 
     public function getTravelFullImages(int $travelId): array

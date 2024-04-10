@@ -8,7 +8,7 @@ interface TravelRepositoryInterface
 {
     public function getTravelById(int $id): ?Travel;
 
-    public function updateTravel(int $id, array $data): void;
+    public function saveTravel(int $id, array $data): int;
 
     public function getTravelFullImages(int $travelId): array;
 }

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
   public function up(): void
   {
-    Schema::create('travel', function (Blueprint $table) {
+    Schema::create('travels', function (Blueprint $table) {
       $table->unsignedBigInteger('id')->autoIncrement();
       $table->string('name');
       $table->string('description', 8000)->nullable();
@@ -30,6 +30,6 @@ return new class extends Migration {
 
   public function down(): void
   {
-    Schema::dropIfExists('travel');
+    Schema::dropIfExists('travels');
   }
 };

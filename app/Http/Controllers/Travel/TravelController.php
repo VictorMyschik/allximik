@@ -7,9 +7,12 @@ namespace App\Http\Controllers\Travel;
 use App\Classes\Travel\TravelClass;
 use App\Classes\Validation\TravelValidation;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Travel\Request\CreateTravelRequest;
 use App\Http\Controllers\Travel\Request\TravelDetailsRequest;
+use App\Http\Controllers\Travel\Request\UpdateTravelRequest;
 use App\Models\Travel;
 use App\Services\Travel\TravelApiService;
+use App\Services\Travel\TravelService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -20,6 +23,7 @@ final class TravelController extends Controller
         private readonly TravelClass      $travel,
         private readonly TravelValidation $validationClass,
         private readonly TravelApiService $travelApiService,
+        private readonly TravelService    $travelService,
     ) {}
 
     public function index(int $travel_id): View
@@ -29,22 +33,26 @@ final class TravelController extends Controller
         return View('account.travel.index', $out);
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(CreateTravelRequest $request): JsonResponse
     {
-        $input = $this->validationClass->validateCreate($request);
-        $travel = $this->travel->createTravel($input);
-        $response = $this->travel->getTravelData($travel);
+        $input = $request->validated();
+        $input['user_id'] = auth()->id();
 
-        return $this->successResult($response, 201);
+        $id = $this->travelService->saveTravel(0, $input);
+
+        return $this->successResult(
+            $this->travelApiService->getTravelDetailsResponse($id), 201
+        );
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(UpdateTravelRequest $request): JsonResponse
     {
         $input = $this->validationClass->validateUpdate($request);
-        $travel = $this->travel->updateTravel($input);
-        $response = $this->travel->getTravelData($travel);
+        $this->travelService->saveTravel($input['id'], $input);
 
-        return $this->successResult($response);
+        return $this->successResult(
+            $this->travelApiService->getTravelDetailsResponse($input['id'])
+        );
     }
 
     public function delete(Request $request): JsonResponse

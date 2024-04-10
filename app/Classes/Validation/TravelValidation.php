@@ -4,6 +4,8 @@ namespace App\Classes\Validation;
 
 use App\Exceptions\Validation\InputMissingException;
 use App\Exceptions\Validation\PermissionDeniedException;
+use App\Http\Controllers\Travel\Request\CreateTravelRequest;
+use App\Http\Controllers\Travel\Request\UpdateTravelRequest;
 use App\Models\Travel;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,94 +13,80 @@ use Illuminate\Support\Facades\Validator;
 
 class TravelValidation
 {
-  public function __construct(protected ?User $user) {}
+    public function __construct(protected ?User $user) {}
 
-  /**
-   * @throws InputMissingException
-   */
-  public function validateCreate(Request $request): array
-  {
-    $validator = Validator::make($request->all(), [
-      'name'           => 'required|string|max:255',
-      'description'    => 'string|max:8000',
-      'status'         => 'required|int|in:-1,1,2',
-      'country_id'     => 'required|int|exists:country,id',
-      'visible_kind'   => 'required|int|in:0,1,2',
-      'travel_type_id' => 'required|int|exists:travel_type,id',
-    ]);
+    /**
+     * @throws InputMissingException
+     */
+    public function validateCreate(CreateTravelRequest $request): array
+    {
+        $validator = Validator::make($request->all(), [
+            'name'           => 'required|string|max:255',
+            'description'    => 'string|max:8000',
+            'status'         => 'required|int|in:-1,1,2',
+            'country_id'     => 'required|int|exists:country,id',
+            'visible_kind'   => 'required|int|in:0,1,2',
+            'travel_type_id' => 'required|int|exists:travel_type,id',
+        ]);
 
-    if ($validator->fails()) {
-      throw new InputMissingException($validator->errors()->first());
+        if ($validator->fails()) {
+            throw new InputMissingException($validator->errors()->first());
+        }
+
+        $data = $validator->safe()->only(['name', 'description', 'status', 'country_id', 'visible_kind', 'travel_type_id']);
+        $data['user_id'] = $this->user->id();
+
+        return $data;
     }
 
-    $data = $validator->safe()->only(['name', 'description', 'status', 'country_id', 'visible_kind', 'travel_type_id']);
-    $data['user_id'] = $this->user->id();
+    public function validateUpdate(UpdateTravelRequest $request): array
+    {
+        $id = $request->get('id');
 
-    return $data;
-  }
+        if (!Travel::loadByOrDie($id)->canEdit($this->user)) {
+            throw new PermissionDeniedException();
+        }
 
-  public function validateUpdate(Request $request): array
-  {
-    $validator = Validator::make($request->all(), [
-      'id'             => 'required|int|exists:travel,id',
-      'name'           => 'string|max:255',
-      'description'    => 'string|max:8000',
-      'status'         => 'int|in:-1,1,2',
-      'country_id'     => 'int|exists:country,id',
-      'visible_kind'   => 'int|in:0,1,2',
-      'travel_type_id' => 'int|exists:travel_type,id',
-    ]);
+        $data = $request->all(['name', 'description', 'status', 'country_id', 'visible_kind', 'travel_type_id']);
+        $data['user_id'] = $this->user->id();
+        $data['id'] = $id;
 
-    if ($validator->fails()) {
-      throw new InputMissingException($validator->errors()->first());
+        return $data;
     }
 
-    $id = (int)$validator->safe()->only('id')['id'];
+    public function validateDelete(Request $request): array
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|int|exists:travel,id',
+        ]);
 
-    if (!Travel::loadByOrDie($id)->canEdit($this->user)) {
-      throw new PermissionDeniedException();
+        if ($validator->fails()) {
+            throw new InputMissingException($validator->errors()->first());
+        }
+
+        $id = (int)$validator->safe()->only('id')['id'];
+
+        if (!Travel::loadByOrDie($id)->canDelete($this->user)) {
+            throw new PermissionDeniedException();
+        }
+
+        return ['id' => $id];
     }
 
-    $data = $validator->safe()->only(['name', 'description', 'status', 'country_id', 'visible_kind', 'travel_type_id']);
-    $data['user_id'] = $this->user->id();
-    $data['id'] = $id;
+    public function validateDetails(Request $request): void
+    {
+        $validator = Validator::make($request->all(), [
+            'travel_id' => 'required|int|exists:travel,id',
+        ]);
 
-    return $data;
-  }
+        if ($validator->fails()) {
+            throw new InputMissingException($validator->errors()->first());
+        }
 
-  public function validateDelete(Request $request): array
-  {
-    $validator = Validator::make($request->all(), [
-      'id' => 'required|int|exists:travel,id',
-    ]);
+        $id = (int)$validator->safe()->only('travel_id')['travel_id'];
 
-    if ($validator->fails()) {
-      throw new InputMissingException($validator->errors()->first());
+        if (!Travel::loadByOrDie($id)->canView($this->user)) {
+            throw new PermissionDeniedException();
+        }
     }
-
-    $id = (int)$validator->safe()->only('id')['id'];
-
-    if (!Travel::loadByOrDie($id)->canDelete($this->user)) {
-      throw new PermissionDeniedException();
-    }
-
-    return ['id' => $id];
-  }
-
-  public function validateDetails(Request $request): void
-  {
-    $validator = Validator::make($request->all(), [
-      'travel_id' => 'required|int|exists:travel,id',
-    ]);
-
-    if ($validator->fails()) {
-      throw new InputMissingException($validator->errors()->first());
-    }
-
-    $id = (int)$validator->safe()->only('travel_id')['travel_id'];
-
-    if (!Travel::loadByOrDie($id)->canView($this->user)) {
-      throw new PermissionDeniedException();
-    }
-  }
 }

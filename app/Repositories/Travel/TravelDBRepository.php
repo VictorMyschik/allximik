@@ -15,9 +15,15 @@ class TravelDBRepository extends RepositoryBase implements TravelRepositoryInter
         return Travel::loadBy($id);
     }
 
-    public function updateTravel(int $id, array $data): void
+    public function saveTravel(int $id, array $data): int
     {
-        $this->db->table(Travel::getTableName())->where('id', $id)->update($data);
+        if ($id > 0) {
+            $data['updated_at'] = now();
+            $this->db->table('travels')->where('id', $id)->update($data);
+            return $id;
+        }
+
+        return $this->db->table('travels')->insertGetId($data);
     }
 
     public function getTravelFullImages(int $travelId): array

@@ -56,6 +56,6 @@ class NameDescriptionTravelForm extends FormBase
 
     protected function submitForm(array $routeParameters): void
     {
-        $this->service->updateTravel((int)$routeParameters['travel_id'], $this->v);
+        $this->service->saveTravel((int)$routeParameters['travel_id'], $this->v);
     }
 }
