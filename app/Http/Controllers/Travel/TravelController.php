@@ -9,7 +9,7 @@ use App\Classes\Validation\TravelValidation;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Travel\Request\TravelDetailsRequest;
 use App\Models\Travel;
-use App\Services\TravelApiService;
+use App\Services\Travel\TravelApiService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;

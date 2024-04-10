@@ -29,13 +29,13 @@ class TravelImage extends ORM
     'name',
   ];
 
-  const KIND_MAIN = 0;
+  const KIND_LOGO = 0;
   const KIND_LIST = 1;
 
   public static function getKindList(): array
   {
     return [
-      self::KIND_MAIN => 'Главное',
+      self::KIND_LOGO => 'Главное',
       self::KIND_LIST => 'Список',
     ];
   }

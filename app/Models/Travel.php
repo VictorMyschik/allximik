@@ -148,8 +148,6 @@ class Travel extends ORM
 
     public function flush(): void
     {
-        Cache::forget('travel_image_main_' . $this->id());
-        Cache::forget('travel_image_list_' . $this->id());
         Cache::forget('travel_image_full_list_' . $this->id());
     }
 
@@ -244,16 +242,12 @@ class Travel extends ORM
 
     public function getFullImagesList(): array
     {
-        return Cache::rememberForever('travel_image_full_list_' . $this->id(), function () {
-            return TravelImage::where('travel_id', $this->id())->get()->all();
-        });
+        return TravelImage::where('travel_id', $this->id())->get()->all();
     }
 
     public function getMainImage(): ?TravelImage
     {
-        return Cache::rememberForever('travel_image_main_' . $this->id(), function () {
-            return TravelImage::where('travel_id', $this->id())->where('kind', TravelImage::KIND_MAIN)->value('name');
-        });
+        return TravelImage::where('travel_id', $this->id())->where('kind', TravelImage::KIND_LOGO)->value('name');
     }
 
     /**

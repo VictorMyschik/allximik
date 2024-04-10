@@ -2,30 +2,35 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\Travel;
 
 use App\Helpers\System\MrDateTime;
 use App\Http\Controllers\Response\Components\CountryContinentComponent;
 use App\Http\Controllers\Response\CountryResponse;
 use App\Http\Controllers\Response\TravelTypeResponse;
+use App\Http\Controllers\Travel\Response\Components\TravelImageComponent;
 use App\Http\Controllers\Travel\Response\Components\TravelStatusComponent;
 use App\Http\Controllers\Travel\Response\Components\TravelUserComponent;
 use App\Http\Controllers\Travel\Response\Components\TravelVisibleKind;
 use App\Http\Controllers\Travel\Response\TravelDetailsResponse;
-use App\Models\Travel;
-use App\Services\Travel\TravelService;
+use App\Models\TravelImage;
 
 readonly class TravelApiService extends TravelService
 {
     public function getTravelDetailsResponse(int $travelId): TravelDetailsResponse
     {
         $travel = $this->getTravelById($travelId);
-        $out = [
-            'images' => [
-                'main' => $travel->getMainImage(),
-                'list' => $travel->getImagesList(),
-            ]
-        ];
+        $images = [];
+
+        /** @var TravelImage $image */
+        foreach ($this->getTravelFullImages($travelId) as $image) {
+            $images[] = new TravelImageComponent(
+                logo: $image->getKind() === TravelImage::KIND_LOGO,
+                name: $image->getName(),
+                url: $image->getUrl(),
+                description: $image->getDescription(),
+            );
+        }
 
         return new TravelDetailsResponse(
             id: $travelId,
@@ -58,6 +63,7 @@ readonly class TravelApiService extends TravelService
             ),
             created_at: $travel->getCreatedObject()->format(MrDateTime::SHORT_DATE),
             updated_at: $travel->getUpdatedObject()?->format(MrDateTime::SHORT_DATE),
+            images: $images,
         );
     }
 }

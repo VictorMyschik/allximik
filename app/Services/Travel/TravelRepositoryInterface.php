@@ -6,7 +6,9 @@ use App\Models\Travel;
 
 interface TravelRepositoryInterface
 {
-  public function getTravelById(int $id): ?Travel;
+    public function getTravelById(int $id): ?Travel;
 
-  public function updateTravel(int $id, array $data): void;
+    public function updateTravel(int $id, array $data): void;
+
+    public function getTravelFullImages(int $travelId): array;
 }

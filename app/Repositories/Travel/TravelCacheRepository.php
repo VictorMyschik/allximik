@@ -19,19 +19,21 @@ readonly class TravelCacheRepository implements TravelRepositoryInterface
 
     public function getTravelById(int $id): ?Travel
     {
-        return $this->cache->rememberForever(self::TRAVEL_ID . $id, function () use ($id) {
-            return $this->repository->getTravelById($id);
-        });
+        return $this->repository->getTravelById($id);
     }
 
     public function updateTravel(int $id, array $data): void
     {
         $this->repository->updateTravel($id, $data);
-        $this->clearCache($id);
     }
 
     private function clearCache(int $id): void
     {
         $this->cache->delete(self::TRAVEL_ID . $id);
+    }
+
+    public function getTravelFullImages(int $travelId): array
+    {
+        return $this->repository->getTravelFullImages($travelId);
     }
 }

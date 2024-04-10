@@ -22,7 +22,7 @@ class CRUDTravelImageTest extends TestBase
     // Upload image
     $fileUpload = new UploadedFile(__DIR__ . '/test_image.jpg', 'test_image.jpg', 'image/jpeg', null, true);
 
-    $properties['image_type'] = TravelImage::KIND_MAIN;
+    $properties['image_type'] = TravelImage::KIND_LOGO;
     $properties['description'] = 'description';
     $properties['group'] = 'group';
 

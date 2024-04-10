@@ -23,6 +23,6 @@ final readonly class TravelDetailsResponse
         public TravelTypeResponse    $travel_type,
         public string                $created_at,
         public ?string               $updated_at,
-        public array                 $images = [],
+        public array                 $images, // TravelImageComponent[]
     ) {}
 }
