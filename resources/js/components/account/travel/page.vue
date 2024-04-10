@@ -17,14 +17,15 @@
                              class_arr="mr-btn-primary fa fa-pen">
                         </mrp>
                         <span class="font-weight-bolder ml-1">{{ travelDetails.title }}</span>
+                        <div><span class="mr-color-green-dark">{{visibleKind.name}}</span></div>
                     </div>
-                    <div class="d-inline col-md-3 text-nowrap">
+                    <div class="d-inline col-md-3 text-nowrap text-right">
                         <div>Обновлено: {{ travelDetails.updated_at }}</div>
-                        <div>{{ travelStatus.name }}</div>
+                        <div class="">{{ travelStatus.name }}</div>
                     </div>
                 </div>
 
-                <div class="row col-md-12 mt-3">
+                <div class="row col-md-12 mt-2">
                     <div class="d-inline col-md-9 text-nowrap">
                         <h5>{{ country.name }}</h5>
                         <h5>{{ travelType.name }}</h5>
@@ -56,6 +57,7 @@ export default {
             country: {},
             travelType: {},
             travelStatus: {},
+            visibleKind: {},
         }
     },
     created() {
@@ -82,6 +84,7 @@ export default {
                     this.country = this.travelDetails.country;
                     this.travelType = this.travelDetails.travel_type;
                     this.travelStatus = this.travelDetails.status;
+                    this.visibleKind = this.travelDetails.visible_kind;
                 }
             );
         },

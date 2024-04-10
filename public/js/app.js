@@ -24568,7 +24568,8 @@ __webpack_require__.r(__webpack_exports__);
       travelDetails: {},
       country: {},
       travelType: {},
-      travelStatus: {}
+      travelStatus: {},
+      visibleKind: {}
     };
   },
   created: function created() {
@@ -24595,6 +24596,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.country = _this.travelDetails.country;
         _this.travelType = _this.travelDetails.travel_type;
         _this.travelStatus = _this.travelDetails.status;
+        _this.visibleKind = _this.travelDetails.visible_kind;
       });
     }
   }
@@ -24930,15 +24932,21 @@ var _hoisted_7 = {
   "class": "font-weight-bolder ml-1"
 };
 var _hoisted_8 = {
-  "class": "d-inline col-md-3 text-nowrap"
+  "class": "mr-color-green-dark"
 };
 var _hoisted_9 = {
-  "class": "row col-md-12 mt-3"
+  "class": "d-inline col-md-3 text-nowrap text-right"
 };
 var _hoisted_10 = {
-  "class": "d-inline col-md-9 text-nowrap"
+  "class": ""
 };
 var _hoisted_11 = {
+  "class": "row col-md-12 mt-2"
+};
+var _hoisted_12 = {
+  "class": "d-inline col-md-9 text-nowrap"
+};
+var _hoisted_13 = {
   "class": "row col-md-10"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -24950,7 +24958,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'travel_id': $props.travel_id
     }),
     class_arr: "mr-btn-primary fa fa-pen"
-  }, null, 8 /* PROPS */, ["onResponse", "route_url"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Обновлено: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.updated_at), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelStatus.name), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.country.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelType.name), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.description), 1 /* TEXT */)])]);
+  }, null, 8 /* PROPS */, ["onResponse", "route_url"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.visibleKind.name), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Обновлено: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.updated_at), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelStatus.name), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.country.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelType.name), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.description), 1 /* TEXT */)])]);
 }
 
 /***/ }),
