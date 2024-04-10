@@ -6,6 +6,7 @@ namespace App\Forms\Account\Travel;
 
 use App\Forms\FormBase\FormBase;
 use App\Models\Travel;
+use App\Models\TravelType;
 use App\Services\References\CountryService;
 use App\Services\Travel\TravelService;
 
@@ -45,6 +46,20 @@ class NameDescriptionTravelForm extends FormBase
             '#default_value' => $travel ? $travel->getCountry()->id() : 0,
             '#options'       => [0 => 'не выбрано'] + $this->countryService->getSelectList()
         );
+
+        $form['travel_type_id'] = array(
+            '#type'          => 'select',
+            '#title'         => __('mr-t.travel_type'),
+            '#default_value' => $travel ? $travel->getTravelType()->id() : 0,
+            '#options'       => TravelType::all()->pluck('name', 'id')->toArray(),
+        );
+
+        $form['visible_kind'] = array(
+            '#type'          => 'select',
+            '#title'         => __('mr-t.visible_kind'),
+            '#default_value' => (int)$travel?->getVisibleKind(),
+            '#options'       => Travel::getVisibleKindList(),
+        );
     }
 
     protected function validateForm(array $routeParameters): void
@@ -52,10 +67,15 @@ class NameDescriptionTravelForm extends FormBase
         if (!$this->v['title']) {
             $this->errors['title'] = 'Наименование не указано';
         }
+
+        if (!$this->v['country_id']) {
+            $this->errors['country_id'] = 'Страна не указана';
+        }
     }
 
     protected function submitForm(array $routeParameters): void
     {
+        $this->v['user_id'] = auth()->id();
         $this->service->saveTravel((int)$routeParameters['travel_id'], $this->v);
     }
 }

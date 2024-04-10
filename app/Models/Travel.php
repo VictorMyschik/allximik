@@ -65,9 +65,9 @@ class Travel extends ORM
     public static function getVisibleKindList(): array
     {
         return [
-            self::VISIBLE_KIND_PUBLIC   => __('Public'),// 'Публичный',
-            self::VISIBLE_KIND_FOR_ME   => __('only_for_me'),// 'Только для меня',
-            self::VISIBLE_KIND_PLATFORM => __('Only for registered users'),// 'Только для зарегистрированных пользователей',
+            self::VISIBLE_KIND_PUBLIC   => __('mr-t.Public'),// 'Публичный',
+            self::VISIBLE_KIND_FOR_ME   => __('mr-t.only_for_me'),// 'Только для меня',
+            self::VISIBLE_KIND_PLATFORM => __('mr-t.Only for registered users'),// 'Только для зарегистрированных пользователей',
         ];
     }
 
