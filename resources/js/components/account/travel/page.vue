@@ -1,6 +1,6 @@
 <template>
     <div class="row col-md-12 col-sm-12 col-lg-12">
-        <div class="col-md-2 col-sm-12 p-3 mr-left-side" style="border-radius: 5px;">
+        <div class="col-md-2 col-sm-12 p-3 mr-left-side" style="border-radius: 5px; word-break: break-all;">
             <h4>Описание</h4>
             <h4>Участники</h4>
             <h4>Снаряжение</h4>
@@ -16,7 +16,7 @@
                              :route_url="router('account.travel.base.form', {'travel_id': travel_id})"
                              class_arr="mr-btn-primary fa fa-pen">
                         </mrp>
-                        <span class="font-weight-bolder ml-1">{{ travelDetails.name }}</span>
+                        <span class="font-weight-bolder ml-1">{{ travelDetails.title }}</span>
                     </div>
                     <div class="d-inline col-md-3 text-nowrap">
                         <div>Обновлено: {{ travelDetails.updated_at }}</div>
@@ -72,8 +72,7 @@ export default {
         },
 
         getTravelDetails: function () {
-            axios.post(this.urlList['api.travel.details'], {'travel_id': this.travel_id}, {
-            }).then(response => {
+            axios.post(this.urlList['api.travel.details'], {'travel_id': this.travel_id}, {}).then(response => {
                     if (response.data.result !== true) {
                         console.log('Error');
                         return;

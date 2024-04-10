@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Travel;
 
-use App\Classes\Travel\TravelClass;
 use App\Classes\Validation\TravelValidation;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Travel\Request\CreateTravelRequest;
@@ -20,7 +19,6 @@ use Illuminate\View\View;
 final class TravelController extends Controller
 {
     public function __construct(
-        private readonly TravelClass      $travel,
         private readonly TravelValidation $validationClass,
         private readonly TravelApiService $travelApiService,
         private readonly TravelService    $travelService,
@@ -31,9 +29,7 @@ final class TravelController extends Controller
 
     public function index(int $travel_id): View
     {
-        $out = ['travel_id' => $travel_id];
-
-        return View('account.travel.index', $out);
+        return View('account.travel.index', ['travelId' => $travel_id]);
     }
 
     public function create(CreateTravelRequest $request): JsonResponse
@@ -77,8 +73,26 @@ final class TravelController extends Controller
         );
     }
 
-    public function getList(): JsonResponse
+    public function getList(Request $request): JsonResponse
     {
-        return $this->successResult($this->travel->getConvertedList());
+        $user = null;
+        if ($request->user()) {
+            $user = $request->user();
+        }
+
+        if ($request->user('jwt')) {
+            $user = $request->user('jwt');
+        }
+
+        return $this->successResult(
+            $this->travelApiService->getPublicTravelList($user)
+        );
+    }
+
+    public function personalList(Request $request): JsonResponse
+    {
+        return $this->successResult(
+            $this->travelApiService->getPersonalList($request->user())
+        );
     }
 }

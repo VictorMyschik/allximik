@@ -24490,6 +24490,56 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/account/travel/new_travel.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/account/travel/new_travel.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _MrPopupForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../MrPopupForm.vue */ "./resources/js/components/MrPopupForm.vue");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    mrp: _MrPopupForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  name: "new_travel",
+  data: function data() {
+    return {
+      urlList: {
+        'account.travel.base.form': '/account/travel/{travel_id}/base/form',
+        "account.travel.page": "/account/travel/{travel_id}/page"
+      },
+      list: null
+    };
+  },
+  methods: {
+    router: function router(route, params) {
+      var url = this.urlList[route];
+      for (var key in params) {
+        url = url.replace('{' + key + '}', params[key]);
+      }
+      return url;
+    },
+    redirectToTravel: function redirectToTravel(response) {
+      console.log(response);
+      if (response.result !== true) {
+        console.log('Error');
+        return;
+      }
+      window.location.href = this.router('account.travel.page', {
+        'travel_id': response.content
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/account/travel/page.vue?vue&type=script&lang=js":
 /*!*************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/account/travel/page.vue?vue&type=script&lang=js ***!
@@ -24804,6 +24854,43 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/account/travel/new_travel.vue?vue&type=template&id=7c083391":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/account/travel/new_travel.vue?vue&type=template&id=7c083391 ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "nav-item"
+};
+var _hoisted_2 = {
+  "class": "nav-link",
+  href: "#"
+};
+var _hoisted_3 = {
+  "class": "mr-nav-link-color mr-color-green"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_mrp = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("mrp");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mrp, {
+    btn_name: "новое",
+    onResponse: $options.redirectToTravel,
+    route_url: $options.router('account.travel.base.form', {
+      'travel_id': 0
+    }),
+    class_arr: ""
+  }, null, 8 /* PROPS */, ["onResponse", "route_url"])])])]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/account/travel/page.vue?vue&type=template&id=2b10d6f2":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/account/travel/page.vue?vue&type=template&id=2b10d6f2 ***!
@@ -24823,7 +24910,8 @@ var _hoisted_1 = {
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "col-md-2 col-sm-12 p-3 mr-left-side",
   style: {
-    "border-radius": "5px"
+    "border-radius": "5px",
+    "word-break": "break-all"
   }
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Описание"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Участники"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Снаряжение"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Питание"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Маршрут")], -1 /* HOISTED */);
 var _hoisted_3 = {
@@ -24862,7 +24950,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'travel_id': $props.travel_id
     }),
     class_arr: "mr-btn-primary fa fa-pen"
-  }, null, 8 /* PROPS */, ["onResponse", "route_url"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Обновлено: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.updated_at), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelStatus.name), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.country.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelType.name), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.description), 1 /* TEXT */)])]);
+  }, null, 8 /* PROPS */, ["onResponse", "route_url"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Обновлено: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.updated_at), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelStatus.name), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.country.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelType.name), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.travelDetails.description), 1 /* TEXT */)])]);
 }
 
 /***/ }),
@@ -24919,20 +25007,11 @@ var _hoisted_1 = {
 var _hoisted_2 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
-  var _component_mrp = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("mrp");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mrp, {
-    title: "Изменить",
-    onResponse: $options.getUsersTravelList,
-    btn_name: "Добавить поездку",
-    route_url: $options.router('account.travel.base.form', {
-      'travel_id': 0
-    }),
-    class_arr: "mr-btn-primary"
-  }, null, 8 /* PROPS */, ["onResponse", "route_url"])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(this.list, function (item) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(this.list, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       "class": "nav-link",
       href: $options.buildLink(_this.urlList['account.travel.page'], item.id)
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 9 /* TEXT, PROPS */, _hoisted_2);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 9 /* TEXT, PROPS */, _hoisted_2);
   }), 256 /* UNKEYED_FRAGMENT */))]);
 }
 
@@ -24951,7 +25030,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_main_page_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/main_page.vue */ "./resources/js/components/main_page.vue");
 /* harmony import */ var _components_nav_bar_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/nav_bar.vue */ "./resources/js/components/nav_bar.vue");
 /* harmony import */ var _components_account_travel_page_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/account/travel/page.vue */ "./resources/js/components/account/travel/page.vue");
+/* harmony import */ var _components_account_travel_new_travel_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/account/travel/new_travel.vue */ "./resources/js/components/account/travel/new_travel.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 
 
 
@@ -24962,7 +25043,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
     mrp: _components_MrPopupForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     main_page: _components_main_page_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     nav_bar: _components_nav_bar_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    account_travel_list: _components_account_travel_page_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    account_travel_list: _components_account_travel_page_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    new_travel: _components_account_travel_new_travel_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   }
 }).mount('#app');
 
@@ -62839,6 +62921,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/components/account/travel/new_travel.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/account/travel/new_travel.vue ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _new_travel_vue_vue_type_template_id_7c083391__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./new_travel.vue?vue&type=template&id=7c083391 */ "./resources/js/components/account/travel/new_travel.vue?vue&type=template&id=7c083391");
+/* harmony import */ var _new_travel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./new_travel.vue?vue&type=script&lang=js */ "./resources/js/components/account/travel/new_travel.vue?vue&type=script&lang=js");
+/* harmony import */ var _home_allximik_ide_www_allximik_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,_home_allximik_ide_www_allximik_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_new_travel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_new_travel_vue_vue_type_template_id_7c083391__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/account/travel/new_travel.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/components/account/travel/page.vue":
 /*!*********************************************************!*\
   !*** ./resources/js/components/account/travel/page.vue ***!
@@ -62939,6 +63049,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/account/travel/new_travel.vue?vue&type=script&lang=js":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/account/travel/new_travel.vue?vue&type=script&lang=js ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_new_travel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_new_travel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./new_travel.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/account/travel/new_travel.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/account/travel/page.vue?vue&type=script&lang=js":
 /*!*********************************************************************************!*\
   !*** ./resources/js/components/account/travel/page.vue?vue&type=script&lang=js ***!
@@ -62999,6 +63125,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MrPopupForm_vue_vue_type_template_id_6869a4d0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MrPopupForm_vue_vue_type_template_id_6869a4d0_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MrPopupForm.vue?vue&type=template&id=6869a4d0&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MrPopupForm.vue?vue&type=template&id=6869a4d0&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/account/travel/new_travel.vue?vue&type=template&id=7c083391":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/account/travel/new_travel.vue?vue&type=template&id=7c083391 ***!
+  \*********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_new_travel_vue_vue_type_template_id_7c083391__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_new_travel_vue_vue_type_template_id_7c083391__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./new_travel.vue?vue&type=template&id=7c083391 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/account/travel/new_travel.vue?vue&type=template&id=7c083391");
 
 
 /***/ }),

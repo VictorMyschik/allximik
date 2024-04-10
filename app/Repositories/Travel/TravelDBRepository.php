@@ -30,4 +30,9 @@ class TravelDBRepository extends RepositoryBase implements TravelRepositoryInter
     {
         return $this->db->table('travel_images')->where('travel_id', $travelId)->get()->all();
     }
+
+    public function getTravelByUserId(int $userId): array
+    {
+        return $this->db->table('travels')->where('user_id', $userId)->get()->all();
+    }
 }

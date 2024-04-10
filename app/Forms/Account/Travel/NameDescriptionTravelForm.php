@@ -31,11 +31,11 @@ class NameDescriptionTravelForm extends FormBase
             '#options'       => Travel::getStatusList(),
         );
 
-        $form['name'] = array(
+        $form['title'] = array(
             '#type'  => 'textfield',
             '#title' => __('mr-t.Title'),
             '#class' => ['mr-border-radius-5'],
-            '#value' => $travel?->getName(),
+            '#value' => $travel?->getTitle(),
         );
 
         $form['country_id'] = array(
@@ -49,8 +49,8 @@ class NameDescriptionTravelForm extends FormBase
 
     protected function validateForm(array $routeParameters): void
     {
-        if (!$this->v['name']) {
-            $this->errors['name'] = 'Наименование не указано';
+        if (!$this->v['title']) {
+            $this->errors['title'] = 'Наименование не указано';
         }
     }
 

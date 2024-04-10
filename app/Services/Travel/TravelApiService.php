@@ -14,9 +14,31 @@ use App\Http\Controllers\Travel\Response\Components\TravelUserComponent;
 use App\Http\Controllers\Travel\Response\Components\TravelVisibleKind;
 use App\Http\Controllers\Travel\Response\TravelDetailsResponse;
 use App\Models\TravelImage;
+use App\Models\User;
 
 readonly class TravelApiService extends TravelService
 {
+    public function getPublicTravelList(?User $user): array
+    {
+        $out = [];
+
+        foreach ($this->getPublicList($user) as $travel) {
+            $out[] = $this->getTravelDetailsResponse($travel->id());
+        }
+
+        return $out;
+    }
+
+    public function getPersonalList(User $user): array
+    {
+        $out = [];
+        foreach ($this->getTravelByUserId($user->id()) as $travel) {
+            $out[] = $this->getTravelDetailsResponse($travel->id);
+        }
+
+        return $out;
+    }
+
     public function getTravelDetailsResponse(int $travelId): TravelDetailsResponse
     {
         $travel = $this->getTravelById($travelId);

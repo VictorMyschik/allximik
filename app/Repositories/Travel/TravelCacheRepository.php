@@ -41,4 +41,9 @@ readonly class TravelCacheRepository implements TravelRepositoryInterface
     {
         return $this->repository->getTravelFullImages($travelId);
     }
+
+    public function getTravelByUserId(int $userId): array
+    {
+        return $this->repository->getTravelByUserId($userId);
+    }
 }

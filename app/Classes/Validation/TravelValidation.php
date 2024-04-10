@@ -51,7 +51,7 @@ class TravelValidation
 
     public function validateDetails(TravelDetailsRequest $request): void
     {
-        if (!Travel::loadByOrDie($request->getTravelId())->canView($this->user)) {
+        if (!Travel::loadByOrDie($request->getTravelId())->canView($request->user())) {
             throw new PermissionDeniedException();
         }
     }
