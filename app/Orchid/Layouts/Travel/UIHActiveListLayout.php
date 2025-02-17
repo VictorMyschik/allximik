@@ -16,45 +16,45 @@ use Orchid\Support\Color;
 
 class UIHActiveListLayout extends Table
 {
-  public $target = 'active-uih';
+    public $target = 'active-uih';
 
-  public function columns(): array
-  {
-    $user = Auth::user();
+    public function columns(): array
+    {
+        $user = Auth::user();
 
-    $out[] = TD::make('id', __('ID'))->sort();
+        $out[] = TD::make('id', __('ID'))->sort();
 
-    $out[] = TD::make('user_id', 'User')->render(fn(UIH $uih) => $uih->getUser()->name);
-    $out[] = TD::make('user_id', 'Email')->render(fn(UIH $uih) => $uih->getUser()->email);
+        $out[] = TD::make('user_id', 'User')->render(fn(UIH $uih) => $uih->getUser()->name);
+        $out[] = TD::make('user_id', 'Email')->render(fn(UIH $uih) => $uih->getUser()->email);
 
-    $out[] = TD::make('created_at', 'Created')->sort()
-      ->render(fn(UIH $client) => $client->getCreatedObject()->format(MrDateTime::SHORT_DATE));
-    $out[] = TD::make('updated_at', 'Updated')->sort()
-      ->render(fn(UIH $client) => $client->getUpdatedObject()?->format(MrDateTime::SHORT_DATE));
+        $out[] = TD::make('created_at', 'Created')->sort()
+            ->render(fn(UIH $client) => $client->getCreatedObject()->format(MrDateTime::SHORT_DATE));
+        $out[] = TD::make('updated_at', 'Updated')->sort()
+            ->render(fn(UIH $client) => $client->getUpdatedObject()?->format(MrDateTime::SHORT_DATE));
 
 
-    $out[] = TD::make(__('Actions'))
-      ->align(TD::ALIGN_CENTER)
-      ->width('100px')
-      ->render(function (UIH $uih) {
+        $out[] = TD::make(__('Actions'))
+            ->align(TD::ALIGN_CENTER)
+            ->width('100px')
+            ->render(function (UIH $uih) {
 
-        $btnBan = Button::make(__('ban'))
-          ->icon('ban')
-          ->confirm(__('Are you sure you want to decline the user in travel?'))
-          ->method('declineUIH', ['id' => $uih->id]);
+                $btnBan = Button::make(__('ban'))
+                    ->icon('ban')
+                    ->confirm(__('Are you sure you want to decline the user in travel?'))
+                    ->method('declineUIH', ['id' => $uih->id]);
 
-        return DropDown::make()
-          ->icon('bs.three-dots-vertical')
-          ->list([
-            $btnBan,
+                return DropDown::make()
+                    ->icon('bs.three-dots-vertical')
+                    ->list([
+                        $btnBan,
 
-            Button::make(__('Delete'))
-              ->icon('bs.trash3')
-              ->confirm(__('Are you sure you want to delete the user in travel?'))
-              ->method('removeUIH', ['id' => $uih->id]),
-          ]);
-      });
+                        Button::make(__('Delete'))
+                            ->icon('bs.trash3')
+                            ->confirm(__('Are you sure you want to delete the user in travel?'))
+                            ->method('removeUIH', ['id' => $uih->id]),
+                    ]);
+            });
 
-    return $out;
-  }
+        return $out;
+    }
 }

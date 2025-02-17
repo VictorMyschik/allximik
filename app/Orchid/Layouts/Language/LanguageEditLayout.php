@@ -8,18 +8,18 @@ use Orchid\Screen\Layouts\Rows;
 
 class LanguageEditLayout extends Rows
 {
-  public function fields(): array
-  {
-    return [
-      Switcher::make('language.active')->sendTrueOrFalse()->title('Active'),
+    public function fields(): array
+    {
+        return [
+            Switcher::make('language.active')->sendTrueOrFalse()->title('Active'),
 
-      Input::make('language.code')
-        ->type('text')
-        ->max(255)
-        ->required()
-        ->title('Code'),
+            Input::make('language.code')
+                ->type('text')
+                ->max(255)
+                ->required()
+                ->title('Code'),
 
-      Input::make('language.name')->title('Name')
-    ];
-  }
+            Input::make('language.name')->title('Name')
+        ];
+    }
 }

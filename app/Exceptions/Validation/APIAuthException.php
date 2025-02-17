@@ -6,5 +6,5 @@ use App\Exceptions\ExceptionAPIBase;
 
 class APIAuthException extends ExceptionAPIBase
 {
-  protected $message = 'Unauthorized';
+    protected $message = 'Unauthorized';
 }

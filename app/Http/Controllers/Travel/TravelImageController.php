@@ -15,68 +15,68 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TravelImageController extends Controller
 {
-  public function __construct(private readonly ImageClass $imageClass, private readonly TravelImageValidation $validationClass)
-  {
-    $this->middleware('auth.jwt', ['except' => ['getList', 'showImage', 'showImageAdmin']]);
-  }
-
-  public function showImage(int $travel_id, string $imageName): StreamedResponse
-  {
-    $input = $this->validationClass->validateImageShow($travel_id, $imageName);
-
-    $image = TravelImage::loadByOrDie($input['image_id']);
-    $travel = $image->getTravel();
-    $path = $travel->getDirNameForImages() . DIRECTORY_SEPARATOR . $image->name;
-
-    return Storage::response($path);
-  }
-
-  public function getList(Request $request): JsonResponse
-  {
-    $input = $this->validationClass->validateImageList($request);
-
-    $travel = Travel::loadByOrDie((int)$input['travel_id']);
-
-    $list = $travel->getFullImagesList();
-
-    $out = [];
-
-    foreach ($list as $image) {
-      $out[] = $this->imageClass->getTravelImageData($image);
+    public function __construct(private readonly ImageClass $imageClass, private readonly TravelImageValidation $validationClass)
+    {
+        $this->middleware('auth.jwt', ['except' => ['getList', 'showImage', 'showImageAdmin']]);
     }
 
-    return $this->successResult($out);
-  }
+    public function showImage(int $travel_id, string $imageName): StreamedResponse
+    {
+        $input = $this->validationClass->validateImageShow($travel_id, $imageName);
 
-  public function imageUpload(Request $request): JsonResponse
-  {
-    $input = $this->validationClass->validateImageUpload($request);
+        $image = TravelImage::loadByOrDie($input['image_id']);
+        $travel = $image->getTravel();
+        $path = $travel->getDirNameForImages() . DIRECTORY_SEPARATOR . $image->name;
 
-    $result = $this->imageClass->uploadImage(Travel::loadByOrDie((int)$input['travel_id']), $input['image'], $input);
+        return Storage::response($path);
+    }
 
-    return $this->successResult($result);
-  }
+    public function getList(Request $request): JsonResponse
+    {
+        $input = $this->validationClass->validateImageList($request);
 
-  public function deleteImage(Request $request): JsonResponse
-  {
-    $input = $this->validationClass->validateImageDelete($request);
+        $travel = Travel::loadByOrDie((int)$input['travel_id']);
 
-    $image = TravelImage::loadByOrDie((int)$input['image_id']);
-    $image->delete_mr();
+        $list = $travel->getFullImagesList();
 
-    return $this->successResult();
-  }
+        $out = [];
 
-  public function updateImage(Request $request): JsonResponse
-  {
-    $input = $this->validationClass->validateImageUpdate($request);
+        foreach ($list as $image) {
+            $out[] = $this->imageClass->getTravelImageData($image);
+        }
 
-    $image = TravelImage::loadByOrDie($input['image_id']);
+        return $this->successResult($out);
+    }
 
-    $this->imageClass->setImageProperties($image, $input);
+    public function imageUpload(Request $request): JsonResponse
+    {
+        $input = $this->validationClass->validateImageUpload($request);
 
-    $image->save_mr();
+        $result = $this->imageClass->uploadImage(Travel::loadByOrDie((int)$input['travel_id']), $input['image'], $input);
 
-    return $this->successResult();
-  }
+        return $this->successResult($result);
+    }
+
+    public function deleteImage(Request $request): JsonResponse
+    {
+        $input = $this->validationClass->validateImageDelete($request);
+
+        $image = TravelImage::loadByOrDie((int)$input['image_id']);
+        $image->delete_mr();
+
+        return $this->successResult();
+    }
+
+    public function updateImage(Request $request): JsonResponse
+    {
+        $input = $this->validationClass->validateImageUpdate($request);
+
+        $image = TravelImage::loadByOrDie($input['image_id']);
+
+        $this->imageClass->setImageProperties($image, $input);
+
+        $image->save_mr();
+
+        return $this->successResult();
+    }
 }

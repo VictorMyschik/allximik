@@ -8,10 +8,10 @@ use Illuminate\Contracts\View\View;
 
 class MrWelcomeController extends Controller
 {
-  public function index(): View|Application|Factory
-  {
-    $out = array();
+    public function index(): View|Application|Factory
+    {
+        $out = array();
 
-    return View('welcome')->with($out);
-  }
+        return View('welcome')->with($out);
+    }
 }

@@ -15,47 +15,47 @@ use Orchid\Support\Color;
 
 class TravelListLayout extends Table
 {
-  public $target = 'list';
+    public $target = 'list';
 
-  public function columns(): array
-  {
-    return [
-      TD::make('id', __('ID'))->sort(),
+    public function columns(): array
+    {
+        return [
+            TD::make('id', __('ID'))->sort(),
 
-      TD::make('name', 'Name')->render(fn(Travel $travel) => Link::make($travel->getName())
-        ->route('travel.details', ['travel' => $travel->id()])
-      ),
+            TD::make('name', 'Name')->render(fn(Travel $travel) => Link::make($travel->getName())
+                ->route('travel.details', ['travel' => $travel->id()])
+            ),
 
-      TD::make('description', 'Description'),
+            TD::make('description', 'Description'),
 
-      TD::make('status', 'Status')->render(fn(Travel $travel) => $travel->getStatusName()),
+            TD::make('status', 'Status')->render(fn(Travel $travel) => $travel->getStatusName()),
 
-      TD::make('user_id', 'User')->render(fn(Travel $travel) => $travel->getUser()->name),
+            TD::make('user_id', 'User')->render(fn(Travel $travel) => $travel->getUser()->name),
 
-      TD::make('country', 'CountryResponse')->render(fn(Travel $travel) => $travel->getCountry()->getName()),
+            TD::make('country', 'CountryResponse')->render(fn(Travel $travel) => $travel->getCountry()->getName()),
 
-      TD::make('travel_type_id', 'Travel type')->render(fn(Travel $travel) => $travel->getTravelType()->getName()),
+            TD::make('travel_type_id', 'Travel type')->render(fn(Travel $travel) => $travel->getTravelType()->getName()),
 
 
-      TD::make(__('Actions'))
-        ->align(TD::ALIGN_CENTER)
-        ->width('100px')
-        ->render(fn(Travel $travel) => DropDown::make()
-          ->icon('bs.three-dots-vertical')
-          ->list([
-            ModalToggle::make('Edit')
-              ->type(Color::PRIMARY())
-              ->icon('pencil')
-              ->modal('travel_modal')
-              ->modalTitle('Edit travel id ' . $travel->id)
-              ->method('saveTravel')
-              ->asyncParameters(['id' => $travel->id]),
+            TD::make(__('Actions'))
+                ->align(TD::ALIGN_CENTER)
+                ->width('100px')
+                ->render(fn(Travel $travel) => DropDown::make()
+                    ->icon('bs.three-dots-vertical')
+                    ->list([
+                        ModalToggle::make('Edit')
+                            ->type(Color::PRIMARY())
+                            ->icon('pencil')
+                            ->modal('travel_modal')
+                            ->modalTitle('Edit travel id ' . $travel->id)
+                            ->method('saveTravel')
+                            ->asyncParameters(['id' => $travel->id]),
 
-            Button::make(__('Delete'))
-              ->icon('bs.trash3')
-              ->confirm(__('Are you sure you want to delete the travel?'))
-              ->method('remove', ['id' => $travel->id]),
-          ])),
-    ];
-  }
+                        Button::make(__('Delete'))
+                            ->icon('bs.trash3')
+                            ->confirm(__('Are you sure you want to delete the travel?'))
+                            ->method('remove', ['id' => $travel->id]),
+                    ])),
+        ];
+    }
 }

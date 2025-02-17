@@ -11,19 +11,19 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminTravelController extends Controller
 {
-  public function showImage(int $travel_id, string $imageName): StreamedResponse
-  {
-    $travel = Travel::loadByOrDie($travel_id);
-    $path = $travel->getDirNameForImages() . DIRECTORY_SEPARATOR . $imageName;
+    public function showImage(int $travel_id, string $imageName): StreamedResponse
+    {
+        $travel = Travel::loadByOrDie($travel_id);
+        $path = $travel->getDirNameForImages() . DIRECTORY_SEPARATOR . $imageName;
 
-    return Storage::response($path);
-  }
+        return Storage::response($path);
+    }
 
-  public function deleteImage(int $image_id): RedirectResponse
-  {
-    $image = TravelImage::loadByOrDie($image_id);
-    $image->delete_mr();
+    public function deleteImage(int $image_id): RedirectResponse
+    {
+        $image = TravelImage::loadByOrDie($image_id);
+        $image->delete_mr();
 
-    return back();
-  }
+        return back();
+    }
 }

@@ -126,7 +126,7 @@ return [
      */
 
     'resource' => [
-        'stylesheets' => [],
+        'stylesheets' => ['/css/mr-style.css'],
         'scripts'     => [],
     ],
 
@@ -160,8 +160,8 @@ return [
      */
 
     'template' => [
-      'header' => 'header',
-      'footer' => 'footer',
+      'header' => 'admin.header',
+      'footer' => 'admin.footer',
     ],
 
     /*
@@ -291,7 +291,7 @@ return [
     |
     */
 
-    'workspace' => 'platform::workspace.compact',
+    'workspace' => 'platform::workspace.full',
 
     /*
     |--------------------------------------------------------------------------

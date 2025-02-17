@@ -12,27 +12,27 @@ use Orchid\Screen\Layouts\Rows;
 
 class UserCommunicateEditLayout extends Rows
 {
-  public function fields(): array
-  {
-    return [
-      Select::make('communicate.user_id')
-        ->empty()
-        ->required()
-        ->options(User::all()->pluck('name', 'id')->toArray())
-        ->value(request()->get('user_id'))
-        ->title('User'),
+    public function fields(): array
+    {
+        return [
+            Select::make('communicate.user_id')
+                ->empty()
+                ->required()
+                ->options(User::all()->pluck('name', 'id')->toArray())
+                ->value(request()->get('user_id'))
+                ->title('User'),
 
-      Select::make('communicate.kind')
-        ->empty()
-        ->required()
-        ->options(Communicate::getKindList())
-        ->value(request()->get('kind'))
-        ->title('Address kind'),
+            Select::make('communicate.kind')
+                ->empty()
+                ->required()
+                ->options(Communicate::getKindList())
+                ->value(request()->get('kind'))
+                ->title('Address kind'),
 
-      Input::make('communicate.address')
-        ->type('text')
-        ->required()
-        ->title('Address')
-    ];
-  }
+            Input::make('communicate.address')
+                ->type('text')
+                ->required()
+                ->title('Address')
+        ];
+    }
 }

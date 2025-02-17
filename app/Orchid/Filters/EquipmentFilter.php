@@ -4,7 +4,7 @@ namespace App\Orchid\Filters;
 
 use App\Models\CategoryEquipment;
 use App\Models\Equipment;
-use App\Orchid\Layouts\ActionFilterPanel;
+use App\Orchid\Layouts\Lego\ActionFilterPanel;
 use Illuminate\Database\Eloquent\Builder;
 use Orchid\Filters\Filter;
 use Orchid\Screen\Fields\Group;
@@ -15,67 +15,57 @@ use Orchid\Support\Facades\Layout;
 
 class EquipmentFilter extends Filter
 {
-  private static array $fields = [
-    'category',
-    'name',
-  ];
+    public const array FIELDS = [
+        'category',
+        'name',
+    ];
 
-  public function parameters(): ?array
-  {
-    return self::$fields;
-  }
+    public function run(Builder $builder): Builder
+    {
+        $input = $this->request->all();
 
-  public function run(Builder $builder): Builder
-  {
-    $input = $this->request->all();
+        if (isset($input['name']) && $value = htmlspecialchars((string)$input['name'], ENT_QUOTES)) {
+            $builder->where('name', 'LIKE', '%' . $value . '%');
+        }
 
-    if (isset($input['name']) && $value = htmlspecialchars((string)$input['name'], ENT_QUOTES)) {
-      $builder->where('name', 'LIKE', '%' . $value . '%');
+        if ($input['category'] ?? null) {
+            $result = array_intersect($input['category'], self::getCategoryList());
+
+            if (count($result) !== 0) {
+                $builder->join(CategoryEquipment::getTableName(), Equipment::getTableName() . '.category_id', '=', CategoryEquipment::getTableName() . '.id');
+                $builder->whereIn(CategoryEquipment::getTableName() . '.name', $result);
+            }
+        }
+
+        return $builder;
     }
 
-    if ($input['category'] ?? null) {
-      $result = array_intersect($input['category'], self::getCategoryList());
-
-      if (count($result) !== 0) {
-        $builder->join(CategoryEquipment::getTableName(), Equipment::getTableName() . '.category_id', '=', CategoryEquipment::getTableName() . '.id');
-        $builder->whereIn(CategoryEquipment::getTableName() . '.name', $result);
-      }
+    public static function runQuery()
+    {
+        return Equipment::filters([self::class])->paginate(30);
     }
 
-    return $builder;
-  }
+    public static function displayFilterCard(): Rows
+    {
+        return Layout::rows([
+            Group::make([
+                Select::make('category')
+                    ->options(self::getCategoryList())
+                    ->multiple()
+                    ->value(request()->get('category'))
+                    ->title('Category'),
 
-  public static function getFilterFields(): array
-  {
-    return self::$fields;
-  }
+                Input::make('name')->value(request()->get('name'))->title('Name'),
+            ]),
 
-  public static function query()
-  {
-    return Equipment::filters([self::class])->paginate(30);
-  }
+            ActionFilterPanel::getActionsButtons(),
+        ]);
+    }
 
-  public static function displayFilterCard(): Rows
-  {
-    return Layout::rows([
-      Group::make([
-        Select::make('category')
-          ->options(self::getCategoryList())
-          ->multiple()
-          ->value(request()->get('category'))
-          ->title('Category'),
+    private static function getCategoryList(): array
+    {
+        $category = array_unique(array_column(CategoryEquipment::all()->toArray(), 'name'));
 
-        Input::make('name')->value(request()->get('name'))->title('Name'),
-      ]),
-
-      ActionFilterPanel::getActionsButtons(),
-    ]);
-  }
-
-  private static function getCategoryList(): array
-  {
-    $category = array_unique(array_column(CategoryEquipment::all()->toArray(), 'name'));
-
-    return array_combine($category, $category);
-  }
+        return array_combine($category, $category);
+    }
 }

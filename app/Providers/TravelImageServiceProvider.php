@@ -10,17 +10,17 @@ use Illuminate\Support\ServiceProvider;
 
 class TravelImageServiceProvider extends ServiceProvider
 {
-  /**
-   * Register any application services.
-   */
-  public function register(): void
-  {
-    $this->app->singleton(ImageClass::class, function () {
-      return new ImageClass(Auth::guard(AuthenticateAPIMiddleware::GUARD)->user());
-    });
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        $this->app->singleton(ImageClass::class, function () {
+            return new ImageClass(Auth::guard(AuthenticateAPIMiddleware::GUARD)->user());
+        });
 
-    $this->app->singleton(TravelImageValidation::class, function () {
-      return new TravelImageValidation(Auth::guard(AuthenticateAPIMiddleware::GUARD)->user());
-    });
-  }
+        $this->app->singleton(TravelImageValidation::class, function () {
+            return new TravelImageValidation(Auth::guard(AuthenticateAPIMiddleware::GUARD)->user());
+        });
+    }
 }

@@ -1,66 +1,66 @@
 <table cellspacing="0" cellpadding="0" align="center">
-  <tbody>
-  <tr>
-    <td align="center">
-      <table
-        style="border-left:1px solid transparent;border-right:1px solid transparent;border-top:1px solid transparent;border-bottom:1px solid transparent"
-        bgcolor="#ffffff" align="center">
-        <tbody>
-        <tr>
-          <td style="background-position: center center" align="left">
-            <table width="100%" cellspacing="0" cellpadding="0">
-              <tbody>
-              <tr>
-                <td width="558" align="left">
-                  <table width="100%" cellspacing="0" cellpadding="0">
-                    <tbody>
-                    <tr>
-                      <td align="center" style="font-size:0">
-                        <img src="https://allximik.com/images/photo_1.jpg" width="100%" alt="">
-                      </td>
-                    </tr>
-                    <tr>
-                      <td align="center">
-                        <h2 style="margin-top: 10px">Вас пригласили участвовать в походе</h2>
-                        <h4><i>{{$data['travel_type']}}</i></h4>
-                        <h3>
-                          <a href="#" style="color: #0a1041"> {{$data['name']}}   </a>
-                        </h3>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td align="center">
-                        <div style="margin-bottom: 50px; margin-top: 50px;">
-                          <a href="{{route('travel.email.invite.link', ['token'=>$data['token'], 'status' => 'true'])}}"
-                             class="custom-btn btn-10">approve</a>
-                          <a href="{{route('travel.email.invite.link', ['token'=>$data['token'], 'status' => 'false'])}}"
-                             class="custom-btn btn-9">decline</a>
-                        </div>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-              </tbody>
+    <tbody>
+    <tr>
+        <td align="center">
+            <table
+                style="border-left:1px solid transparent;border-right:1px solid transparent;border-top:1px solid transparent;border-bottom:1px solid transparent"
+                bgcolor="#ffffff" align="center">
+                <tbody>
+                <tr>
+                    <td style="background-position: center center" align="left">
+                        <table width="100%" cellspacing="0" cellpadding="0">
+                            <tbody>
+                            <tr>
+                                <td width="558" align="left">
+                                    <table width="100%" cellspacing="0" cellpadding="0">
+                                        <tbody>
+                                        <tr>
+                                            <td align="center" style="font-size:0">
+                                                <img src="https://allximik.com/images/photo_1.jpg" width="100%" alt="">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <h2 style="margin-top: 10px">Вас пригласили участвовать в походе</h2>
+                                                <h4><i>{{$data['travel_type']}}</i></h4>
+                                                <h3>
+                                                    <a href="#" style="color: #0a1041"> {{$data['name']}}   </a>
+                                                </h3>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <div style="margin-bottom: 50px; margin-top: 50px;">
+                                                    <a href="{{route('travel.email.invite.link', ['token'=>$data['token'], 'status' => 'true'])}}"
+                                                       class="custom-btn btn-10">approve</a>
+                                                    <a href="{{route('travel.email.invite.link', ['token'=>$data['token'], 'status' => 'false'])}}"
+                                                       class="custom-btn btn-9">decline</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="padding-bottom: 20px;">
+                        <hr>
+                        <img src="https://allximik.com/images/logo.png" width="300px" alt="logo"><br>
+                        This email was sent from Allximik Enterprises,<br>
+                        LDEFO Boxes 6188 Bruklin, CO, 87155-6828, USA<br>
+                        <a href="#" style="color: darkred">Privacy policy</a><br>
+                        © 2023 Allximik Enterprises, LLC. All rights reserved.
+                    </td>
+                </tr>
+                </tbody>
             </table>
-          </td>
-        </tr>
-        <tr>
-          <td align="center" style="padding-bottom: 20px;">
-            <hr>
-            <img src="https://allximik.com/images/logo.png" width="300px" alt="logo"><br>
-            This email was sent from Allximik Enterprises,<br>
-            LDEFO Boxes 6188 Bruklin, CO, 87155-6828, USA<br>
-            <a href="#" style="color: darkred">Privacy policy</a><br>
-            © 2023 Allximik Enterprises, LLC. All rights reserved.
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </td>
-  </tr>
-  </tbody>
+        </td>
+    </tr>
+    </tbody>
 </table>
 <style>
     .custom-btn {

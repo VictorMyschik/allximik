@@ -7,8 +7,8 @@ namespace App\Http\Controllers;
  */
 class MrTestController extends Controller
 {
-  public function index()
-  {
-    dd('dwdwd77');
-  }
+    public function index()
+    {
+        dd('dwdwd77');
+    }
 }

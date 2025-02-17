@@ -10,89 +10,76 @@ use Orchid\Screen\AsSource;
 
 class Translate extends ORM
 {
-  use AsSource;
-  use Filterable;
+    use AsSource;
+    use Filterable;
 
-  const UPDATED_AT = null;
+    const null UPDATED_AT = null;
 
-  protected $table = 'translate';
+    protected $table = 'translate';
 
-  protected $fillable = array(
-    'code',
-    'language_id',
-    'translate',
-  );
+    protected $fillable = array(
+        'code',
+        'language_id',
+        'translate',
+    );
 
-  protected array $allowedSorts = [
-    'code',
-    'language_id',
-    'translate',
-  ];
+    protected array $allowedSorts = [
+        'code',
+        'language_id',
+        'translate',
+    ];
 
-  #region ORM
-  public function afterSave(): void
-  {
-    Cache::forget('translate_list_' . strtolower($this->getLanguage()->getCode()));
-  }
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
 
-  public function beforeDelete(): void
-  {
-    Cache::forget('translate_list_' . strtolower($this->getLanguage()->getCode()));
-  }
+    public function setCode(string $value): void
+    {
+        $this->code = $value;
+    }
 
-  #endregion
+    public function getLanguage(): Language
+    {
+        return Language::loadByOrDie($this->language_id);
+    }
 
-  public function getCode(): ?string
-  {
-    return $this->code;
-  }
+    /**
+     * Язык перевода
+     */
+    public function setLanguageID(int $value): void
+    {
+        $this->language_id = $value;
+    }
 
-  public function setCode(string $value): void
-  {
-    $this->code = $value;
-  }
+    /**
+     * Переведено
+     */
+    public function getTranslate(): ?string
+    {
+        return $this->translate;
+    }
 
-  public function getLanguage(): Language
-  {
-    return Language::loadByOrDie($this->language_id);
-  }
+    public function setTranslate(string $value): void
+    {
+        $this->translate = $value;
+    }
 
-  /**
-   * Язык перевода
-   */
-  public function setLanguageID(int $value): void
-  {
-    $this->language_id = $value;
-  }
+    public static function getFullList(string $code): array
+    {
+        return Cache::rememberForever('translate_list_' . $code, function () use ($code) {
+            $list = DB::table('translate')
+                ->join('language', 'translate.language_id', '=', 'language.id')
+                ->select('translate.*')
+                ->where('language.code', strtoupper($code))
+                ->get(['translate.code', 'translate.translate'])->toArray();
 
-  /**
-   * Переведено
-   */
-  public function getTranslate(): ?string
-  {
-    return $this->translate;
-  }
+            $out = [];
+            foreach ($list as $value) {
+                $out[$value->code] = $value->translate;
+            }
 
-  public function setTranslate(string $value): void
-  {
-    $this->translate = $value;
-  }
-
-  public static function getFullList(string $code): array
-  {
-    return Cache::rememberForever('translate_list_' . $code, function () use ($code) {
-      $list = DB::table('translate')
-        ->join('language', 'translate.language_id', '=', 'language.id')
-        ->select('translate.*')
-        ->where('language.code', strtoupper($code))
-        ->get(['translate.code', 'translate.translate'])->toArray();
-
-      $out = [];
-      foreach ($list as $value) {
-        $out[$value->code] = $value->translate;
-      }
-
-      return $out;
-    });
-  }
+            return $out;
+        });
+    }
 }

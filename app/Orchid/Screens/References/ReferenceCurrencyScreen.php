@@ -14,71 +14,71 @@ use Orchid\Support\Facades\Toast;
 
 class ReferenceCurrencyScreen extends Screen
 {
-  public function query(): iterable
-  {
-    return [
-      'list' => Currency::filters([])->paginate(20)
-    ];
-  }
+    public function query(): iterable
+    {
+        return [
+            'list' => Currency::filters([])->paginate(20)
+        ];
+    }
 
-  public function name(): ?string
-  {
-    return 'Валюты';
-  }
+    public function name(): ?string
+    {
+        return 'Валюты';
+    }
 
-  public function description(): ?string
-  {
-    return 'Справочник валют';
-  }
+    public function description(): ?string
+    {
+        return 'Справочник валют';
+    }
 
-  public function commandBar(): iterable
-  {
-    return [
-      ModalToggle::make('Add')
-        ->type(Color::PRIMARY())
-        ->icon('plus')
-        ->modal('currency_modal')
-        ->modalTitle('Create New Currency')
-        ->method('saveCurrency')
-        ->asyncParameters(['id' => 0])
-    ];
-  }
+    public function commandBar(): iterable
+    {
+        return [
+            ModalToggle::make('Add')
+                ->type(Color::PRIMARY())
+                ->icon('plus')
+                ->modal('currency_modal')
+                ->modalTitle('Create New Currency')
+                ->method('saveCurrency')
+                ->asyncParameters(['id' => 0])
+        ];
+    }
 
-  public function layout(): iterable
-  {
-    return [
-      CurrencyListLayout::class,
-      Layout::modal('currency_modal', CurrencyEditLayout::class)->async('asyncGetCurrency'),
-    ];
-  }
+    public function layout(): iterable
+    {
+        return [
+            CurrencyListLayout::class,
+            Layout::modal('currency_modal', CurrencyEditLayout::class)->async('asyncGetCurrency'),
+        ];
+    }
 
-  public function asyncGetCurrency(int $id = 0): array
-  {
-    return [
-      'currency' => Currency::loadBy($id) ?: new Currency()
-    ];
-  }
+    public function asyncGetCurrency(int $id = 0): array
+    {
+        return [
+            'currency' => Currency::loadBy($id) ?: new Currency()
+        ];
+    }
 
-  public function saveCurrency(Request $request): void
-  {
-    $data = $request->validate([
-      'currency.name'        => 'required|string',
-      'currency.code'        => 'required|string',
-      'currency.text_code'   => 'required|string',
-      'currency.rounding'    => 'required|integer',
-      'currency.description' => 'nullable|string',
-    ])['currency'];
+    public function saveCurrency(Request $request): void
+    {
+        $data = $request->validate([
+            'currency.name'        => 'required|string',
+            'currency.code'        => 'required|string',
+            'currency.text_code'   => 'required|string',
+            'currency.rounding'    => 'required|integer',
+            'currency.description' => 'nullable|string',
+        ])['currency'];
 
-    Currency::updateOrCreate(
-      ['id' => (int)$request->get('id')],
-      $data
-    );
+        Currency::updateOrCreate(
+            ['id' => (int)$request->get('id')],
+            $data
+        );
 
-    Toast::info('Currency was saved');
-  }
+        Toast::info('Currency was saved');
+    }
 
-  public function remove(int $id): void
-  {
-    Currency::loadBy($id)?->delete_mr();
-  }
+    public function remove(int $id): void
+    {
+        Currency::loadBy($id)?->delete_mr();
+    }
 }

@@ -9,39 +9,39 @@ use Orchid\Screen\AsSource;
 
 class Measure extends ORM
 {
-  use AsSource;
-  use Filterable;
+    use AsSource;
+    use Filterable;
 
-  use NameFieldTrait;
+    use NameFieldTrait;
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  protected $table = 'measure';
-  protected $fillable = array(
-    'code',
-    'text_code',
-    'name',
-  );
+    protected $table = 'measure';
+    protected $fillable = array(
+        'code',
+        'text_code',
+        'name',
+    );
 
-  //  Цифровой код
-  public function getCode(): string
-  {
-    return $this->code;
-  }
+    //  Цифровой код
+    public function getCode(): string
+    {
+        return $this->code;
+    }
 
-  public function setCode(string $value): void
-  {
-    $this->code = $value;
-  }
+    public function setCode(string $value): void
+    {
+        $this->code = $value;
+    }
 
-  // Текстовый код
-  public function getTextCode(): string
-  {
-    return $this->text_code;
-  }
+    // Текстовый код
+    public function getTextCode(): string
+    {
+        return $this->text_code;
+    }
 
-  public function setTextCode(string $value): void
-  {
-    $this->text_code = $value;
-  }
+    public function setTextCode(string $value): void
+    {
+        $this->text_code = $value;
+    }
 }

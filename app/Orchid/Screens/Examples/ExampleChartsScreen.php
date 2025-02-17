@@ -73,9 +73,9 @@ class ExampleChartsScreen extends Screen
     /**
      * The screen's layout elements.
      *
+     * @return string[]|\Orchid\Screen\Layout[]
      * @throws \Throwable
      *
-     * @return string[]|\Orchid\Screen\Layout[]
      */
     public function layout(): iterable
     {

@@ -4,7 +4,4 @@ namespace App\Exceptions;
 
 use Exception;
 
-class ExceptionAPIBase extends Exception
-{
-
-}
+class ExceptionAPIBase extends Exception {}

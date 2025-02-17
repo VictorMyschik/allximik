@@ -23,6 +23,6 @@ trait DeletedNullableFieldTrait
 
     public function isDeleted(): bool
     {
-        return (bool) $this->deleted_at;
+        return (bool)$this->deleted_at;
     }
 }

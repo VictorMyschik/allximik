@@ -10,23 +10,23 @@ use Orchid\Screen\AsSource;
 
 class TravelType extends ORM
 {
-  use AsSource;
-  use Filterable;
+    use AsSource;
+    use Filterable;
 
-  use NameFieldTrait;
-  use DescriptionNullableFieldTrait;
+    use NameFieldTrait;
+    use DescriptionNullableFieldTrait;
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  protected $table = 'travel_type';
+    protected $table = 'travel_type';
 
-  protected array $allowedSorts = [
-    'name',
-    'description',
-  ];
+    protected array $allowedSorts = [
+        'name',
+        'description',
+    ];
 
-  protected $fillable = [
-    'name',
-    'description',
-  ];
+    protected $fillable = [
+        'name',
+        'description',
+    ];
 }

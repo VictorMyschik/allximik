@@ -16,27 +16,27 @@ use Illuminate\Support\Facades\Mail;
 
 class MrFAQController extends Controller
 {
-  public function faqPage(): View|\Illuminate\Foundation\Application|Factory|Application
-  {
-    $language = Language::where('code', strtoupper(app()->getLocale()))->first();
-    $out['list'] = Faq::where('language_id', $language->id())->get()->all();
+    public function faqPage(): View|\Illuminate\Foundation\Application|Factory|Application
+    {
+        $language = Language::where('code', strtoupper(app()->getLocale()))->first();
+        $out['list'] = Faq::where('language_id', $language->id())->get()->all();
 
-    return View('faq_page')->with($out);
-  }
+        return View('faq_page')->with($out);
+    }
 
-  public function sendQuestion(Request $request): RedirectResponse
-  {
-    $input = $request->all();
+    public function sendQuestion(Request $request): RedirectResponse
+    {
+        $input = $request->all();
 
-    $data = [
-      'name'  => $input['name'],
-      'email' => $input['email'],
-      'text'  => $input['text'],
-    ];
+        $data = [
+            'name'  => $input['name'],
+            'email' => $input['email'],
+            'text'  => $input['text'],
+        ];
 
-    Mail::to(Settings::loadAdminEmailToNotify())->queue(new Feedback($data));
+        Mail::to(Settings::loadAdminEmailToNotify())->queue(new Feedback($data));
 
-    MrMessageHelper::SetMessage(MrMessageHelper::KIND_SUCCESS, __('mr-t.feedback_send'));
-    return back();
-  }
+        MrMessageHelper::SetMessage(MrMessageHelper::KIND_SUCCESS, __('mr-t.feedback_send'));
+        return back();
+    }
 }

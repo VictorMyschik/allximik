@@ -11,53 +11,53 @@ use Tests\TestBase;
 
 class CRUDTravelImageTest extends TestBase
 {
-  public function testUploadImage()
-  {
-    $email = self::randomEmail();
-    $password = self::randomString(20);
+    public function testUploadImage()
+    {
+        $email = self::randomEmail();
+        $password = self::randomString(20);
 
-    $user = $this->createUser($email, $password);
-    $travel = $this->createTravel($user->id());
+        $user = $this->createUser($email, $password);
+        $travel = $this->createTravel($user->id());
 
-    // Upload image
-    $fileUpload = new UploadedFile(__DIR__ . '/test_image.jpg', 'test_image.jpg', 'image/jpeg', null, true);
+        // Upload image
+        $fileUpload = new UploadedFile(__DIR__ . '/test_image.jpg', 'test_image.jpg', 'image/jpeg', null, true);
 
-    $properties['image_type'] = TravelImage::KIND_LOGO;
-    $properties['description'] = 'description';
-    $properties['group'] = 'group';
+        $properties['image_type'] = TravelImage::KIND_LOGO;
+        $properties['description'] = 'description';
+        $properties['group'] = 'group';
 
-    $imageClass = new ImageClass($user);
+        $imageClass = new ImageClass($user);
 
-    $result = $imageClass->uploadImage($travel, $fileUpload, $properties);
+        $result = $imageClass->uploadImage($travel, $fileUpload, $properties);
 
-    $this->assertNotEmpty($result);
-    $image = TravelImage::loadByOrDie($result['id']);
+        $this->assertNotEmpty($result);
+        $image = TravelImage::loadByOrDie($result['id']);
 
-    self::assertTrue(Storage::exists($travel->getDirNameForImages() . '/' . $result['name']));
+        self::assertTrue(Storage::exists($travel->getDirNameForImages() . '/' . $result['name']));
 
-    // Update description
-    $args = [
-      'group'       => self::randomString(),
-      'description' => 'new description',
-      'image_type'  => array_rand(TravelImage::getKindList()),
-    ];
+        // Update description
+        $args = [
+            'group'       => self::randomString(),
+            'description' => 'new description',
+            'image_type'  => array_rand(TravelImage::getKindList()),
+        ];
 
-    $imageClass->setImageProperties($image, $args);
-    $image->save_mr();
+        $imageClass->setImageProperties($image, $args);
+        $image->save_mr();
 
-    // Asserts
-    self::assertEquals($args['group'], $image->getGroup());
-    self::assertEquals($args['description'], $image->getDescription());
-    self::assertEquals($args['image_type'], $image->getKind());
+        // Asserts
+        self::assertEquals($args['group'], $image->getGroup());
+        self::assertEquals($args['description'], $image->getDescription());
+        self::assertEquals($args['image_type'], $image->getKind());
 
-    $image = TravelImage::loadByOrDie($result['id']);
-    $image->delete_mr();
+        $image = TravelImage::loadByOrDie($result['id']);
+        $image->delete_mr();
 
-    self::assertFalse(Storage::exists($travel->getDirNameForImages() . '/' . $result['name']));
+        self::assertFalse(Storage::exists($travel->getDirNameForImages() . '/' . $result['name']));
 
-    // Delete
-    DB::table($user->getTable())->where('id', $user->id())->delete();
-    self::assertNull($user->fresh());
-    self::assertNull($travel->fresh());
-  }
+        // Delete
+        DB::table($user->getTable())->where('id', $user->id())->delete();
+        self::assertNull($user->fresh());
+        self::assertNull($travel->fresh());
+    }
 }

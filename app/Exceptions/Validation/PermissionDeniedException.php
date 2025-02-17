@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 
 class PermissionDeniedException extends ExceptionAPIBase
 {
-  protected $message = 'Permission denied';
+    protected $message = 'Permission denied';
 
-  protected $code = Response::HTTP_FORBIDDEN;
+    protected $code = Response::HTTP_FORBIDDEN;
 }

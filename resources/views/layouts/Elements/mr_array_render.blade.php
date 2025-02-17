@@ -1,3 +1,3 @@
 @foreach($a as $item)
-  {!! $item !!}
+    {!! $item !!}
 @endforeach

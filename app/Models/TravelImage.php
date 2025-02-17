@@ -13,155 +13,155 @@ use Illuminate\Support\Facades\Storage;
 
 class TravelImage extends ORM
 {
-  use NameFieldTrait;
-  use CreatedFieldTrait;
-  use KindFieldTrait;
-  use DescriptionNullableFieldTrait;
-  use UserFieldTrait;
+    use NameFieldTrait;
+    use CreatedFieldTrait;
+    use KindFieldTrait;
+    use DescriptionNullableFieldTrait;
+    use UserFieldTrait;
 
-  protected $table = 'travel_images';
+    protected $table = 'travel_images';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  protected $fillable = [
-    'travel_id',
-    'kind',
-    'name',
-  ];
-
-  const KIND_LOGO = 0;
-  const KIND_LIST = 1;
-
-  public static function getKindList(): array
-  {
-    return [
-      self::KIND_LOGO => 'Главное',
-      self::KIND_LIST => 'Список',
+    protected $fillable = [
+        'travel_id',
+        'kind',
+        'name',
     ];
-  }
 
-  #region ORM
-  public function canView(?User $user): bool
-  {
-    $travel = $this->getTravel();
+    const KIND_LOGO = 0;
+    const KIND_LIST = 1;
 
-    if (!$travel->canView($user)) {
-      return false;
+    public static function getKindList(): array
+    {
+        return [
+            self::KIND_LOGO => 'Главное',
+            self::KIND_LIST => 'Список',
+        ];
     }
 
-    return true;
-  }
+    #region ORM
+    public function canView(?User $user): bool
+    {
+        $travel = $this->getTravel();
 
-  public function canEdit(?User $user): bool
-  {
-    if (!$user) {
-      return false;
+        if (!$travel->canView($user)) {
+            return false;
+        }
+
+        return true;
     }
 
-    if (!$this->canView($user)) {
-      return false;
+    public function canEdit(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+
+        if (!$this->canView($user)) {
+            return false;
+        }
+
+        // is author of image
+        if ($user->id() === $this->getUser()->id() || $user->id() === $this->getTravel()->getUser()->id()) {
+            return true;
+        }
+
+        return false;
     }
 
-    // is author of image
-    if ($user->id() === $this->getUser()->id() || $user->id() === $this->getTravel()->getUser()->id()) {
-      return true;
+    public function afterSave(): void
+    {
+        $this->flushAffectedCaches();
     }
 
-    return false;
-  }
+    public function beforeDelete(): void
+    {
+        $images = DB::table(TravelImage::getTableName())->where('name', $this->getName())->count();
 
-  public function afterSave(): void
-  {
-    $this->flushAffectedCaches();
-  }
+        if ($images === 1) {
+            $this->deleteImageFromStorage();
+        }
 
-  public function beforeDelete(): void
-  {
-    $images = DB::table(TravelImage::getTableName())->where('name', $this->getName())->count();
-
-    if ($images === 1) {
-      $this->deleteImageFromStorage();
+        $this->flushAffectedCaches();
     }
 
-    $this->flushAffectedCaches();
-  }
+    public function flushAffectedCaches(): void
+    {
+        $this->getTravel()->flush();
+    }
 
-  public function flushAffectedCaches(): void
-  {
-    $this->getTravel()->flush();
-  }
+    #endregion
 
-  #endregion
+    public function getTravel(): Travel
+    {
+        return Travel::loadByOrDie($this->travel_id);
+    }
 
-  public function getTravel(): Travel
-  {
-    return Travel::loadByOrDie($this->travel_id);
-  }
+    public function setTravelID(int $value): void
+    {
+        $this->travel_id = $value;
+    }
 
-  public function setTravelID(int $value): void
-  {
-    $this->travel_id = $value;
-  }
+    public function getSort(): int
+    {
+        return $this->sort;
+    }
 
-  public function getSort(): int
-  {
-    return $this->sort;
-  }
+    public function setSort(int $value): void
+    {
+        $this->sort = $value;
+    }
 
-  public function setSort(int $value): void
-  {
-    $this->sort = $value;
-  }
+    public function getOriginalName(): string
+    {
+        return $this->original_name;
+    }
 
-  public function getOriginalName(): string
-  {
-    return $this->original_name;
-  }
+    public function setOriginalName(string $value): void
+    {
+        $this->original_name = $value;
+    }
 
-  public function setOriginalName(string $value): void
-  {
-    $this->original_name = $value;
-  }
+    public function getSize(): int
+    {
+        return $this->size;
+    }
 
-  public function getSize(): int
-  {
-    return $this->size;
-  }
+    public function setSize(int $value): void
+    {
+        $this->size = $value;
+    }
 
-  public function setSize(int $value): void
-  {
-    $this->size = $value;
-  }
+    public function getHash(): string
+    {
+        return $this->hash;
+    }
 
-  public function getHash(): string
-  {
-    return $this->hash;
-  }
+    public function setHash(string $value): void
+    {
+        $this->hash = $value;
+    }
 
-  public function setHash(string $value): void
-  {
-    $this->hash = $value;
-  }
+    public function getGroup(): ?string
+    {
+        return $this->group;
+    }
 
-  public function getGroup(): ?string
-  {
-    return $this->group;
-  }
+    public function setGroup(?string $value): void
+    {
+        $this->group = $value;
+    }
 
-  public function setGroup(?string $value): void
-  {
-    $this->group = $value;
-  }
+    public function getLocalPath(): string
+    {
+        return $this->getTravel()->getDirNameForImages() . DIRECTORY_SEPARATOR . $this->name;
+    }
 
-  public function getLocalPath(): string
-  {
-    return $this->getTravel()->getDirNameForImages() . DIRECTORY_SEPARATOR . $this->name;
-  }
-
-  private function deleteImageFromStorage(): void
-  {
-    $imagePath = $this->getTravel()->getDirNameForImages() . '/' . $this->getName();
-    $imagePath = str_replace('storage/', '', $imagePath);
-    Storage::delete($imagePath);
-  }
+    private function deleteImageFromStorage(): void
+    {
+        $imagePath = $this->getTravel()->getDirNameForImages() . '/' . $this->getName();
+        $imagePath = str_replace('storage/', '', $imagePath);
+        Storage::delete($imagePath);
+    }
 }

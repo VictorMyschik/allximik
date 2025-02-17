@@ -4,26 +4,26 @@ namespace App\Classes\SystemInfo\Queue;
 
 abstract readonly class AbstractQueueBroker implements QueueBrokerInterface
 {
-  public function getDisplayInfo(): array
-  {
-    $list = $this->getQueueList();
+    public function getDisplayInfo(): array
+    {
+        $list = $this->getQueueList();
 
-    $out = [];
+        $out = [];
 
-    $out['info'] = [
-      'Name'        => $this->getQueueBrokerName(),
-      'Version'     => $this->getVersion(),
-      'Queue count' => count($list),
-    ];
+        $out['info'] = [
+            'Name'        => $this->getQueueBrokerName(),
+            'Version'     => $this->getVersion(),
+            'Queue count' => count($list),
+        ];
 
-    $details = [];
+        $details = [];
 
-    foreach ($list as $queue) {
-      $details[$queue] = $this->getJobsCountByQueue($queue);
+        foreach ($list as $queue) {
+            $details[$queue] = $this->getJobsCountByQueue($queue);
+        }
+
+        $out['details'] = $details;
+
+        return $out;
     }
-
-    $out['details'] = $details;
-
-    return $out;
-  }
 }

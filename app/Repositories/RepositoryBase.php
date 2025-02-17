@@ -8,7 +8,7 @@ use Illuminate\Database\DatabaseManager;
 
 class RepositoryBase
 {
-  public function __construct(
-    protected DatabaseManager $db
-  ) {}
+    public function __construct(
+        protected DatabaseManager $db
+    ) {}
 }

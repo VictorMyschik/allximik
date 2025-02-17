@@ -8,64 +8,64 @@ use Tests\TestBase;
 
 class MrTranslateTest extends TestBase
 {
-  public function testTranslate(): void
-  {
-    $translate = new Translate();
+    public function testTranslate(): void
+    {
+        $translate = new Translate();
 
-    $languageId = $this->createLanguage();
-    $translate->setLanguageID($languageId);
-    $code = self::randomString();
-    $translate->setCode($code);
-    $tr = self::randomString();
-    $translate->setTranslate($tr);
+        $languageId = $this->createLanguage();
+        $translate->setLanguageID($languageId);
+        $code = self::randomString();
+        $translate->setCode($code);
+        $tr = self::randomString();
+        $translate->setTranslate($tr);
 
-    $translateId = $translate->save_mr();
-
-
-    /// Asserts
-    $translate = Translate::loadBy($translateId);
-    self::assertNotNull($translate);
-
-    self::assertEquals($code, $translate->getCode());
-    self::assertEquals($languageId, $translate->getLanguage()->id());
-    self::assertEquals($tr, $translate->getTranslate());
+        $translateId = $translate->save_mr();
 
 
-    /// Update
-    // Code
-    $code = self::randomString();
-    $translate->setCode($code);
-    // Translate
-    $tr = self::randomString();
-    $translate->setTranslate($tr);
+        /// Asserts
+        $translate = Translate::loadBy($translateId);
+        self::assertNotNull($translate);
 
-    $translateId = $translate->save_mr();
+        self::assertEquals($code, $translate->getCode());
+        self::assertEquals($languageId, $translate->getLanguage()->id());
+        self::assertEquals($tr, $translate->getTranslate());
 
-    /// Asserts
-    $translate = Translate::loadBy($translateId);
-    self::assertNotNull($translate);
 
-    self::assertEquals($code, $translate->getCode());
-    self::assertEquals($tr, $translate->getTranslate());
+        /// Update
+        // Code
+        $code = self::randomString();
+        $translate->setCode($code);
+        // Translate
+        $tr = self::randomString();
+        $translate->setTranslate($tr);
 
-    /// Delete
-    $translate->delete_mr();
-    $translate = Translate::loadBy($translateId);
-    self::assertNull($translate);
-  }
+        $translateId = $translate->save_mr();
 
-  private function createLanguage(): int
-  {
-    $language = new Language();
-    $code = $this->randomString(2, true);
-    $language->setCode($code);
-    $name = $this->randomString(50);
-    $language->setName($name);
+        /// Asserts
+        $translate = Translate::loadBy($translateId);
+        self::assertNotNull($translate);
 
-    $languageId = $language->save_mr();
-    $language = null;
-    self::assertNotNull($languageId);
+        self::assertEquals($code, $translate->getCode());
+        self::assertEquals($tr, $translate->getTranslate());
 
-    return $languageId;
-  }
+        /// Delete
+        $translate->delete_mr();
+        $translate = Translate::loadBy($translateId);
+        self::assertNull($translate);
+    }
+
+    private function createLanguage(): int
+    {
+        $language = new Language();
+        $code = $this->randomString(2, true);
+        $language->setCode($code);
+        $name = $this->randomString(50);
+        $language->setName($name);
+
+        $languageId = $language->save_mr();
+        $language = null;
+        self::assertNotNull($languageId);
+
+        return $languageId;
+    }
 }

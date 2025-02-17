@@ -9,15 +9,15 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-  use AuthorizesRequests, ValidatesRequests;
+    use AuthorizesRequests, ValidatesRequests;
 
-  public function successResult($data = null, int $code = 200): JsonResponse
-  {
-    return response()->json(['result' => true, 'content' => $data], $code);
-  }
+    public function successResult($data = null, int $code = 200): JsonResponse
+    {
+        return response()->json(['result' => true, 'content' => $data], $code);
+    }
 
-  public function errorResult($data, int $code = 400): JsonResponse
-  {
-    return response()->json(['result' => false, 'content' => $data], $code);
-  }
+    public function errorResult($data, int $code = 400): JsonResponse
+    {
+        return response()->json(['result' => false, 'content' => $data], $code);
+    }
 }

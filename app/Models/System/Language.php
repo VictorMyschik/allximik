@@ -11,50 +11,50 @@ use Orchid\Screen\AsSource;
 
 class Language extends ORM
 {
-  use AsSource;
-  use Filterable;
-  use ActiveFieldTrait;
-  use NameFieldTrait;
+    use AsSource;
+    use Filterable;
+    use ActiveFieldTrait;
+    use NameFieldTrait;
 
-  protected $table = 'language';
-  protected $fillable = [
-    'code', // english only code
-    'name',
-    'active'
-  ];
+    protected $table = 'language';
+    protected $fillable = [
+        'code', // english only code
+        'name',
+        'active'
+    ];
 
-  protected array $allowedSorts = [
-    'id',
-    'name',
-    'active',
-    'code'
-  ];
+    protected array $allowedSorts = [
+        'id',
+        'name',
+        'active',
+        'code'
+    ];
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  public function getCode(): string
-  {
-    return $this->code;
-  }
+    public function getCode(): string
+    {
+        return $this->code;
+    }
 
-  public function setCode(string $value): void
-  {
-    $this->code = mb_strtoupper($value);
-  }
+    public function setCode(string $value): void
+    {
+        $this->code = mb_strtoupper($value);
+    }
 
-  /**
-   * Текущий язык
-   */
-  public static function getCurrentLanguage(): self
-  {
-    $codeLocate = mb_strtoupper(app()->getLocale());
-    return MrCacheHelper::getCachedData('language_by_locate', function () use ($codeLocate) {
-      return self::where('code', $codeLocate)->first();
-    });
-  }
+    /**
+     * Текущий язык
+     */
+    public static function getCurrentLanguage(): self
+    {
+        $codeLocate = mb_strtoupper(app()->getLocale());
+        return MrCacheHelper::getCachedData('language_by_locate', function () use ($codeLocate) {
+            return self::where('code', $codeLocate)->first();
+        });
+    }
 
-  public function getFullName(): string
-  {
-    return $this->getName() . ' (' . $this->getCode() . ')';
-  }
+    public function getFullName(): string
+    {
+        return $this->getName() . ' (' . $this->getCode() . ')';
+    }
 }

@@ -14,33 +14,33 @@ use Orchid\Support\Color;
 
 class InviteListLayout extends Table
 {
-  public $target = 'invite-uih';
+    public $target = 'invite-uih';
 
-  public function columns(): array
-  {
-    return [
-      TD::make('id', __('ID'))->sort(),
-      TD::make('email', 'User')->render(fn(EmailInvite $invite) => $invite->getEmail()),
-      TD::make('status', 'Status')->render(fn(EmailInvite $invite) => $invite->getStatusName()),
+    public function columns(): array
+    {
+        return [
+            TD::make('id', __('ID'))->sort(),
+            TD::make('email', 'User')->render(fn(EmailInvite $invite) => $invite->getEmail()),
+            TD::make('status', 'Status')->render(fn(EmailInvite $invite) => $invite->getStatusName()),
 
-      TD::make('updated_at', 'Sent')->sort()->render(fn(EmailInvite $invite) => $invite->getUpdatedObject()?->format('d.m.Y H:i:s')),
+            TD::make('updated_at', 'Sent')->sort()->render(fn(EmailInvite $invite) => $invite->getUpdatedObject()?->format('d.m.Y H:i:s')),
 
-      TD::make(__('Actions'))
-        ->align(TD::ALIGN_CENTER)
-        ->width('100px')
-        ->render(fn(EmailInvite $invite) => DropDown::make()
-          ->icon('bs.three-dots-vertical')
-          ->list([
-            Button::make(__('Resend'))
-              ->icon('refresh')
-              ->confirm(__('Resend this invite?'))
-              ->method('resendEmailInvite', ['id' => $invite->id]),
+            TD::make(__('Actions'))
+                ->align(TD::ALIGN_CENTER)
+                ->width('100px')
+                ->render(fn(EmailInvite $invite) => DropDown::make()
+                    ->icon('bs.three-dots-vertical')
+                    ->list([
+                        Button::make(__('Resend'))
+                            ->icon('refresh')
+                            ->confirm(__('Resend this invite?'))
+                            ->method('resendEmailInvite', ['id' => $invite->id]),
 
-            Button::make(__('Delete'))
-              ->icon('bs.trash3')
-              ->confirm(__('Are you sure you want to delete the user in travel?'))
-              ->method('removeUIH', ['id' => $invite->id]),
-          ])),
-    ];
-  }
+                        Button::make(__('Delete'))
+                            ->icon('bs.trash3')
+                            ->confirm(__('Are you sure you want to delete the user in travel?'))
+                            ->method('removeUIH', ['id' => $invite->id]),
+                    ])),
+        ];
+    }
 }

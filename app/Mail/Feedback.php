@@ -10,30 +10,30 @@ use Illuminate\Queue\SerializesModels;
 
 class Feedback extends Mailable
 {
-  use Queueable;
-  use SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
-  public $data;
+    public $data;
 
-  public function __construct(array $data)
-  {
-    $this->data = $data;
-  }
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+    }
 
-  public function envelope(): Envelope
-  {
-    return new Envelope(
-      subject: 'Feedback from ' . env('APP_NAME'),
-    );
-  }
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: 'Feedback from ' . env('APP_NAME'),
+        );
+    }
 
-  public function content(): Content
-  {
-    return new Content(view: 'emails.feedback');
-  }
+    public function content(): Content
+    {
+        return new Content(view: 'emails.feedback');
+    }
 
-  public function attachments(): array
-  {
-    return [];
-  }
+    public function attachments(): array
+    {
+        return [];
+    }
 }

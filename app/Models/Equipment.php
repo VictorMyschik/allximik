@@ -11,34 +11,34 @@ use Orchid\Screen\AsSource;
 
 class Equipment extends ORM
 {
-  use AsSource;
-  use Filterable;
-  use NameFieldTrait;
-  use DescriptionNullableFieldTrait;
-  use CreatedFieldTrait;
+    use AsSource;
+    use Filterable;
+    use NameFieldTrait;
+    use DescriptionNullableFieldTrait;
+    use CreatedFieldTrait;
 
-  protected $table = 'equipments';
-  public $timestamps = false;
+    protected $table = 'equipments';
+    public $timestamps = false;
 
-  protected $fillable = array(
-    'name',
-    'description',
-    'category_id',
-  );
+    protected $fillable = array(
+        'name',
+        'description',
+        'category_id',
+    );
 
-  protected array $allowedSorts = [
-    'id',
-    'name',
-    'description',
-  ];
+    protected array $allowedSorts = [
+        'id',
+        'name',
+        'description',
+    ];
 
-  public function getCategory(): ?CategoryEquipment
-  {
-    return CategoryEquipment::loadBy($this->category_id);
-  }
+    public function getCategory(): ?CategoryEquipment
+    {
+        return CategoryEquipment::loadBy($this->category_id);
+    }
 
-  public function setCategoryID(?int $value): void
-  {
-    $this->category_id = $value;
-  }
+    public function setCategoryID(?int $value): void
+    {
+        $this->category_id = $value;
+    }
 }

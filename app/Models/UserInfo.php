@@ -12,86 +12,86 @@ use Orchid\Screen\AsSource;
 
 class UserInfo extends ORM
 {
-  use AsSource;
-  use Filterable;
+    use AsSource;
+    use Filterable;
 
-  use UserFieldTrait;
-  use CreatedFieldTrait;
-  use UpdatedNullableFieldTrait;
+    use UserFieldTrait;
+    use CreatedFieldTrait;
+    use UpdatedNullableFieldTrait;
 
-  protected $table = 'user_info';
+    protected $table = 'user_info';
 
-  protected array $allowedSorts = [
-    'full_name',
-    'gender',
-    'birthday',
-  ];
-
-  protected $fillable = [
-    'full_name',
-    'gender',
-    'birthday',
-    'about',
-  ];
-
-  const GENDER_MALE = 0;
-  const GENDER_FEMALE = 1;
-
-  public static function getGenderList(): array
-  {
-    return [
-      self::GENDER_MALE   => 'Мужской',
-      self::GENDER_FEMALE => 'Женский',
+    protected array $allowedSorts = [
+        'full_name',
+        'gender',
+        'birthday',
     ];
-  }
 
-  public function getFullName(): string
-  {
-    return $this->full_name;
-  }
+    protected $fillable = [
+        'full_name',
+        'gender',
+        'birthday',
+        'about',
+    ];
 
-  public function setFullName(string $value): void
-  {
-    $this->full_name = $value;
-  }
+    const GENDER_MALE = 0;
+    const GENDER_FEMALE = 1;
 
-  public function getGender(): int
-  {
-    return $this->gender;
-  }
+    public static function getGenderList(): array
+    {
+        return [
+            self::GENDER_MALE   => 'Мужской',
+            self::GENDER_FEMALE => 'Женский',
+        ];
+    }
 
-  public function getGenderName(): string
-  {
-    return self::getGenderList()[$this->getGender()];
-  }
+    public function getFullName(): string
+    {
+        return $this->full_name;
+    }
 
-  public function setGender(int $value): void
-  {
-    $this->gender = $value;
-  }
+    public function setFullName(string $value): void
+    {
+        $this->full_name = $value;
+    }
 
-  public function getBirthday(): ?string
-  {
-    return $this->birthday;
-  }
+    public function getGender(): int
+    {
+        return $this->gender;
+    }
 
-  public function getBirthdayObject(): ?Carbon
-  {
-    return $this->birthday ? Carbon::parse($this->birthday) : null;
-  }
+    public function getGenderName(): string
+    {
+        return self::getGenderList()[$this->getGender()];
+    }
 
-  public function setBirthday(?string $value): void
-  {
-    $this->birthday = $value;
-  }
+    public function setGender(int $value): void
+    {
+        $this->gender = $value;
+    }
 
-  public function getAbout(): ?string
-  {
-    return $this->about;
-  }
+    public function getBirthday(): ?string
+    {
+        return $this->birthday;
+    }
 
-  public function setAbout(?string $value): void
-  {
-    $this->about = $value;
-  }
+    public function getBirthdayObject(): ?Carbon
+    {
+        return $this->birthday ? Carbon::parse($this->birthday) : null;
+    }
+
+    public function setBirthday(?string $value): void
+    {
+        $this->birthday = $value;
+    }
+
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    public function setAbout(?string $value): void
+    {
+        $this->about = $value;
+    }
 }

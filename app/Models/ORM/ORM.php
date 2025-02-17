@@ -8,85 +8,85 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ORM extends Model
 {
-  protected int $id = 0;
+    protected int $id = 0;
 
-  public static function getTableName(): string
-  {
-    return with(new static)->getTable();
-  }
-
-  /**
-   * Load object (get last result)
-   *
-   * @return static|object|null
-   */
-  public static function loadBy(?int $value)
-  {
-    if (!$value) {
-      return null;
+    public static function getTableName(): string
+    {
+        return with(new static)->getTable();
     }
 
-    $className = static::class;
-    $object = $className::find($value);
+    /**
+     * Load object (get last result)
+     *
+     * @return static|object|null
+     */
+    public static function loadBy(?int $value)
+    {
+        if (!$value) {
+            return null;
+        }
 
-    return $object;
-  }
+        $className = static::class;
+        $object = $className::find($value);
 
-  public function id(): ?int
-  {
-    return $this->attributes['id'] ?? null;
-  }
-
-  /**
-   * @throws ExceptionAPIBase
-   */
-  public static function loadByOrDie(int $value): static
-  {
-    $travel = self::loadBy($value);
-
-    if (!$travel) {
-      throw new ExceptionAPIBase('Object ' . self::getTableName() . ' not loaded: id ' . $value);
+        return $object;
     }
 
-    return $travel;
-  }
-
-  public function save_mr(bool $flushAffectedCaches = true): ?int
-  {
-    if (method_exists($this, 'beforeSave')) {
-      $this->beforeSave();
+    public function id(): ?int
+    {
+        return $this->attributes['id'] ?? null;
     }
 
-    $this->save();
+    /**
+     * @throws ExceptionAPIBase
+     */
+    public static function loadByOrDie(int $value): static
+    {
+        $travel = self::loadBy($value);
 
-    if (method_exists($this, 'afterSave')) {
-      $this->afterSave();
+        if (!$travel) {
+            throw new ExceptionAPIBase('Object ' . self::getTableName() . ' not loaded: id ' . $value);
+        }
+
+        return $travel;
     }
 
-    if ($flushAffectedCaches && method_exists($this, 'flushAffectedCaches')) {
-      $this->flushAffectedCaches();
+    public function save_mr(bool $flushAffectedCaches = true): ?int
+    {
+        if (method_exists($this, 'beforeSave')) {
+            $this->beforeSave();
+        }
+
+        $this->save();
+
+        if (method_exists($this, 'afterSave')) {
+            $this->afterSave();
+        }
+
+        if ($flushAffectedCaches && method_exists($this, 'flushAffectedCaches')) {
+            $this->flushAffectedCaches();
+        }
+
+        if (method_exists($this, 'selfFlush')) {
+            $this->selfFlush();
+        }
+
+        return $this->id();
     }
 
-    if (method_exists($this, 'selfFlush')) {
-      $this->selfFlush();
+    public function delete_mr(bool $skipAffectedCache = true): bool
+    {
+        if (method_exists($this, 'beforeDelete')) {
+            $this->beforeDelete();
+        }
+
+        $results = $this->delete();
+        abort_if(!$results, Response::HTTP_INTERNAL_SERVER_ERROR, 'Object was not deleted');
+
+        if ($skipAffectedCache && method_exists($this, 'afterDelete')) {
+            $this->afterDelete();
+        }
+
+        return true;
     }
-
-    return $this->id();
-  }
-
-  public function delete_mr(bool $skipAffectedCache = true): bool
-  {
-    if (method_exists($this, 'beforeDelete')) {
-      $this->beforeDelete();
-    }
-
-    $results = $this->delete();
-    abort_if(!$results, Response::HTTP_INTERNAL_SERVER_ERROR, 'Object was not deleted');
-
-    if ($skipAffectedCache && method_exists($this, 'afterDelete')) {
-      $this->afterDelete();
-    }
-
-    return true;
-  }
 }

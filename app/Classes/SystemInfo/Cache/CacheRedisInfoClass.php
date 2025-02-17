@@ -7,50 +7,50 @@ use RedisException;
 
 class CacheRedisInfoClass
 {
-  public string $name = 'Redis';
+    public string $name = 'Redis';
 
-  public function __construct(private readonly Redis $client) {}
+    public function __construct(private readonly Redis $client) {}
 
-  public function getDisplayInfo(): CacheInfoDTO
-  {
-    return new CacheInfoDTO(
-      $this->name,
-      $this->getVersion(),
-      $this->getAllowedMemory(),
-      $this->getObjectsCount(),
-      $this->getUsedMemory(),
-      $this->client->getDbNum(),
-    );
-  }
+    public function getDisplayInfo(): CacheInfoDTO
+    {
+        return new CacheInfoDTO(
+            $this->name,
+            $this->getVersion(),
+            $this->getAllowedMemory(),
+            $this->getObjectsCount(),
+            $this->getUsedMemory(),
+            $this->client->getDbNum(),
+        );
+    }
 
-  /**
-   * @return false|array|Redis
-   * @throws RedisException
-   */
-  public function getRawInfo(): mixed
-  {
-    return $this->client->info();
-  }
+    /**
+     * @return false|array|Redis
+     * @throws RedisException
+     */
+    public function getRawInfo(): mixed
+    {
+        return $this->client->info();
+    }
 
-  private function getUsedMemory(): string
-  {
-    $memoryRSS = round(100 * ($this->client->info()['used_memory_rss'] / 1024 / 1024) / (5 * 1024), 2);
+    private function getUsedMemory(): string
+    {
+        $memoryRSS = round(100 * ($this->client->info()['used_memory_rss'] / 1024 / 1024) / (5 * 1024), 2);
 
-    return $this->client->info()['used_memory_rss_human'] . ' / ' . $memoryRSS . '%';
-  }
+        return $this->client->info()['used_memory_rss_human'] . ' / ' . $memoryRSS . '%';
+    }
 
-  private function getVersion(): string
-  {
-    return $this->client->info()['redis_version'];
-  }
+    private function getVersion(): string
+    {
+        return $this->client->info()['redis_version'];
+    }
 
-  private function getAllowedMemory(): string
-  {
-    return $this->client->info()['total_system_memory_human'];
-  }
+    private function getAllowedMemory(): string
+    {
+        return $this->client->info()['total_system_memory_human'];
+    }
 
-  private function getObjectsCount(): int
-  {
-    return $this->client->dbSize();
-  }
+    private function getObjectsCount(): int
+    {
+        return $this->client->dbSize();
+    }
 }

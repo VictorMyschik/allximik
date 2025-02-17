@@ -56,9 +56,9 @@ class ExampleTextEditorsScreen extends Screen
     /**
      * The screen's layout elements.
      *
+     * @return \Orchid\Screen\Layout[]
      * @throws \Throwable
      *
-     * @return \Orchid\Screen\Layout[]
      */
     public function layout(): iterable
     {

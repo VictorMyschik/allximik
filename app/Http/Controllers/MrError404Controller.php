@@ -8,8 +8,8 @@ use Illuminate\Contracts\View\View;
 
 class MrError404Controller extends Controller
 {
-  public function indexView(): View|Application|Factory
-  {
-    return View('404');
-  }
+    public function indexView(): View|Application|Factory
+    {
+        return View('404');
+    }
 }

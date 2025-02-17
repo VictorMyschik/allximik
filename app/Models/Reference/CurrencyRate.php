@@ -10,43 +10,43 @@ use Orchid\Screen\AsSource;
 
 class CurrencyRate extends ORM
 {
-  use AsSource;
-  use Filterable;
+    use AsSource;
+    use Filterable;
 
-  use CreatedFieldTrait;
-  use UpdatedNullableFieldTrait;
+    use CreatedFieldTrait;
+    use UpdatedNullableFieldTrait;
 
-  protected $table = 'currency_rate';
-  protected $fillable = array(
-    'currency_id',
-    'rate',
-  );
+    protected $table = 'currency_rate';
+    protected $fillable = array(
+        'currency_id',
+        'rate',
+    );
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  protected array $allowedSorts = [
-    'id',
-    'currency_id',
-    'rate',
-  ];
+    protected array $allowedSorts = [
+        'id',
+        'currency_id',
+        'rate',
+    ];
 
-  public function getCurrency(): Currency
-  {
-    return Currency::loadByOrDie($this->currency_id);
-  }
+    public function getCurrency(): Currency
+    {
+        return Currency::loadByOrDie($this->currency_id);
+    }
 
-  public function setCurrencyID(int $value): void
-  {
-    $this->currency_id = $value;
-  }
+    public function setCurrencyID(int $value): void
+    {
+        $this->currency_id = $value;
+    }
 
-  public function getRate(): float
-  {
-    return $this->rate;
-  }
+    public function getRate(): float
+    {
+        return $this->rate;
+    }
 
-  public function setRate(float $value): void
-  {
-    $this->rate = $value;
-  }
+    public function setRate(float $value): void
+    {
+        $this->rate = $value;
+    }
 }

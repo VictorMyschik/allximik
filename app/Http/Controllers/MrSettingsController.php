@@ -11,15 +11,15 @@ use Illuminate\Http\Request;
  */
 class MrSettingsController extends Controller
 {
-  public function getSettings(Request $request): JsonResponse
-  {
-    $key = $request->input('key');
+    public function getSettings(Request $request): JsonResponse
+    {
+        $key = $request->input('key');
 
-    $result = match ($key) {
-      'allowed_upload_formats' => ['allowed_upload_formats' => MrRepositoryBaseClass::ALLOWED_FILE_EXTENSIONS],
-      default => ['error' => 'unknown key'],
-    };
+        $result = match ($key) {
+            'allowed_upload_formats' => ['allowed_upload_formats' => MrRepositoryBaseClass::ALLOWED_FILE_EXTENSIONS],
+            default => ['error' => 'unknown key'],
+        };
 
-    return response()->json($result);
-  }
+        return response()->json($result);
+    }
 }
