@@ -1,4 +1,4 @@
-FROM php:8.2.2-fpm
+FROM php:8.4-fpm
 
 RUN pecl install -o -f redis \
 &&  rm -rf /tmp/pear \
@@ -9,6 +9,7 @@ RUN docker-php-ext-enable xdebug
 
 RUN apt-get update
 
+#RUN docker-php-ext-install pdo_mysql
 # Install Postgre PDO
 RUN apt-get install -y libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
@@ -57,14 +58,6 @@ RUN set -x && \
         zip \
         && \
     docker-php-source delete && \
-    # php configurations
-    mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
-    # Memory, Time, Size Limits
-    #   You can limit these at your orchestration layer.
-    echo "memory_limit=4096M" > $PHP_INI_DIR/conf.d/memory-limit.ini && \
-    echo "max_execution_time=9000" >> $PHP_INI_DIR/conf.d/memory-limit.ini && \
-    echo "post_max_size=500M" >> $PHP_INI_DIR/conf.d/memory-limit.ini && \
-    echo "upload_max_filesize=200M" >> $PHP_INI_DIR/conf.d/memory-limit.ini && \
     # composer
     curl -sS https://getcomposer.org/installer | php -- --quiet --install-dir=/usr/local/bin --filename=composer && \
     # clean up
@@ -75,4 +68,4 @@ WORKDIR /var/www/allximik
 
 RUN curl -sl https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install nodejs -y
-RUN npm install -g npm@9.6.0
+RUN npm install -g npm@10.8.2
