@@ -82,11 +82,13 @@ final readonly class OlxParseService
 
         foreach ($data['ads'] as $item) {
             if (!array_key_exists($item['id'], $existing)) {
-                $this->repository->saveOffer(
+                $newId = $this->repository->saveOffer(
                     offerId: (string)$item['id'],
                     linkId: $linkId,
                     sl: json_encode($item),
                 );
+
+
             }
         }
     }

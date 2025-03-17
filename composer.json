@@ -1,20 +1,30 @@
 {
-    "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
+        "ext-curl": "*",
+        "ext-fileinfo": "*",
+        "ext-redis": "*",
         "brick/money": "^0.10.0",
         "brick/phonenumber": "^0.6.0",
-        "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1",
+        "darkaonline/l5-swagger": "^8.6.5",
+        "laravel/framework": "^11.39.1",
+        "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
         "orchid/icons": "^2.0",
         "orchid/platform": "^14.45",
-        "symfony/dom-crawler": "^5.4"
+        "spatie/laravel-html": "^3.11",
+        "stichoza/google-translate-php": "^5.2",
+        "tymon/jwt-auth": "^2.0",
+        "symfony/dom-crawler": "^5.4",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

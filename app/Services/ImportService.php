@@ -14,7 +14,7 @@ final readonly class ImportService
         private LinkRepositoryInterface $linkRepository,
     ) {}
 
-    public function import(string $url, string $user = 'me'): void
+    public function import(string $url, string $user): void
     {
         $url = parse_url($url);
         $type = SiteType::tryFrom($url['host']);

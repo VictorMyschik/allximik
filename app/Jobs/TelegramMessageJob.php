@@ -6,12 +6,13 @@ namespace App\Jobs;
 
 use App\Jobs\Enums\QueueJobEnum;
 use App\Services\ParsingService\RunnerService;
+use App\Services\Telegram\TelegramService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 
-class ParseLinkJob implements ShouldQueue
+class TelegramMessageJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -20,12 +21,11 @@ class ParseLinkJob implements ShouldQueue
     public function __construct(public int $id)
     {
         $this->queue = QueueJobEnum::DEFAULT->value;
-        $this->connection = 'rabbitmq';
     }
 
-    public function handle(RunnerService $service): void
+    public function handle(TelegramService $service): void
     {
-        $service->parseByLink($this->id);
+        $service->sendMessage($this->id);
     }
 }
 

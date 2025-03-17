@@ -29,8 +29,6 @@ class ExampleTest extends TestCase
 
         if (!empty($scriptContent)) {
             $scriptContent = reset($scriptContent);
-            // Extract JSON From expl: window.__PRERENDERED_STATE__= "{"listing":{"listing":{"pageNumber"...
-
             $result = explode('window.', $scriptContent);
             foreach ($result as $item) {
                 if (strpos($item, '__PRERENDERED_STATE__= ') !== false) {

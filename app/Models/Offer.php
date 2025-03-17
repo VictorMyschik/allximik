@@ -9,4 +9,14 @@ use App\Models\ORM\ORM;
 class Offer extends ORM
 {
     protected $table = 'offers';
+
+    public function getLink(): Link
+    {
+        return Link::loadByOrDie($this->link_id);
+    }
+
+    public function getSl(): string
+    {
+        return $this->sl;
+    }
 }
