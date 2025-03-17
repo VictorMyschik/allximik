@@ -23,14 +23,9 @@ final readonly class OlxClient implements OlxClientInterface
     ) {}
 
 
-    public function loadPage(array $filter): string
+    public function loadPage(string $path, string $query): string
     {
-        return $this->send(
-            httpMethod: 'GET',
-            url: 'nieruchomosci/mieszkania/sprzedaz/warszawa/?' . http_build_query($filter),
-            request: null,
-            method: __FUNCTION__
-        );
+        return $this->send(httpMethod: 'GET', url: $path . '?' . $query, request: null, method: __FUNCTION__);
     }
 
     private function send(string $httpMethod, string $url, mixed $request, string $method): string
@@ -61,7 +56,7 @@ final readonly class OlxClient implements OlxClientInterface
     private function buildHeaders(array $headers = []): array
     {
         return array_merge([
-            'Content-Type'  => 'application/json',
+            'Content-Type' => 'application/json',
         ], $headers);
     }
 }

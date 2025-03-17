@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Jobs\Enums\QueueJobEnum;
+use App\Services\ParsingService\RunnerService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,9 +22,9 @@ class ParseLinkJob implements ShouldQueue
         $this->queue = QueueJobEnum::DEFAULT->value;
     }
 
-    public function handle(): void
+    public function handle(RunnerService $service): void
     {
-
+        $service->parseByLink($this->id);
     }
 }
 

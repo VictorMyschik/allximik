@@ -2,8 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Services\ParsingService\ImportService;
+use App\Models\Link;
+use App\Services\ImportService;
 use App\Services\ParsingService\LinkRepositoryInterface;
+use App\Services\ParsingService\OLX\OlxClientInterface;
+use App\Services\ParsingService\OLX\OlxParseService;
+use App\Services\ParsingService\OLX\OlxRepositoryInterface;
 use Tests\TestCase;
 
 class MyTest extends TestCase
@@ -15,5 +19,15 @@ class MyTest extends TestCase
         $service = new ImportService(app(LinkRepositoryInterface::class));
 
         $service->import($url);
+    }
+
+    public function testOlx(): void
+    {
+        $service = new OlxParseService(
+            app(OlxRepositoryInterface::class),
+            app(OlxClientInterface::class),
+        );
+
+        $service->parse(Link::loadByOrDie(1));
     }
 }

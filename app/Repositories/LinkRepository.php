@@ -19,4 +19,14 @@ final readonly class LinkRepository extends DatabaseRepository implements LinkRe
             'query' => $query,
         ]);
     }
+
+    public function getLinks(): array
+    {
+        return $this->db->table(Link::getTableName())->get()->toArray();
+    }
+
+    public function getLinkById(int $linkId): Link
+    {
+        return Link::loadByOrDie($linkId);
+    }
 }

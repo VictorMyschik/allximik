@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\ParsingService;
+namespace App\Services;
 
 use App\Jobs\ParseLinkJob;
 use App\Services\ParsingService\Enum\SiteType;
+use App\Services\ParsingService\LinkRepositoryInterface;
 
 final readonly class ImportService
 {
