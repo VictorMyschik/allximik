@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\ParsingService\OLX;
 
+use App\Jobs\TelegramMessageJob;
 use App\Models\Link;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -88,7 +89,7 @@ final readonly class OlxParseService
                     sl: json_encode($item),
                 );
 
-
+                TelegramMessageJob::dispatch($newId);
             }
         }
     }
