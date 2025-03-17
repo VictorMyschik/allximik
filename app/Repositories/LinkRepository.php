@@ -10,7 +10,7 @@ use App\Services\ParsingService\LinkRepositoryInterface;
 
 final readonly class LinkRepository extends DatabaseRepository implements LinkRepositoryInterface
 {
-    public function createLink(string $user, SiteType $type, string $path, string $query)
+    public function createLink(string $user, SiteType $type, string $path, string $query): int
     {
         return $this->db->table(Link::getTableName())->insertGetId([
             'user'  => $user,

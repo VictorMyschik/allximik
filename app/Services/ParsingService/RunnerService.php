@@ -20,16 +20,16 @@ final readonly class RunnerService
         $list = $this->linkRepository->getLinks();
 
         foreach ($list as $link) {
-            ParseLinkJob::dispatch($link->id());
+            ParseLinkJob::dispatch($link->id(), true);
         }
     }
 
-    public function parseByLink(int $linkId): void
+    public function parseByLink(int $linkId, bool $notification): void
     {
         $link = $this->linkRepository->getLinkById($linkId);
 
         match ($link->getType()) {
-            SiteType::OLX => $this->olxParseService->parse($link),
+            SiteType::OLX => $this->olxParseService->parse($link, $notification),
         };
     }
 }

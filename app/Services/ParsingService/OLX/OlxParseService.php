@@ -15,7 +15,7 @@ final readonly class OlxParseService
         private OlxClientInterface     $client,
     ) {}
 
-    public function parse(Link $link): void
+    public function parse(Link $link, bool $notification): void
     {
         parse_str($link->getQuery(), $parameters);
 
@@ -23,7 +23,8 @@ final readonly class OlxParseService
             try {
                 $data = $this->loadPage($link->getPath(), $parameters, $page);
                 $parsed = $this->parseData($data);
-                $this->saveParsedData($link->id(), $parsed);
+                $newIds = $this->saveParsedData($link->id(), $parsed);
+                $notification && $this->notify($newIds);
 
                 if ($page >= (int)$parsed['totalPages']) {
                     break;
@@ -77,20 +78,29 @@ final readonly class OlxParseService
         return $content;
     }
 
-    private function saveParsedData(int $linkId, array $data): void
+    private function saveParsedData(int $linkId, array $data): array
     {
         $existing = $this->repository->getOffersByLinkId($linkId);
 
+        $newIds = [];
+
         foreach ($data['ads'] as $item) {
             if (!array_key_exists($item['id'], $existing)) {
-                $newId = $this->repository->saveOffer(
+                $newIds[] = $this->repository->saveOffer(
                     offerId: (string)$item['id'],
                     linkId: $linkId,
                     sl: json_encode($item),
                 );
-
-                TelegramMessageJob::dispatch($newId);
             }
+        }
+
+        return $newIds;
+    }
+
+    private function notify(array $offerIds): void
+    {
+        foreach ($offerIds as $offerId) {
+            TelegramMessageJob::dispatch($offerId);
         }
     }
 

@@ -24,7 +24,7 @@ final readonly class ImportService
             default => throw new \Exception('Unsupported site type'),
         };
 
-        ParseLinkJob::dispatch($newLinkId);
+        ParseLinkJob::dispatch($newLinkId, false);
     }
 
     private function importLink(string $user, SiteType $type, string $path, string $query): int
