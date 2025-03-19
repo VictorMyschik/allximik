@@ -41,9 +41,9 @@ services:
     ports:
       - '5437:5432'
     environment:
-      POSTGRES_DB: allximik
-      POSTGRES_USER: allximik
-      POSTGRES_PASSWORD: allximik
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
       - ./docker/postgres/allximik:/var/lib/postgresql/data
@@ -56,7 +56,7 @@ services:
     ports:
       - '6379:6379'
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
 
   supervisor:
       build: ./docker/supervisor
