@@ -1,4 +1,4 @@
-FROM nginx:1.23.0-alpine
+FROM nginx:1.24-alpine
 
 ENV TZ=Europe/Moskow
 

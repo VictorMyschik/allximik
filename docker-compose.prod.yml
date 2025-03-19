@@ -4,21 +4,20 @@ networks:
   backend:
 
 services:
-  nginx:
+  nginx-prod:
     build: ./docker/nginx
-    container_name: nginx_allximik
     volumes:
       - ./docker/logs/nginx:/var/log/nginx
       - .:/var/www/allximik
     environment:
-      - VIRTUAL_HOST=allximik.com
+      - VIRTUAL_HOST=allximik.test
     ports:
-      - "8090:80"
+      - "8090:8090"
     networks:
       frontend:
       backend:
         aliases:
-          - allximik.com
+          - allximik.test
 
   php:
     build: ./docker/php
@@ -77,4 +76,7 @@ services:
       volumes:
           - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
       networks:
-          - backend
+        frontend:
+        backend:
+          aliases:
+            - rabbitmq.allximik.test
