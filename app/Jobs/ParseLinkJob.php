@@ -17,14 +17,14 @@ class ParseLinkJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(public int $id)
+    public function __construct(public int $id, public bool $withNotify)
     {
         $this->queue = QueueJobEnum::DEFAULT->value;
     }
 
     public function handle(RunnerService $service): void
     {
-        $service->parseOffersByLink($this->id);
+        $service->parseOffersByLink($this->id, $this->withNotify);
     }
 }
 

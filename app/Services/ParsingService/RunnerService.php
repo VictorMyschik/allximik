@@ -26,18 +26,21 @@ final readonly class RunnerService
         $list = $this->linkRepository->getLinks();
 
         foreach ($list as $link) {
-            ParseLinkJob::dispatch($link->id());
+            ParseLinkJob::dispatch($link->id(), true);
         }
     }
 
-    public function parseOffersByLink(int $linkId): void
+    public function parseOffersByLink(int $linkId, bool $withNotify = false): void
     {
         try {
             $link = $this->linkRepository->getLinkById($linkId);
             $parser = $this->parsingServiceFactory->getSupportedParser($link->getType());
             $parsedData = $parser->parse($link);
             $newOfferIds = $this->saveParsedData($linkId, $parsedData);
-            $newOfferIds && $this->notify($newOfferIds, $link);
+
+            if ($withNotify && $newOfferIds) {
+                $this->notify($newOfferIds, $link);
+            }
         } catch (\Throwable $e) {
             $this->logger->error('Error parsing offers by link: ' . $e->getMessage());
             throw $e;
