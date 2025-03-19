@@ -51,7 +51,7 @@ final readonly class OlxClient implements OlxClientInterface
         }
 
         $time = (int)(microtime(true) - $time);
-        $this->logResponse($requestId, (string)$httpResponse->getBody(), $method, $path, $time);
+        //$this->logResponse($requestId, (string)$httpResponse->getBody(), $method, $path, $time);
 
         return (string)$httpResponse->getBody();
     }

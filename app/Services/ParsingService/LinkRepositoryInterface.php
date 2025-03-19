@@ -15,7 +15,7 @@ interface LinkRepositoryInterface
     public function upsertUserLink(string $user, int $linkId): void;
 
     /**
-     * @return Link[]
+     * @return stdClass[]
      */
     public function getLinks(): array;
 

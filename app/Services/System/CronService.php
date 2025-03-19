@@ -24,12 +24,15 @@ final readonly class CronService
 
     public function runAllActive(): void
     {
+        $this->setLog('Cron Start');
+
         /** @var Cron $job */
         foreach (Cron::where('active', true)->get()->all() as $job) {
             if ($this->needRun($job)) {
                 $this->run($job);
             }
         }
+        $this->setLog('Cron End');
     }
 
     public function needRun(Cron $job): bool
@@ -55,7 +58,7 @@ final readonly class CronService
             $cron->setLastWork(now());
             $cron->save();
         } catch (Exception $e) {
-            $this->setLog('Wrong run cron job:' . $e->getMessage());
+            $this->setLog('Wrong run cron job: ' . $e->getMessage());
         }
     }
 }

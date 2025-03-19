@@ -64,6 +64,11 @@ RUN set -x && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /usr/share/nginx/html/*
 
+# Cron
+RUN apt-get update && apt-get install -y cron
+COPY ./crontab /etc/cron.d/crontab
+RUN chmod 0644 /etc/cron.d/crontab && crontab /etc/cron.d/crontab
+
 WORKDIR /var/www/allximik
 
 RUN curl -sl https://deb.nodesource.com/setup_22.x | bash -

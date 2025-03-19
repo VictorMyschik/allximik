@@ -1,0 +1,6 @@
+# Пример: запуск скрипта каждую минуту
+* * * * * root php /var/www/allximik/artisan schedule:run >> /var/log/cron.log 2>&1
+
+# Создаем лог-файл, если его нет
+# (опционально, для отладки)
+* * * * * root touch /var/log/cron.log

@@ -32,6 +32,8 @@ services:
       - .:/var/www/allximik
       - ./storage/logs:/var/log/php
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/crontab:/etc/cron.d/crontab
+    command: sh -c "cron -f & php-fpm"
 
   postgres:
     image: postgres:latest

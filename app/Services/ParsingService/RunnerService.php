@@ -26,7 +26,7 @@ final readonly class RunnerService
         $list = $this->linkRepository->getLinks();
 
         foreach ($list as $link) {
-            ParseLinkJob::dispatch($link->id(), true);
+            ParseLinkJob::dispatch($link->id, true);
         }
     }
 
