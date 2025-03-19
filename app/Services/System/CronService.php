@@ -49,7 +49,7 @@ final readonly class CronService
     {
         try {
             match ($cron->getCronKey()) {
-                CronKeyEnum::LINKS => $this->service->run(),
+                CronKeyEnum::LINKS => $this->service->runFromCron(),
             };
 
             $cron->setLastWork(now());

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Telegram;
 
-
-use App\Models\Offer;
+use App\Services\OfferRepositoryInterface;
 
 final readonly class TelegramService
 {
@@ -15,20 +14,19 @@ final readonly class TelegramService
     ) {}
 
 
-    public function sendMessage(int $offerId): void
+    public function sendMessage(int $offerId, array $userIds): void
     {
         $offer = $this->offerRepository->getOfferById($offerId);
-        $message = $this->buildMessage($offer);
+        $message = $this->buildMessage($offer->getSl());
 
-        $this->client->sendMessage(
-            $offer->getLink()->getTgUserId(),
-            $message
-        );
+        foreach ($userIds as $userId) {
+            $this->client->sendMessage($userId, $message);
+        }
     }
 
-    private function buildMessage(Offer $offer): string
+    private function buildMessage(string $jsonData): string
     {
-        $data = json_decode($offer->getSl(), true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode($jsonData, true, 512, JSON_THROW_ON_ERROR);
 
         $rows['Title:'] = html_entity_decode($data['title']);
         $rows['Price:'] = html_entity_decode($data['price']['displayValue']);

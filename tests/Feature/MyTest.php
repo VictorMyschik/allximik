@@ -11,6 +11,6 @@ class MyTest extends TestCase
     {
         /** @var RunnerService $service */
         $service = app(RunnerService::class);
-        $service->parseByLink(1);
+        $service->parseOffersByLink(1);
     }
 }

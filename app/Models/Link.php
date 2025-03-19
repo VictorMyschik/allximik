@@ -25,9 +25,4 @@ class Link extends ORM
     {
         return $this->path;
     }
-
-    public function getTgUserId(): string
-    {
-        return $this->user;
-    }
 }

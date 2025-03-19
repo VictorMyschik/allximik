@@ -4,10 +4,15 @@ namespace App\Services\ParsingService;
 
 use App\Models\Link;
 use App\Services\ParsingService\Enum\SiteType;
+use stdClass;
 
 interface LinkRepositoryInterface
 {
-    public function createLink(string $user, SiteType $type, string $path, string $query): int;
+    public function createLink(SiteType $type, string $path, string $query, string $hash): int;
+
+    public function getByHash(string $hash): ?stdClass;
+
+    public function upsertUserLink(string $user, int $linkId): void;
 
     /**
      * @return Link[]
@@ -15,4 +20,6 @@ interface LinkRepositoryInterface
     public function getLinks(): array;
 
     public function getLinkById(int $linkId): Link;
+
+    public function getUserIdsByLinkId(int $linkId): array;
 }

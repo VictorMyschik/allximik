@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Services\OfferRepositoryInterface;
 use App\Services\Telegram\ClientInterface;
-use App\Services\Telegram\OfferRepositoryInterface;
 use App\Services\Telegram\TelegramService;
 use Tests\TestCase;
 

@@ -4,42 +4,48 @@ declare(strict_types=1);
 
 namespace App\Services\ParsingService\OLX;
 
-use App\Jobs\TelegramMessageJob;
 use App\Models\Link;
+use App\Services\ParsingService\ParsingStrategyInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
-final readonly class OlxParseService
+final readonly class OlxParseService implements ParsingStrategyInterface
 {
     public function __construct(
-        private OlxRepositoryInterface $repository,
-        private OlxClientInterface     $client,
+        private OlxClientInterface $client,
+        private LoggerInterface    $logger,
     ) {}
 
-    public function parse(Link $link, bool $notification): void
+    public function parse(Link $link): array
     {
         parse_str($link->getQuery(), $parameters);
+
+        $parsedOut = [];
 
         for ($page = 1; $page <= 10; $page++) {
             try {
                 $data = $this->loadPage($link->getPath(), $parameters, $page);
                 $parsed = $this->parseData($data);
-                $newIds = $this->saveParsedData($link->id(), $parsed);
-                $notification && $this->notify($newIds);
+                $parsedOut = array_merge($parsed['ads'], $parsedOut);
 
                 if ($page >= (int)$parsed['totalPages']) {
                     break;
                 }
             } catch (\Throwable $e) {
-                break;
+                $this->logger->error($e->getMessage());
+
+                throw $e;
             }
         }
+
+        return $parsedOut;
     }
 
     private function loadPage(string $path, array $parameters, int $page): string
     {
-        $query = $this->buildQuery($parameters, $page);
+        $queryParameters = array_merge($parameters, ['page' => $page]);
 
-        return $this->client->loadPage($path, $query);
+        return $this->client->loadPage($path, $queryParameters);
     }
 
     private function parseData(string $content): array
@@ -76,36 +82,5 @@ final readonly class OlxParseService
         }
 
         return $content;
-    }
-
-    private function saveParsedData(int $linkId, array $data): array
-    {
-        $existing = $this->repository->getOffersByLinkId($linkId);
-
-        $newIds = [];
-
-        foreach ($data['ads'] as $item) {
-            if (!array_key_exists($item['id'], $existing)) {
-                $newIds[] = $this->repository->saveOffer(
-                    offerId: (string)$item['id'],
-                    linkId: $linkId,
-                    sl: json_encode($item),
-                );
-            }
-        }
-
-        return $newIds;
-    }
-
-    private function notify(array $offerIds): void
-    {
-        foreach ($offerIds as $offerId) {
-            TelegramMessageJob::dispatch($offerId);
-        }
-    }
-
-    private function buildQuery(array $parameters, int $page): string
-    {
-        return http_build_query(array_merge($parameters, ['page' => $page]));
     }
 }

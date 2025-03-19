@@ -17,15 +17,14 @@ class ParseLinkJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(public int $id, public bool $notification)
+    public function __construct(public int $id)
     {
         $this->queue = QueueJobEnum::DEFAULT->value;
-        $this->connection = 'rabbitmq';
     }
 
     public function handle(RunnerService $service): void
     {
-        $service->parseByLink($this->id, $this->notification);
+        $service->parseOffersByLink($this->id);
     }
 }
 

@@ -18,14 +18,14 @@ class TelegramMessageJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(public int $id)
+    public function __construct(public int $id, public array $userIds)
     {
         $this->queue = QueueJobEnum::DEFAULT->value;
     }
 
     public function handle(TelegramService $service): void
     {
-        $service->sendMessage($this->id);
+        $service->sendMessage($this->id, $this->userIds);
     }
 }
 

@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('links', function (Blueprint $table): void {
+        Schema::create('user_links', function (Blueprint $table): void {
             $table->id();
-            $table->string('hash', 32)->index();
-            $table->string('type')->index(); // SiteType::class
-            $table->string('path')->nullable();
-            $table->string('query', 1000);
+            $table->string('user');
+            $table->unsignedBigInteger('link_id')->index();
+
+            $table->foreign('link_id')->references('id')->on('links')->restrictOnDelete();
 
             $table->timestampTz('created_at')->useCurrent();
             $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
@@ -21,6 +21,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('links');
+        Schema::dropIfExists('user_links');
     }
 };

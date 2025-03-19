@@ -23,32 +23,35 @@ final readonly class OlxClient implements OlxClientInterface
     ) {}
 
 
-    public function loadPage(string $path, string $query): string
+    public function loadPage(string $path, array $query): string
     {
-        return $this->send(httpMethod: 'GET', url: $path . '?' . $query, request: null, method: __FUNCTION__);
+        $query = http_build_query($query);
+        $path = sprintf('%s?%s', $path, $query);
+
+        return $this->send(httpMethod: 'GET', path: $path, request: null, method: __FUNCTION__);
     }
 
-    private function send(string $httpMethod, string $url, mixed $request, string $method): string
+    private function send(string $httpMethod, string $path, mixed $request, string $method): string
     {
         $requestId = Uuid::v4()->toRfc4122();
         $headers = $this->buildHeaders();
         $payload = $request ? json_encode($request) : null;
-        $this->logRequest($requestId, $payload, $method, $url, $headers);
+        $this->logRequest($requestId, $payload, $method, $path, $headers);
         $time = microtime(true);
 
         try {
             $httpResponse = $this->client->send(
-                request: new Request($httpMethod, self::HOST . $url),
+                request: new Request($httpMethod, self::HOST . $path),
                 options: ['body' => $payload, 'headers' => $headers],
             );
         } catch (\Throwable $e) {
-            $this->logError($e, $requestId, $httpResponse ?? null, $method, $url);
+            $this->logError($e, $requestId, $httpResponse ?? null, $method, $path);
 
             throw $e;
         }
 
         $time = (int)(microtime(true) - $time);
-        $this->logResponse($requestId, (string)$httpResponse->getBody(), $method, $url, $time);
+        $this->logResponse($requestId, (string)$httpResponse->getBody(), $method, $path, $time);
 
         return (string)$httpResponse->getBody();
     }
