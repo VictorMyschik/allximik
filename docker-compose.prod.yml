@@ -13,7 +13,7 @@ services:
     environment:
       - VIRTUAL_HOST=allximik.com
     ports:
-      - "80:80"
+      - "8090:80"
     networks:
       frontend:
       backend:
