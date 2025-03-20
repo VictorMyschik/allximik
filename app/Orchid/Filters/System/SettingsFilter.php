@@ -84,7 +84,7 @@ class SettingsFilter extends Filter
                     ->options(self::getCategoryList())
                     ->multiple()
                     ->value(request()->get('category'))
-                    ->title('Категория'),
+                    ->title('Type'),
 
                 Input::make('name')->value(request()->get('name'))->title('Наименование'),
                 Input::make('code_key')->value(request()->get('codeKey'))->title('Key (in code)'),

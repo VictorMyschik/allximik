@@ -19,6 +19,9 @@ class LinksListLayout extends Table
             TD::make('id', 'ID')->sort(),
             TD::make('user')->sort(),
             TD::make('type')->sort(),
+            TD::make('Offers')->render(function(Link $link){
+                return \Orchid\Screen\Actions\Link::make('Link')->icon('eye')->route('offers.list', ['link_id' => $link->link_id]);
+            })->sort(),
             TD::make('path')->sort(),
             TD::make('query')->render(function (Link $link) {
                 return ModalToggle::make(' ')

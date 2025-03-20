@@ -19,7 +19,8 @@ class PlatformProvider extends OrchidServiceProvider
     public function menu(): array
     {
         return [
-            Menu::make('Links')->route('links.list')->divider(),
+            Menu::make('Links')->route('links.list'),
+            Menu::make('Offers')->route('offers.list')->divider(),
 
             Menu::make('System')->icon('settings')->list([
                 Menu::make('Cron')->route('system.info.cron'),

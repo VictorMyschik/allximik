@@ -4,7 +4,7 @@ namespace App\Orchid\Filters\Links;
 
 use App\Models\Lego\ActionFilterPanel;
 use App\Models\Link;
-use App\Models\UserLink;
+use App\Models\Offer;
 use App\Services\ParsingService\Enum\SiteType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -15,30 +15,25 @@ use Orchid\Screen\Fields\ViewField;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Support\Facades\Layout;
 
-class LinkListFilerFilter extends Filter
+class OfferListFilerFilter extends Filter
 {
     public const array FIELDS = [
+        'link_id',
         'type',
-        'user',
     ];
 
     public static function queryQuery(): iterable
     {
-        return Link::filters([self::class])->paginate(50);
+        return Offer::filters([self::class])->select(Offer::getTableName() . '.*')->paginate(50);
     }
 
     public function run(Builder $builder): Builder
     {
         $input = $this->request->all();
 
-        $builder->join(UserLink::getTableName(), Link::getTableName() . '.id', '=', UserLink::getTableName() . '.link_id');
-
-        if (!empty($input['user'])) {
-            $builder->where(UserLink::getTableName() . '.user', (int)$input['user']);
-        }
-
         if (!is_null($input['type'] ?? null)) {
-            $builder->where('type', (string)$input['type']);
+            $builder->join(Link::getTableName(), Link::getTableName() . '.id', '=', Offer::getTableName() . '.link_id');
+            $builder->where(Link::getTableName() . '.type', (string)$input['type']);
         }
 
         return $builder;
@@ -55,11 +50,11 @@ class LinkListFilerFilter extends Filter
                     ->options(SiteType::getSelectList())
                     ->value($input['type'])
                     ->title('Type'),
-                Select::make('user')
+                Select::make('link_id')
                     ->empty('[all]')
-                    ->value($input['user'])
-                    ->fromModel(UserLink::class, 'user', 'user')
-                    ->title('Telegram User'),
+                    ->value($input['link_id'])
+                    ->fromModel(Link::class, 'hash', 'id')
+                    ->title('Link hash'),
             ]),
 
             ViewField::make('')->view('space'),
