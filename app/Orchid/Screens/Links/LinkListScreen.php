@@ -2,10 +2,11 @@
 
 namespace App\Orchid\Screens\Links;
 
-use App\Models\Link;
+use App\Models\UserLink;
 use App\Orchid\Filters\Links\LinkListFilerFilter;
 use App\Orchid\Layouts\Links\LinksListLayout;
 use App\Orchid\Layouts\Links\ShowQueryLayout;
+use App\Services\ParsingService\LinkRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Orchid\Screen\Screen;
@@ -16,7 +17,7 @@ class LinkListScreen extends Screen
 {
     public $name = 'Links';
 
-    public function __construct(private Request $request) {}
+    public function __construct(private Request $request, private LinkRepositoryInterface $linkRepository) {}
 
     public function query(): array
     {
@@ -37,16 +38,23 @@ class LinkListScreen extends Screen
 
     public function asyncGetLink(int $id): array
     {
-        $link = Link::loadByOrDie($id);
-        parse_str($link->getQuery(), $input);
+        $userLink = UserLink::loadByOrDie($id);
+        parse_str($userLink->getLink()->getQuery(), $input);
 
         return ['link' => $input];
     }
 
     public function remove(Request $request): void
     {
-        $setup = Link::loadByOrDie((int)$request->get('id'));
-        $setup->delete();
+        $userLink = UserLink::loadByOrDie((int)$request->get('id'));
+        $list = $this->linkRepository->getUserIdsByLinkId($userLink->getLinkId());
+
+        if (count($list) > 1) {
+            $userLink->delete();
+            return;
+        }
+
+        $userLink->getLink()->delete();
 
         Toast::warning(__('Link was removed'))->delay(1000);
     }
