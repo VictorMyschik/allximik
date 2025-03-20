@@ -17,12 +17,12 @@ final readonly class OLXExtractor implements ExtractorInterface
 
     public function getPrice(): string
     {
-        return html_entity_decode($this->data['price']['displayValue']);
+        return html_entity_decode($this->data['price']['displayValue'] ?? '');
     }
 
     public function getPhoto(): string
     {
-        $src = str_replace('\u002F', '/', $this->data['photos'][0]);
+        $src = str_replace('\u002F', '/', $this->data['photos'][0] ?? '');
         $src = str_replace('\u002F', '/', $src);
 
         return $src;
@@ -32,5 +32,16 @@ final readonly class OLXExtractor implements ExtractorInterface
     {
         $url = str_replace('\u002F', '/', $this->data['url']);
         return str_replace('\u002F', '/', $url);
+    }
+
+    public function getParameter(string $key): string
+    {
+        foreach ($this->data['params'] as $parameter) {
+            if ($parameter['key'] === $key) {
+                return html_entity_decode($parameter['value']);
+            }
+        }
+
+        return '';
     }
 }

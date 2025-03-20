@@ -14,6 +14,9 @@ class Offer extends ORM
     use Filterable;
 
     protected $table = 'offers';
+    protected array $allowedSorts = [
+        'id',
+    ];
 
     public function getLink(): Link
     {

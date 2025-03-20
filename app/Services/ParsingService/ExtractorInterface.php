@@ -11,4 +11,6 @@ interface ExtractorInterface
     public function getPhoto(): string;
 
     public function getLink(): string;
+
+    public function getParameter(string $key): string;
 }

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Telegram;
 
-use App\Models\Offer;
 use App\Services\OfferRepositoryInterface;
+use App\Services\ParsingService\Enum\SiteType;
+use App\Services\Telegram\Enum\OLXOfferParameters;
 
 final readonly class TelegramService
 {
@@ -17,31 +18,25 @@ final readonly class TelegramService
     public function sendMessage(int $offerId, array $userIds): void
     {
         $offer = $this->offerRepository->getOfferById($offerId);
-        $message = $this->buildMessage($offer->getSl(), $offer);
+        $message = $this->buildMessage($offer->getSl(), $offer->getLink()->getType());
 
         foreach ($userIds as $userId) {
             $this->client->sendMessage($userId, $message);
         }
     }
 
-    private function buildMessage(string $jsonData, Offer $offer): string
+    private function buildMessage(string $jsonData, SiteType $type): string
     {
         $data = json_decode($jsonData, true, 512, JSON_THROW_ON_ERROR);
 
-        $extractor = new OfferExtractor($offer->getLink()->getType(), $data);
+        $extractor = new OfferExtractor($type, $data);
 
         $rows['Title:'] = $extractor->getTitle();
         $rows['Price:'] = $extractor->getPrice();
 
-        foreach ($data['params'] as $param) {
-            if (in_array($param['key'], ['floor_select', 'm', 'rooms'], true)) {
-                $rows[$param['name']] = html_entity_decode($param['value']);
-            }
+        foreach ($this->getParameters($type) as $param) {
+            $rows[$param->getLabel()] = $extractor->getParameter($param->value);
         }
-
-        $src = str_replace('\u002F', '/', $data['photos'][0]);
-        $src = str_replace('\u002F', '/', $src);
-        //$rows['photo'] = $src;
 
         $rows['URL:'] = $extractor->getLink();
 
@@ -51,5 +46,15 @@ final readonly class TelegramService
         }
 
         return $out;
+    }
+
+    /**
+     * @return OLXOfferParameters[]
+     */
+    private function getParameters(SiteType $type): array
+    {
+        return match ($type) {
+            SiteType::OLX => OLXOfferParameters::getSelectList(),
+        };
     }
 }

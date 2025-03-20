@@ -38,4 +38,9 @@ final readonly class OfferExtractor implements ExtractorInterface
     {
         return $this->extractor->getLink();
     }
+
+    public function getParameter(string $key): string
+    {
+        return $this->extractor->getParameter($key);
+    }
 }

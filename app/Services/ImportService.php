@@ -50,7 +50,7 @@ final readonly class ImportService
 
     private function getHash(array $url): string
     {
-        parse_str($url['query'], $input);
+        parse_str($url['query'] ?? '', $input);
 
         $parameters = $this->sortQueryParameters($input);
         $parameters['path'] = $url['path'];

@@ -28,7 +28,10 @@ class OffersListLayout extends Table
                 return $offer->getLink()->getType()->value;
             }),
             TD::make('', 'Photo')->render(function (Offer $offer) {
-                return View('admin.image')->with(['path' => $this->extract($offer)->getPhoto()]);
+                if ($this->extract($offer)->getPhoto()) {
+                    return View('admin.image')->with(['path' => $this->extract($offer)->getPhoto()]);
+                }
+                return '';
             })->sort(),
             TD::make('', 'Price')->render(function (Offer $offer) {
                 return $this->extract($offer)->getPrice();
@@ -71,5 +74,10 @@ class OffersListLayout extends Table
         $data = json_decode($offer->getSl(), true, 512, JSON_THROW_ON_ERROR);
 
         return new OfferExtractor($offer->getLink()->getType(), $data);
+    }
+
+    protected function hoverable(): bool
+    {
+        return true;
     }
 }
