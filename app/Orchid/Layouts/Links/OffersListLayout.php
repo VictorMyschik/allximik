@@ -48,10 +48,10 @@ class OffersListLayout extends Table
             })->sort(),
 
             TD::make('created_at', 'Created')
-                ->render(fn(Offer $offer) => $offer->created_at->format('h:i:s d.m.Y'))
+                ->render(fn(Offer $offer) => $offer->created_at->format('H:i:s d.m.Y'))
                 ->sort(),
             TD::make('updated_at', 'Updated')
-                ->render(fn(Offer $offer) => $offer->updated_at?->format('h:i:s d.m.Y'))
+                ->render(fn(Offer $offer) => $offer->updated_at?->format('H:i:s d.m.Y'))
                 ->sort(),
 
             TD::make('#', 'Действия')
