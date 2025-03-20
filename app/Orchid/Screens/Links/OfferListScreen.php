@@ -7,7 +7,6 @@ use App\Models\UserLink;
 use App\Orchid\Filters\Links\OfferListFilerFilter;
 use App\Orchid\Layouts\Links\OffersListLayout;
 use App\Orchid\Layouts\Links\ShowQueryLayout;
-use App\Services\ParsingService\LinkRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Orchid\Screen\Screen;
