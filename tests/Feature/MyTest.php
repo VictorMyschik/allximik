@@ -2,23 +2,26 @@
 
 namespace Tests\Feature;
 
-use App\Services\ImportService;
-use App\Services\Telegram\TelegramService;
+use App\Models\Link;
+use App\Models\UserLink;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class MyTest extends TestCase
 {
     public function testParse(): void
     {
-        /** @var ImportService $service */
-        $service = app(ImportService::class);
+        $user = '488545536';
 
-        $link = 'https://www.olx.pl/praca/informatyka/programista/';
-        $service->import($link, '11111');
+        $ids = DB::table(UserLink::getTableName() . ' as ul1')
+            ->join(UserLink::getTableName() . ' as ul2', 'ul1.link_id', '=', 'ul2.link_id')
+            ->where('ul1.user', $user)
+            ->groupBy('ul1.link_id')
+            ->havingRaw('COUNT(ul2.link_id) = 1')
+            ->pluck('ul1.link_id')
+            ->toArray();
 
-
-        /** @var TelegramService $service */
-        $service = app(TelegramService::class);
-        $service->sendMessage(1, []);
+        DB::table(Link::getTableName())->whereIn('id', $ids)->delete();
+        DB::table(UserLink::getTableName())->where('user', $user)->delete();
     }
 }

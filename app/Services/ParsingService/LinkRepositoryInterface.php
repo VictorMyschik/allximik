@@ -22,4 +22,6 @@ interface LinkRepositoryInterface
     public function getLinkById(int $linkId): Link;
 
     public function getUserIdsByLinkId(int $linkId): array;
+
+    public function clearByUser(string $user): void;
 }

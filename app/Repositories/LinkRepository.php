@@ -8,6 +8,7 @@ use App\Models\Link;
 use App\Models\UserLink;
 use App\Services\ParsingService\Enum\SiteType;
 use App\Services\ParsingService\LinkRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 final readonly class LinkRepository extends DatabaseRepository implements LinkRepositoryInterface
 {
@@ -53,5 +54,19 @@ final readonly class LinkRepository extends DatabaseRepository implements LinkRe
             ->where('link_id', $linkId)
             ->pluck('user')
             ->toArray();
+    }
+
+    public function clearByUser(string $user): void
+    {
+        $ids = $this->db->table(UserLink::getTableName() . ' as ul1')
+            ->join(UserLink::getTableName() . ' as ul2', 'ul1.link_id', '=', 'ul2.link_id')
+            ->where('ul1.user', $user)
+            ->groupBy('ul1.link_id')
+            ->havingRaw('COUNT(ul2.link_id) = 1')
+            ->pluck('ul1.link_id')
+            ->toArray();
+
+        $this->db->table(Link::getTableName())->whereIn('id', $ids)->delete();
+        $this->db->table(UserLink::getTableName())->where('user', $user)->delete();
     }
 }

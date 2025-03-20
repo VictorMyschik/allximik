@@ -5,19 +5,25 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Services\ImportService;
+use App\Services\Telegram\TelegramService;
 use Illuminate\Http\Request;
 
-class TelegramApiController
+final class TelegramApiController
 {
-    public function __construct(private readonly ImportService $service) {}
+    public function __construct(
+        private readonly ImportService   $service,
+        private readonly TelegramService $telegramService,
+    ) {}
 
     public function index(Request $request): void
     {
         $body = $request->all();
 
-        $this->service->import(
-            url: (string)$body['message']['text'],
-            user: (string)$body['message']['chat']['id']
-        );
+        $message = (string)$body['message']['text'];
+        $user = (string)$body['message']['chat']['id'];
+
+        $this->telegramService->manageBot($user, $message);
+
+        $this->service->import(url: $user, user: $message);
     }
 }

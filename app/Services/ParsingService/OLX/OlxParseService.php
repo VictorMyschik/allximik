@@ -48,9 +48,9 @@ final readonly class OlxParseService implements ParsingStrategyInterface
         return $this->client->loadPage($path, $queryParameters);
     }
 
-    private function parseData(string $content): array
+    public function parseData(string $rawContent): array
     {
-        $crawler = new Crawler($content);
+        $crawler = new Crawler($rawContent);
 
         $scriptContent = $crawler->filter('script')->each(function (Crawler $node) {
             if (strpos($node->text(), 'window.__PRERENDERED_STATE__= ') !== false) {
@@ -64,16 +64,16 @@ final readonly class OlxParseService implements ParsingStrategyInterface
         if (!empty($scriptContent)) {
             $scriptContent = reset($scriptContent);
 
-            $result = explode('window.', $scriptContent);
+            $result = explode('window._', $scriptContent);
 
             foreach ($result as $item) {
-                if (str_contains($item, '__PRERENDERED_STATE__= ')) {
+                if (str_contains($item, '_PRERENDERED_STATE__= ')) {
                     $scriptContent = $item;
                     break;
                 }
             }
 
-            $content = explode('__PRERENDERED_STATE__= "', $scriptContent);
+            $content = explode('_PRERENDERED_STATE__= "', $scriptContent);
             $content = str_replace('";', '', $content[1]);
             $content = str_replace('\"', '"', $content);
             $content = str_replace('\"', '"', $content);
