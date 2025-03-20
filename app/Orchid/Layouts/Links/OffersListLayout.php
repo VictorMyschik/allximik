@@ -24,6 +24,7 @@ class OffersListLayout extends Table
     {
         return [
             TD::make('id', 'ID')->sort(),
+            TD::make('offer_id', 'External ID')->sort(),
             TD::make('', 'Site')->render(function (Offer $offer) {
                 return $offer->getLink()->getType()->value;
             }),
