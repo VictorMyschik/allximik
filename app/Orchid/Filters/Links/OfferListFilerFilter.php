@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Orchid\Filters\Filter;
 use Orchid\Screen\Fields\Group;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\ViewField;
 use Orchid\Screen\Layouts\Rows;
@@ -20,6 +21,7 @@ class OfferListFilerFilter extends Filter
     public const array FIELDS = [
         'link_id',
         'type',
+        'external_id',
     ];
 
     public static function queryQuery(): iterable
@@ -34,6 +36,14 @@ class OfferListFilerFilter extends Filter
         if (!is_null($input['type'] ?? null)) {
             $builder->join(Link::getTableName(), Link::getTableName() . '.id', '=', Offer::getTableName() . '.link_id');
             $builder->where(Link::getTableName() . '.type', (string)$input['type']);
+        }
+
+        if (!is_null($input['link_id'] ?? null)) {
+            $builder->where(Offer::getTableName() . '.link_id', (int)$input['link_id']);
+        }
+
+        if (!is_null($input['external_id'] ?? null)) {
+            $builder->where(Offer::getTableName() . '.offer_id', (string)$input['external_id']);
         }
 
         return $builder;
@@ -55,6 +65,9 @@ class OfferListFilerFilter extends Filter
                     ->value($input['link_id'])
                     ->fromModel(Link::class, 'hash', 'id')
                     ->title('Link hash'),
+                Input::make('external_id')
+                    ->value($input['external_id'])
+                    ->title('External ID'),
             ]),
 
             ViewField::make('')->view('space'),
