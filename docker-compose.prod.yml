@@ -5,7 +5,7 @@ networks:
 
 services:
   nginx-prod:
-    build: ./docker/nginx
+    build: ./docker/nginx/prod
     volumes:
       - ./docker/logs/nginx:/var/log/nginx
       - .:/var/www/allximik

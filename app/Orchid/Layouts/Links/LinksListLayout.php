@@ -24,7 +24,7 @@ class LinksListLayout extends Table
                 return ModalToggle::make(' ')
                     ->icon('eye')
                     ->modal('show_link_query')
-                    ->parameters(['id' => $link->id()])
+                    ->parameters(['id' => $link->id])
                     ->modalTitle('Query');
             })->sort(),
             TD::make('created_at', 'Created')
@@ -45,7 +45,7 @@ class LinksListLayout extends Table
                             ->icon('trash')
                             ->confirm('This item will be removed permanently.')
                             ->method('remove', [
-                                'id' => $link->id(),
+                                'id' => $link->id,
                             ]),
                     ]);
                 }),

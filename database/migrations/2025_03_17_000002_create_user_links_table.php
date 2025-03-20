@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('user');
             $table->unsignedBigInteger('link_id')->index();
 
-            $table->foreign('link_id')->references('id')->on('links')->restrictOnDelete();
+            $table->foreign('link_id')->references('id')->on('links')->cascadeOnDelete();
 
             $table->timestampTz('created_at')->useCurrent();
             $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
