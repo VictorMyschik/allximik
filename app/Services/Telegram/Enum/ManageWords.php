@@ -10,12 +10,13 @@ enum ManageWords: string
     case HELP = 'help';
     case CLEAR = 'clear';
 
-    public static function fromCode(string $message): self
+    public static function tryFromCode(string $message): ?self
     {
         return match ($message) {
             self::START->value => self::START,
             self::HELP->value => self::HELP,
             self::CLEAR->value => self::CLEAR,
+            default => null,
         };
     }
 

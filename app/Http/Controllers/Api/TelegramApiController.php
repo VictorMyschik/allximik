@@ -22,8 +22,10 @@ final class TelegramApiController
         $message = (string)$body['message']['text'];
         $user = (string)$body['message']['chat']['id'];
 
-        $this->telegramService->manageBot($user, $message);
+        $result = $this->telegramService->manageBot($user, $message);
 
-        $this->service->import(url: $user, user: $message);
+        if (!$result) {
+            $this->service->import(url: $user, user: $message);
+        }
     }
 }

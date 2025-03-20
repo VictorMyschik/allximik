@@ -18,15 +18,18 @@ final readonly class TelegramService
         private LinkRepositoryInterface  $linkRepository,
     ) {}
 
-    public function manageBot(string $user, string $message): void
+    public function manageBot(string $user, string $message): bool
     {
-        $messageType = ManageWords::fromCode($message);
+        $messageType = ManageWords::tryFromCode($message);
 
         match ($messageType) {
             ManageWords::START => $this->client->sendMessage($user, 'Hello! I am a bot that will notify you about new offers.'),
             ManageWords::HELP => $this->client->sendMessage($user, 'Commands: ' . $this->buildHelpMessage()),
             ManageWords::CLEAR => $this->linkRepository->clearByUser($user),
+            default => true,
         };
+
+        return false;
     }
 
     private function buildHelpMessage(): string
