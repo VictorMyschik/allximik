@@ -16,6 +16,10 @@ class Offer extends ORM
     protected $table = 'offers';
     protected array $allowedSorts = [
         'id',
+        'offer_id',
+        'link_id',
+        'created_at',
+        'updated_at',
     ];
 
     public function getLink(): Link
