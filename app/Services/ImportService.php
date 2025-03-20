@@ -18,10 +18,10 @@ final readonly class ImportService
         private LoggerInterface         $logger,
     ) {}
 
-    public function import(string $url, string $user): void
+    public function import(string $rawUrl, string $user): void
     {
         try {
-            $url = parse_url($url);
+            $url = parse_url($rawUrl);
             if ($url === false || !isset($url['host'], $url['path'])) {
                 throw new InvalidArgumentException('Invalid URL');
             }
@@ -30,7 +30,7 @@ final readonly class ImportService
         } catch (InvalidArgumentException $exception) {
             $msg = 'Unsupported site or link is invalid: ' . $exception->getMessage();
             $this->logger->error($msg);
-            $this->logger->info('URL: ' . $url);
+            $this->logger->info('URL: ' . $rawUrl);
 
             throw new Exception($msg);
         }

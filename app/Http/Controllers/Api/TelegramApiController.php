@@ -19,14 +19,13 @@ final class TelegramApiController
     public function index(Request $request): void
     {
         $body = $request->all();
-        Log::info(json_encode($body));
         $message = (string)$body['message']['text'];
         $user = (string)$body['message']['chat']['id'];
 
         $result = $this->telegramService->manageBot($user, $message);
 
         if (!$result) {
-            $this->service->import(url: $user, user: $message);
+            $this->service->import(rawUrl: $message, user: $user);
         }
     }
 }
