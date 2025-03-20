@@ -27,6 +27,7 @@ class PlatformProvider extends OrchidServiceProvider
                 Menu::make('Cache')->route('system.cache'),
                 Menu::make('Settings')->route('system.settings.list'),
                 Menu::make('Failed jobs')->route('system.failed.jobs'),
+                Menu::make('Purge')->route('system.purge'),
             ])->divider(),
 
             Menu::make(__('Users'))
