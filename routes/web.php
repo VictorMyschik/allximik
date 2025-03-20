@@ -18,5 +18,3 @@ Route::get('/clear', function () {
     file_put_contents(storage_path('logs/laravel.log'), '');
     return back();
 })->name('clear');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

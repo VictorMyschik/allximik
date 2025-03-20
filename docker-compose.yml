@@ -8,7 +8,6 @@ services:
     build: ./docker/nginx
     container_name: nginx_allximik
     volumes:
-      - ./docker/logs/nginx:/var/log/nginx
       - .:/var/www/allximik
     environment:
       - VIRTUAL_HOST=allximik.test
@@ -32,8 +31,7 @@ services:
       - .:/var/www/allximik
       - ./storage/logs:/var/log/php
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-      - ./docker/php/crontab:/etc/cron.d/crontab
-    command: sh -c "cron -f & php-fpm"
+      - ./storage/logs/cron.log:/var/log/cron.log
 
   postgres:
     image: postgres:latest
