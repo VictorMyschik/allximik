@@ -19,25 +19,15 @@ class PlatformProvider extends OrchidServiceProvider
     public function menu(): array
     {
         return [
+            Menu::make('Links')->route('links.list')->divider(),
+
             Menu::make('System')->icon('settings')->list([
                 Menu::make('Cron')->route('system.info.cron'),
                 Menu::make('Cache')->route('system.cache'),
                 Menu::make('Settings')->route('system.settings.list'),
                 Menu::make('Failed jobs')->route('system.failed.jobs'),
-
-                Menu::make(__('Users'))
-                    ->icon('bs.people')
-                    ->route('platform.systems.users')
-                    ->permission('platform.systems.users')
-                    ->title(__('Access Controls')),
-
-                Menu::make(__('Roles'))
-                    ->icon('bs.shield')
-                    ->route('platform.systems.roles')
-                    ->permission('platform.systems.roles'),
-
-                Menu::make('API documentation')->title(__('Documentation'))->target('_blank')->href('/api/documentation'),
             ])->divider(),
+
             Menu::make(__('Users'))
                 ->icon('bs.people')
                 ->route('platform.systems.users')
@@ -47,8 +37,9 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make(__('Roles'))
                 ->icon('bs.shield')
                 ->route('platform.systems.roles')
-                ->permission('platform.systems.roles')
-                ->divider(),
+                ->permission('platform.systems.roles'),
+
+            Menu::make('API documentation')->title(__('Documentation'))->target('_blank')->href('/api/documentation'),
         ];
     }
 

@@ -30,11 +30,12 @@ class Client implements ClientInterface
 
     public function setWebHook(): array
     {
+        $url = 'https://allximik.com/api/telegram';
         $ch = curl_init();
         curl_setopt_array(
             $ch,
             [
-                CURLOPT_URL            => self::TG_HOST . env('TELEGRAM_TOKEN') . '/setWebhook?url=' . route('telegram.webhook'),
+                CURLOPT_URL            => self::TG_HOST . env('TELEGRAM_TOKEN') . '/setWebhook?url=' . $url,
                 CURLOPT_POST           => TRUE,
                 CURLOPT_RETURNTRANSFER => TRUE,
                 CURLOPT_TIMEOUT        => 10,

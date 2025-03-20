@@ -24,11 +24,11 @@ class SettingsListLayout extends Table
             TD::make('value', 'Value')->width('50%'),
             TD::make('description', 'Description')->width('50%')->defaultHidden(),
             TD::make('created_at', 'Created')
-                ->render(fn (Settings $setup) => $setup->created_at->format('d.m.Y'))
+                ->render(fn(Settings $setup) => $setup->created_at->format('d.m.Y'))
                 ->sort()
                 ->defaultHidden(),
             TD::make('updated_at', 'Updated')
-                ->render(fn (Settings $setup) => $setup->updated_at?->format('d.m.Y'))
+                ->render(fn(Settings $setup) => $setup->updated_at?->format('d.m.Y'))
                 ->sort()
                 ->defaultHidden(),
 

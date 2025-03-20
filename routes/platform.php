@@ -11,6 +11,7 @@ use App\Orchid\Screens\Examples\ExampleGridScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
+use App\Orchid\Screens\Links\LinkListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -106,10 +107,11 @@ Route::screen('/examples/grid', ExampleGridScreen::class)->name('platform.exampl
 Route::screen('/examples/charts', ExampleChartsScreen::class)->name('platform.example.charts');
 Route::screen('/examples/cards', ExampleCardsScreen::class)->name('platform.example.cards');
 
-// Route::screen('idea', Idea::class, 'platform.screens.idea');
 // System
 Route::screen('system/settings/list', SettingsScreen::class)->name('system.settings.list');
 Route::screen('system/cache', CacheScreen::class)->name('system.cache');
 Route::screen('system/cron', CronScreen::class)->name('system.info.cron');
 Route::screen('system/purge', PurgeScreen::class)->name('system.purge');
 Route::screen('system/failed-jobs', FailedJobsScreen::class)->name('system.failed.jobs');
+// Project
+Route::screen('links/list', LinkListScreen::class)->name('links.list');
