@@ -31,7 +31,6 @@ services:
       - .:/var/www/allximik
       - ./storage/logs:/var/log/php
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-      - ./storage/logs/cron.log:/var/log/cron.log
 
   postgres:
     image: postgres:latest
