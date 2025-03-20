@@ -30,6 +30,7 @@ final readonly class ImportService
         } catch (InvalidArgumentException $exception) {
             $msg = 'Unsupported site or link is invalid: ' . $exception->getMessage();
             $this->logger->error($msg);
+            $this->logger->info('URL: ' . $url);
 
             throw new Exception($msg);
         }
