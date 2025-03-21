@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Telegram;
 
+use App\Services\ImportServiceInterface;
 use App\Services\OfferRepositoryInterface;
 use App\Services\ParsingService\Enum\SiteType;
 use App\Services\ParsingService\LinkRepositoryInterface;
@@ -16,20 +17,25 @@ final readonly class TelegramService
         private ClientInterface          $client,
         private OfferRepositoryInterface $offerRepository,
         private LinkRepositoryInterface  $linkRepository,
+        private ImportServiceInterface   $importService,
     ) {}
 
-    public function manageBot(string $user, string $message): bool
+    public function manageBot(string $user, string $message): void
     {
         $messageType = ManageWords::tryFromCode($message);
 
         match ($messageType) {
-            ManageWords::START => $this->client->sendMessage($user, 'Hello! I am a bot that will notify you about new offers.'),
+            ManageWords::START => $this->client->sendMessage($user, 'Hello! I am a bot! Send me a link of OLX site to the offer.'),
             ManageWords::HELP => $this->client->sendMessage($user, 'Commands: ' . $this->buildHelpMessage()),
-            ManageWords::CLEAR => $this->linkRepository->clearByUser($user),
-            default => true,
+            ManageWords::CLEAR => $this->clear($user),
+            default => $this->importService->import(rawUrl: $message, user: $user),
         };
+    }
 
-        return false;
+    private function clear(string $user): void
+    {
+        $this->linkRepository->clearByUser($user);
+        $this->client->sendMessage($user, 'Done!');
     }
 
     private function buildHelpMessage(): string
@@ -41,6 +47,11 @@ final readonly class TelegramService
         }
 
         return $str;
+    }
+
+    public function sendRawMessage(string $user, string $message): void
+    {
+        $this->client->sendMessage($user, $message);
     }
 
     public function sendMessage(int $offerId, array $userIds): void

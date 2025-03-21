@@ -11,7 +11,7 @@ use Exception;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 
-final readonly class ImportService
+final readonly class ImportService implements ImportServiceInterface
 {
     public function __construct(
         private LinkRepositoryInterface $linkRepository,
