@@ -51,7 +51,6 @@ services:
     image: bitnami/redis:latest
     networks:
       - backend
-      - frontend
     ports:
       - '6379:6379'
     environment:
