@@ -12,8 +12,6 @@ use Psr\Log\LoggerInterface;
 
 final readonly class RunnerService
 {
-    private const string OFFER_ID_KEY = 'id';
-
     public function __construct(
         private LinkRepositoryInterface        $linkRepository,
         private OfferRepositoryInterface       $offerRepository,

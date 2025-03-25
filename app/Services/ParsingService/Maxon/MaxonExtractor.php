@@ -45,6 +45,7 @@ final readonly class MaxonExtractor implements ExtractorInterface
         foreach ($this->data['InlineItems'] as $parameter) {
             if (str_contains($parameter, 'Liczba pokoi')) {
                 $value = html_entity_decode($parameter);
+                $value = str_replace('Liczba pokoi', '', $value);
                 return str_replace('<span>', '', $value);
             }
         }
@@ -57,6 +58,7 @@ final readonly class MaxonExtractor implements ExtractorInterface
         foreach ($this->data['InlineItems'] as $parameter) {
             if (str_contains($parameter, 'Powierzchnia')) {
                 $value = html_entity_decode($parameter);
+                $value = str_replace('Powierzchnia', '', $value);
                 $value = str_replace('<sup>2', '²', $value);
                 return str_replace('<span>', '', $value);
             }
@@ -70,6 +72,7 @@ final readonly class MaxonExtractor implements ExtractorInterface
         foreach ($this->data['InlineItems'] as $parameter) {
             if (str_contains($parameter, 'Pi&#281;tro')) {
                 $value = html_entity_decode($parameter);
+                $value = str_replace('Pi&#281;tro', '', $value);
                 return str_replace('<span>', '', $value);
             }
         }
