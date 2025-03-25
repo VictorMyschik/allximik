@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Services\ParsingService\Maxon\MaxonClientInterface;
 use App\Services\ParsingService\OLX\OlxClientInterface;
 use App\Services\ParsingService\ParserFactory\ParsingServiceFactory;
 use App\Services\ParsingService\ParsingServiceFactoryInterface;
@@ -16,6 +17,7 @@ class ParserFactoryProvider extends ServiceProvider
         $this->app->bind(ParsingServiceFactoryInterface::class, function () {
             return new ParsingServiceFactory(
                 olxClient: app(OlxClientInterface::class),
+                maxonClient: app(MaxonClientInterface::class),
                 logger: app(\Psr\Log\LoggerInterface::class),
             );
         });

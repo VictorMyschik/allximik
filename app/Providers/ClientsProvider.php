@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Services\ParsingService\Maxon\API\MaxonClient;
+use App\Services\ParsingService\Maxon\MaxonClientInterface;
 use App\Services\ParsingService\OLX\API\OlxClient;
 use App\Services\ParsingService\OLX\OlxClientInterface;
 use App\Services\Telegram\ClientInterface;
@@ -17,6 +19,13 @@ class ClientsProvider extends ServiceProvider
     {
         $this->app->bind(OlxClientInterface::class, function () {
             return new OlxClient(
+                client: new Client(),
+                log: Log::channel(env('LOG_CHANNEL')),
+            );
+        });
+
+        $this->app->bind(MaxonClientInterface::class, function () {
+            return new MaxonClient(
                 client: new Client(),
                 log: Log::channel(env('LOG_CHANNEL')),
             );

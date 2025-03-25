@@ -6,16 +6,18 @@ namespace App\Services\Telegram;
 
 use App\Services\ParsingService\Enum\SiteType;
 use App\Services\ParsingService\ExtractorInterface;
+use App\Services\ParsingService\Maxon\MaxonExtractor;
 use App\Services\ParsingService\OLX\OLXExtractor;
 
 final readonly class OfferExtractor implements ExtractorInterface
 {
-    private OLXExtractor $extractor;
+    private ExtractorInterface $extractor;
 
     public function __construct(private SiteType $type, array $data)
     {
         $this->extractor = match ($this->type) {
             SiteType::OLX => new OLXExtractor($data),
+            SiteType::MAXON => new MaxonExtractor($data),
         };
     }
 

@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\Offer;
 use App\Services\OfferRepositoryInterface;
+use App\Services\ParsingService\DTO\OfferDto;
 
 final readonly class OfferRepository extends DatabaseRepository implements OfferRepositoryInterface
 {
@@ -14,14 +15,9 @@ final readonly class OfferRepository extends DatabaseRepository implements Offer
         return Offer::loadByOrDie($id);
     }
 
-    public function saveOffer(string $offerId, int $linkId, string $sl): int
+    public function saveOffer(OfferDto $dto): int
     {
-        return $this->db->table(Offer::getTableName())
-            ->insertGetId([
-                'offer_id' => $offerId,
-                'link_id'  => $linkId,
-                'sl'       => $sl,
-            ]);
+        return $this->db->table(Offer::getTableName())->insertGetId($dto->jsonSerialize());
     }
 
     public function getOffersByLinkId(int $linkId): array

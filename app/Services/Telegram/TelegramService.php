@@ -9,6 +9,7 @@ use App\Services\OfferRepositoryInterface;
 use App\Services\ParsingService\Enum\SiteType;
 use App\Services\ParsingService\LinkRepositoryInterface;
 use App\Services\Telegram\Enum\ManageWords;
+use App\Services\Telegram\Enum\MaxonOfferParameters;
 use App\Services\Telegram\Enum\OLXOfferParameters;
 
 final readonly class TelegramService
@@ -94,6 +95,7 @@ final readonly class TelegramService
     {
         return match ($type) {
             SiteType::OLX => OLXOfferParameters::getSelectList(),
+            SiteType::MAXON => MaxonOfferParameters::getSelectList(),
         };
     }
 }

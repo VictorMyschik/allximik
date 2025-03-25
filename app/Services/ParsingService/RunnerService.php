@@ -53,12 +53,8 @@ final readonly class RunnerService
         $newOfferIds = [];
 
         foreach ($data as $item) {
-            if (!array_key_exists($item[self::OFFER_ID_KEY], $existing)) {
-                $newOfferIds[] = $this->offerRepository->saveOffer(
-                    offerId: (string)$item[self::OFFER_ID_KEY],
-                    linkId: $linkId,
-                    sl: json_encode($item),
-                );
+            if (!array_key_exists($item->offerId, $existing)) {
+                $newOfferIds[] = $this->offerRepository->saveOffer($item);
             }
         }
 

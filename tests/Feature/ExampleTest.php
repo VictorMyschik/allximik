@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Services\Telegram\TelegramService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Symfony\Component\DomCrawler\Crawler;
@@ -12,14 +13,14 @@ class ExampleTest extends TestCase
 {
     public function testMy(): void
     {
-        $content = $this->getContent();
+        //$content = $this->getContent();
 
-        //$content = file_get_contents('tests/Feature/olx.blade.php');
+        $content = file_get_contents(__DIR__ . '/maxon.txt');
 
         $crawler = new Crawler($content);
 
         $scriptContent = $crawler->filter('script')->each(function (Crawler $node) {
-            if (strpos($node->text(), 'window.__PRERENDERED_STATE__= ') !== false) {
+            if (strpos($node->text(), 'new ListViewModel') !== false) {
                 return $node->text();
             }
             return null;
@@ -29,29 +30,17 @@ class ExampleTest extends TestCase
 
         if (!empty($scriptContent)) {
             $scriptContent = reset($scriptContent);
-            $result = explode('window.', $scriptContent);
-            foreach ($result as $item) {
-                if (strpos($item, '__PRERENDERED_STATE__= ') !== false) {
-                    $scriptContent = $item;
-                    break;
-                }
-            }
-
-            $content = explode('__PRERENDERED_STATE__= "', $scriptContent);
-            $content = str_replace('";', '', $content[1]);
-            $content = str_replace('\"', '"', $content);
-            $content = str_replace('\"', '"', $content);
-
-            $content = json_decode($content, true)['listing']['listing'];
+            $startCh = strpos($scriptContent, 'new ListViewModel(');
+            $endCh = strpos($scriptContent, 'ko.applyBindings(');
+            $rawContent = substr($scriptContent, $startCh + 18, $endCh - $startCh - 21);
+            $content = json_decode($rawContent, true)['PreloadedData']['Items'];
         }
-
-
     }
 
     private function getContent(): string
     {
         $client = new Client(['cookies' => true]);
-        $url = 'https://www.otodom.pl/pl/wyniki/sprzedaz/mieszkanie/mazowieckie/warszawa/warszawa/warszawa?distanceRadius=5&viewType=listing';
+        $url = 'https://www.maxon.pl/mieszkania/oferty/mieszkania/wynajem?PriceTotalPLNFrom=&PriceTotalPLNTo=3500&AreaFrom=50&AreaTo=&RoomsCountFrom=3&RoomsCountTo=3';
 
         $response = $client->get(
             $url,
@@ -60,7 +49,7 @@ class ExampleTest extends TestCase
                     'Accept'          => '*/*',
                     'Connection'      => 'keep-alive',
                     'Accept-Encoding' => 'gzip, deflate, br',
-                    'Host'            => 'www.olx.pl',
+                    'Host'            => 'www.maxon.pl',
                     'User-Agent'      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
 
                 ],
@@ -69,5 +58,12 @@ class ExampleTest extends TestCase
         );
 
         return $response->getBody();
+    }
+
+    public function testImport(): void
+    {
+        /** @var TelegramService $service */
+        $service = app(TelegramService::class);
+        $service->sendMessage(1, []);
     }
 }
