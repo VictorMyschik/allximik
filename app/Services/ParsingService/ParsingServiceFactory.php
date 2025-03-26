@@ -2,17 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Services\ParsingService\ParserFactory;
+namespace App\Services\ParsingService;
 
 use App\Services\ParsingService\Enum\SiteType;
-use App\Services\ParsingService\Maxon\MaxonClientInterface;
-use App\Services\ParsingService\Maxon\MaxonParseService;
-use App\Services\ParsingService\OLX\OlxClientInterface;
-use App\Services\ParsingService\OLX\OlxParseService;
-use App\Services\ParsingService\ParsingServiceFactoryInterface;
-use App\Services\ParsingService\ParsingStrategyInterface;
-use App\Services\ParsingService\Realting\RealtingClientInterface;
-use App\Services\ParsingService\Realting\RealtingParseService;
+use App\Services\ParsingService\Sites\Maxon\MaxonClientInterface;
+use App\Services\ParsingService\Sites\Maxon\MaxonParseService;
+use App\Services\ParsingService\Sites\OLX\OlxClientInterface;
+use App\Services\ParsingService\Sites\OLX\OlxParseService;
+use App\Services\ParsingService\Sites\Realting\RealtingClientInterface;
+use App\Services\ParsingService\Sites\Realting\RealtingParseService;
 use Psr\Log\LoggerInterface;
 
 final readonly class ParsingServiceFactory implements ParsingServiceFactoryInterface

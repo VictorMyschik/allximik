@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\ParsingService\Maxon;
+namespace App\Services\ParsingService\Sites\Maxon;
 
 interface MaxonClientInterface
 {

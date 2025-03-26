@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Services\ParsingService\Maxon\API;
+namespace App\Services\ParsingService\Sites\Realting\API;
 
-use App\Services\ParsingService\Maxon\MaxonClientInterface;
+use App\Services\ParsingService\Sites\Realting\RealtingClientInterface;
 use App\Services\Traits\LogTrait;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 
-final readonly class MaxonClient implements MaxonClientInterface
+final readonly class RealtingClient implements RealtingClientInterface
 {
     use LogTrait;
 
-    private const string HOST = 'https://www.maxon.pl';
+    private const string HOST = 'https://realting.com';
 
     public function __construct(
         private ClientInterface $client,

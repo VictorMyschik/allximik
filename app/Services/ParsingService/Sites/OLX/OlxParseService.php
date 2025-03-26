@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\ParsingService\Maxon;
+namespace App\Services\ParsingService\Sites\OLX;
 
 use App\Models\Link;
 use App\Services\ParsingService\DTO\OfferDto;
@@ -10,11 +10,11 @@ use App\Services\ParsingService\ParsingStrategyInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
-final readonly class MaxonParseService implements ParsingStrategyInterface
+final readonly class OlxParseService implements ParsingStrategyInterface
 {
     public function __construct(
-        private MaxonClientInterface $client,
-        private LoggerInterface      $logger,
+        private OlxClientInterface $client,
+        private LoggerInterface    $logger,
     ) {}
 
     public function parse(Link $link): array
@@ -49,7 +49,7 @@ final readonly class MaxonParseService implements ParsingStrategyInterface
 
         foreach ($parsedOut as $item) {
             $out[] = new OfferDto(
-                offerId: $item['Id'],
+                offerId: $item['id'],
                 linkId: $linkId,
                 sl: json_encode($item),
             );
@@ -60,7 +60,7 @@ final readonly class MaxonParseService implements ParsingStrategyInterface
 
     private function loadPage(string $path, array $parameters, int $page): string
     {
-        $queryParameters = array_merge($parameters, ['Page' => $page]);
+        $queryParameters = array_merge($parameters, ['page' => $page]);
 
         return $this->client->loadPage($path, $queryParameters);
     }
@@ -70,7 +70,7 @@ final readonly class MaxonParseService implements ParsingStrategyInterface
         $crawler = new Crawler($rawContent);
 
         $scriptContent = $crawler->filter('script')->each(function (Crawler $node) {
-            if (strpos($node->text(), 'new ListViewModel') !== false) {
+            if (strpos($node->text(), 'window.__PRERENDERED_STATE__= ') !== false) {
                 return $node->text();
             }
             return null;
@@ -78,14 +78,24 @@ final readonly class MaxonParseService implements ParsingStrategyInterface
 
         $scriptContent = array_filter($scriptContent);
 
-        $content = [];
-
         if (!empty($scriptContent)) {
             $scriptContent = reset($scriptContent);
-            $startCh = strpos($scriptContent, 'new ListViewModel(');
-            $endCh = strpos($scriptContent, 'ko.applyBindings(');
-            $rawContent = substr($scriptContent, $startCh + 18, $endCh - $startCh - 21);
-            $content = json_decode($rawContent, true)['PreloadedData']['Items'];
+
+            $result = explode('window._', $scriptContent);
+
+            foreach ($result as $item) {
+                if (str_contains($item, '_PRERENDERED_STATE__= ')) {
+                    $scriptContent = $item;
+                    break;
+                }
+            }
+
+            $content = explode('_PRERENDERED_STATE__= "', $scriptContent);
+            $content = str_replace('";', '', $content[1]);
+            $content = str_replace('\"', '"', $content);
+            $content = str_replace('\"', '"', $content);
+
+            $content = json_decode($content, true)['listing']['listing'];
         }
 
         return $content;

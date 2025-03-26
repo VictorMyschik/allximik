@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\ParsingService\Realting;
+namespace App\Services\ParsingService\Sites\Realting;
 
 use App\Models\Link;
 use App\Services\ParsingService\DTO\OfferDto;

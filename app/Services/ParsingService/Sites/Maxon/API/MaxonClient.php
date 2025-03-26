@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Services\ParsingService\OLX\API;
+namespace App\Services\ParsingService\Sites\Maxon\API;
 
-use App\Services\ParsingService\OLX\OlxClientInterface;
+use App\Services\ParsingService\Sites\Maxon\MaxonClientInterface;
 use App\Services\Traits\LogTrait;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 
-final readonly class OlxClient implements OlxClientInterface
+final readonly class MaxonClient implements MaxonClientInterface
 {
     use LogTrait;
 
-    private const string HOST = 'https://www.olx.pl';
+    private const string HOST = 'https://www.maxon.pl';
 
     public function __construct(
         private ClientInterface $client,

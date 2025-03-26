@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Services\ParsingService\Maxon\MaxonClientInterface;
-use App\Services\ParsingService\OLX\OlxClientInterface;
-use App\Services\ParsingService\ParserFactory\ParsingServiceFactory;
+use App\Services\ParsingService\ParsingServiceFactory;
 use App\Services\ParsingService\ParsingServiceFactoryInterface;
-use App\Services\ParsingService\Realting\RealtingClientInterface;
+use App\Services\ParsingService\Sites\Maxon\MaxonClientInterface;
+use App\Services\ParsingService\Sites\OLX\OlxClientInterface;
+use App\Services\ParsingService\Sites\Realting\RealtingClientInterface;
 use Illuminate\Support\ServiceProvider;
 
 class ParserFactoryProvider extends ServiceProvider

@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Services\ParsingService\Realting\API;
+namespace App\Services\ParsingService\Sites\OLX\API;
 
-use App\Services\ParsingService\Realting\RealtingClientInterface;
+use App\Services\ParsingService\Sites\OLX\OlxClientInterface;
 use App\Services\Traits\LogTrait;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 
-final readonly class RealtingClient implements RealtingClientInterface
+final readonly class OlxClient implements OlxClientInterface
 {
     use LogTrait;
 
-    private const string HOST = 'https://realting.com';
+    private const string HOST = 'https://www.olx.pl';
 
     public function __construct(
         private ClientInterface $client,

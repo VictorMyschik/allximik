@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\ParsingService\Realting;
+namespace App\Services\ParsingService\Sites\Realting;
 
 interface RealtingClientInterface
 {

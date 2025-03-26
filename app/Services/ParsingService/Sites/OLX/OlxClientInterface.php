@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\ParsingService\OLX;
+namespace App\Services\ParsingService\Sites\OLX;
 
 interface OlxClientInterface
 {

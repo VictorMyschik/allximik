@@ -6,9 +6,9 @@ namespace App\Services\Telegram;
 
 use App\Services\ParsingService\Enum\SiteType;
 use App\Services\ParsingService\ExtractorInterface;
-use App\Services\ParsingService\Maxon\MaxonExtractor;
-use App\Services\ParsingService\OLX\OLXExtractor;
-use App\Services\ParsingService\Realting\RealtingExtractor;
+use App\Services\ParsingService\Sites\Maxon\MaxonExtractor;
+use App\Services\ParsingService\Sites\OLX\OLXExtractor;
+use App\Services\ParsingService\Sites\Realting\RealtingExtractor;
 
 final readonly class OfferExtractor implements ExtractorInterface
 {

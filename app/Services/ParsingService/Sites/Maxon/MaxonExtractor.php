@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\ParsingService\Maxon;
+namespace App\Services\ParsingService\Sites\Maxon;
 
 use App\Services\ParsingService\ExtractorInterface;
 use App\Services\Telegram\Enum\MaxonOfferParameters;
