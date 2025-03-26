@@ -3,7 +3,6 @@
 namespace App\Orchid\Filters\Links;
 
 use App\Models\Lego\ActionFilterPanel;
-use App\Models\Link;
 use App\Models\Offer;
 use App\Services\ParsingService\Enum\SiteType;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,12 +33,7 @@ class OfferListFilerFilter extends Filter
         $input = $this->request->all();
 
         if (!is_null($input['type'] ?? null)) {
-            $builder->join(Link::getTableName(), Link::getTableName() . '.id', '=', Offer::getTableName() . '.link_id');
-            $builder->where(Link::getTableName() . '.type', (string)$input['type']);
-        }
-
-        if (!is_null($input['link_id'] ?? null)) {
-            $builder->where(Offer::getTableName() . '.link_id', (int)$input['link_id']);
+            $builder->where(Offer::getTableName() . '.type', (string)$input['type']);
         }
 
         if (!is_null($input['external_id'] ?? null)) {
@@ -60,11 +54,6 @@ class OfferListFilerFilter extends Filter
                     ->options(SiteType::getSelectList())
                     ->value($input['type'])
                     ->title('Type'),
-                Select::make('link_id')
-                    ->empty('[all]')
-                    ->value($input['link_id'])
-                    ->fromModel(Link::class, 'hash', 'id')
-                    ->title('Link hash'),
                 Input::make('external_id')
                     ->value($input['external_id'])
                     ->title('External ID'),

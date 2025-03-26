@@ -2,10 +2,8 @@
 
 namespace App\Orchid\Layouts\Links;
 
-use App\Models\Link;
 use App\Models\Offer;
 use App\Services\ParsingService\ExtractorInterface;
-use App\Services\ParsingService\LinkRepositoryInterface;
 use App\Services\Telegram\OfferExtractor;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
@@ -16,17 +14,13 @@ class OffersListLayout extends Table
 {
     protected $target = 'list';
 
-    public function __construct(
-        private readonly LinkRepositoryInterface $linkRepository,
-    ) {}
-
     protected function columns(): iterable
     {
         return [
             TD::make('id', 'ID')->sort(),
             TD::make('offer_id', 'External ID')->sort(),
             TD::make('', 'Site')->render(function (Offer $offer) {
-                return $offer->getLink()->getType()->value;
+                return $offer->getType()->value;
             }),
             TD::make('', 'Photo')->render(function (Offer $offer) {
                 if ($this->extract($offer)->getPhoto()) {
@@ -42,9 +36,6 @@ class OffersListLayout extends Table
             })->sort(),
             TD::make('Link')->render(function (Offer $offer) {
                 return \Orchid\Screen\Actions\Link::make('Link')->icon('eye')->target('_blank')->href($this->extract($offer)->getLink());
-            })->sort(),
-            TD::make('user')->render(function (Offer $offer) {
-                return implode(', ', $this->linkRepository->getUserIdsByLinkId($offer->getLink()->id));
             })->sort(),
 
             TD::make('created_at', 'Created')
@@ -74,7 +65,7 @@ class OffersListLayout extends Table
     {
         $data = json_decode($offer->getSl(), true, 512, JSON_THROW_ON_ERROR);
 
-        return new OfferExtractor($offer->getLink()->getType(), $data);
+        return new OfferExtractor($offer->getType(), $data);
     }
 
     protected function hoverable(): bool
