@@ -77,14 +77,22 @@ final readonly class RealtingParseService implements ParsingStrategyInterface
         $content = [];
 
         $scriptContent->filter('.teaser-tile')->each(function (Crawler $node) use (&$content) {
-            $content[] = [
+            $item = [
                 'title' => $node->filter('.teaser-title')->text(),
-                'rooms' => $node->filter('.unit-item')->eq(0)->filter('span')->text(),
-                'area'  => $node->filter('.unit-item')->eq(1)->filter('span')->text(),
                 'price' => $node->filter('.price-item')->text(),
                 'link'  => $node->filter('a')->attr('href'),
                 'id'    => $node->attr('data-id'),
             ];
+
+            try {
+                $item['rooms'] = $node->filter('.unit-item')->eq(0)->filter('span')->text();
+                $item['area'] = $node->filter('.unit-item')->eq(1)->filter('span')->text();
+            } catch (\Exception $e) {
+                $item['rooms'] = '';
+                $item['area'] = '';
+            }
+
+            $content[] = $item;
         });
 
         return $content;
