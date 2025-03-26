@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Jobs\Enums\QueueJobEnum;
+use App\Services\ParsingService\Enum\SiteType;
 use App\Services\ParsingService\RunnerService;
 use App\Services\Telegram\TelegramService;
 use Illuminate\Bus\Queueable;
@@ -18,14 +19,14 @@ class TelegramMessageJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(public int $id, public array $userIds)
+    public function __construct(public int $id, public SiteType $type, public array $userIds)
     {
         $this->queue = QueueJobEnum::DEFAULT->value;
     }
 
     public function handle(TelegramService $service): void
     {
-        $service->sendMessage($this->id, $this->userIds);
+        $service->sendMessage($this->id, $this->type, $this->userIds);
     }
 }
 

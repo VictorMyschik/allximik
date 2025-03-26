@@ -17,15 +17,9 @@ class Offer extends ORM
     protected array $allowedSorts = [
         'id',
         'offer_id',
-        'link_id',
         'created_at',
         'updated_at',
     ];
-
-    public function getLink(): Link
-    {
-        return Link::loadByOrDie($this->link_id);
-    }
 
     public function getSl(): string
     {

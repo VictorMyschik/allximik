@@ -16,7 +16,6 @@ final readonly class OfferDto implements \JsonSerializable
     {
         return [
             'offer_id' => $this->offerId,
-            'link_id'  => $this->linkId,
             'sl'       => $this->sl,
         ];
     }

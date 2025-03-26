@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Services\ParsingService\Enum\SiteType;
 use App\Services\Telegram\TelegramService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
@@ -66,6 +67,6 @@ class ExampleTest extends TestCase
     {
         /** @var TelegramService $service */
         $service = app(TelegramService::class);
-        $service->sendMessage(1, []);
+        $service->sendMessage(1, SiteType::OLX, []);
     }
 }

@@ -23,16 +23,16 @@ final readonly class OlxParseService implements ParsingStrategyInterface
 
         $parsedOut = [];
 
-        for ($page = 1; $page <= 10; $page++) {
+        for ($page = 1; $page <= 100; $page++) {
             try {
                 $data = $this->loadPage($link->getPath(), $parameters, $page);
                 $parsed = $this->parseData($data);
 
-                if (empty($parsed)) {
+                if (empty($parsed['ads'])) {
                     break;
                 }
 
-                $parsedOut = array_merge($parsed, $parsedOut);
+                $parsedOut = array_merge($parsed['ads'], $parsedOut);
             } catch (\Throwable $e) {
                 $this->logger->error($e->getMessage());
 

@@ -56,10 +56,10 @@ final readonly class TelegramService
         $this->client->sendMessage($user, $message);
     }
 
-    public function sendMessage(int $offerId, array $userIds): void
+    public function sendMessage(int $offerId, SiteType $type, array $userIds): void
     {
         $offer = $this->offerRepository->getOfferById($offerId);
-        $message = $this->buildMessage($offer->getSl(), $offer->getLink()->getType());
+        $message = $this->buildMessage($offer->getSl(), $type);
 
         foreach ($userIds as $userId) {
             $this->client->sendMessage($userId, $message);

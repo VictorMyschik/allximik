@@ -34,7 +34,7 @@ final readonly class RunnerService
             $link = $this->linkRepository->getLinkById($linkId);
             $parser = $this->parsingServiceFactory->getSupportedParser($link->getType());
             $parsedData = $parser->parse($link);
-            $newOfferIds = $this->saveParsedData($linkId, $parsedData);
+            $newOfferIds = $this->saveParsedData($link, $parsedData);
 
             if ($withNotify && $newOfferIds) {
                 $this->notify($newOfferIds, $link);
@@ -45,18 +45,11 @@ final readonly class RunnerService
         }
     }
 
-    private function saveParsedData(int $linkId, array $data): array
+    private function saveParsedData(Link $link, array $data): array
     {
-        $existing = $this->offerRepository->getOffersByLinkId($linkId);
-        $newOfferIds = [];
+        $this->offerRepository->saveOfferList($link->getType(), $data);
 
-        foreach ($data as $item) {
-            if (!array_key_exists($item->offerId, $existing)) {
-                $newOfferIds[] = $this->offerRepository->saveOffer($item);
-            }
-        }
-
-        return $newOfferIds;
+        return $this->offerRepository->saveOfferLinkList($link, $data);
     }
 
     private function notify(array $offerIds, Link $link): void
@@ -64,7 +57,7 @@ final readonly class RunnerService
         $userIds = $this->linkRepository->getUserIdsByLinkId($link->id());
 
         foreach ($offerIds as $offerId) {
-            TelegramMessageJob::dispatch($offerId, $userIds);
+            TelegramMessageJob::dispatch($offerId, $link->getType(), $userIds);
         }
     }
 }
