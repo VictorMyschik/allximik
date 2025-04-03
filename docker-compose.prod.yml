@@ -51,8 +51,6 @@ services:
     image: bitnami/redis:latest
     networks:
       - backend
-    ports:
-      - '6379:6379'
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: redis-server --appendonly yes --replica-read-only no
