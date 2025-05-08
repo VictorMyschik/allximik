@@ -19,8 +19,8 @@ class LinksListLayout extends Table
             TD::make('id', 'ID')->sort(),
             TD::make('user')->sort(),
             TD::make('type')->sort(),
-            TD::make('Offers')->render(function(Link $link){
-                return \Orchid\Screen\Actions\Link::make('Link')->icon('eye')->route('offers.list', ['link_id' => $link->link_id]);
+            TD::make('Offers')->render(function (Link $link) {
+                return \Orchid\Screen\Actions\Link::make('Link')->icon('link')->route('offers.list', ['link_id' => $link->link_id]);
             })->sort(),
             TD::make('path')->sort(),
             TD::make('query')->render(function (Link $link) {
@@ -30,6 +30,11 @@ class LinksListLayout extends Table
                     ->parameters(['id' => $link->id])
                     ->modalTitle('Query');
             })->sort(),
+            TD::make('#', 'To site')->render(function (Link $link) {
+                $url = sprintf('https://%s%s?%s', $link->getType()->value, $link->getPath(), $link->getQuery());
+
+                return \Orchid\Screen\Actions\Link::make('link')->icon('link')->target('_blank')->href($url);
+            }),
             TD::make('created_at', 'Created')
                 ->render(fn(Link $link) => $link->created_at->format('d.m.Y'))
                 ->sort()

@@ -63,9 +63,12 @@ final readonly class RealtingParseService implements ParsingStrategyInterface
 
     private function loadPage(string $path, array $parameters, int $page): string
     {
-        $queryParameters = array_merge($parameters, ['page' => $page]);
+        // For a first page, we don't need to add the page parameter
+        if ($page > 1) {
+            $parameters = array_merge($parameters, ['page' => $page]);
+        }
 
-        return $this->client->loadPage($path, $queryParameters);
+        return $this->client->loadPage($path, $parameters);
     }
 
     public function parseData(string $rawContent): array
